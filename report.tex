@@ -6,7 +6,7 @@
 
 \usepackage[nooldvoltagedirection,european,americaninductors]{circuitikz}
 
-\signature{mbernasconi.svg} % Remplacer par votre propre signature vectorielle.
+\signature{signature.svg} % Remplacer par votre propre signature vectorielle.
 
 \makenomenclature
 \makenoidxglossaries
@@ -34,19 +34,23 @@
 
 %% Résumé / Résumé publiable / Version abrégée
 \begin{abstract}
-    \input{abstract}
+  \input{abstract}
 \end{abstract}
+
+\begin{requirements}
+  \input{requirements}
+\end{requirements}
 
 %% Sommaire et tables
 \clearemptydoublepage
 {
-    \tableofcontents
-    \let\cleardoublepage\clearpage
-    \listoffigures
-    \let\cleardoublepage\clearpage
-    \listoftables
-    \let\cleardoublepage\clearpage
-    \listoflistings
+  \tableofcontents
+  \let\cleardoublepage\clearpage
+  \listoffigures
+  \let\cleardoublepage\clearpage
+  \listoftables
+  \let\cleardoublepage\clearpage
+  \listoflistings
 }
 
 \printnomenclature
@@ -77,12 +81,12 @@ Les annexes n'ont pas un contenu \underline{normatif} mais \underline{descriptif
 Les annexes contiennent généralement :
 
 \begin{itemize}
-    \item les dessins mécaniques (mises en plan);
-    \item les schémas électriques détaillés;
-    \item des photographies du projet;
-    \item des scripts et des extraits de code source;
-    \item des documents techniques \pex \emph{datasheet};
-    \item des développements mathématiques.
+  \item les dessins mécaniques (mises en plan);
+  \item les schémas électriques détaillés;
+  \item des photographies du projet;
+  \item des scripts et des extraits de code source;
+  \item des documents techniques \pex \emph{datasheet};
+  \item des développements mathématiques.
 \end{itemize}
 \section{Sous section}
 \lipsum[1]
