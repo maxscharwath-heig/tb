@@ -375,9 +375,13 @@
 }
 
 % Cahier des charges
+\def\requirementsVersion#1{\def\@requirementsVersion{#1}}
+\def\requirementsDate#1{\def\@requirementsDate{#1}}
 \newcommand{\requirementsname}{Cahier des charges}
 \newenvironment{requirements}{
   \chapter*{\requirementsname}
+  \vskip 1em%
+  \large{Version \@requirementsVersion , mis à jour le \@requirementsDate.}
   \addcontentsline{toc}{chapter}{\requirementsname}
 }
 
