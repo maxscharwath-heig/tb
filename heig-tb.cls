@@ -446,6 +446,8 @@
   {1.0ex \@plus .2ex}%
   {\normalfont\normalsize\bfseries\itshape}}
 
+\renewcommand{\sectionref}[1]{\textit{\guillemotleft\nameref{#1}\guillemotright}}
+
 %% Marginal Note
 \newcommand\maraja[1]{%
   \mbox{}%

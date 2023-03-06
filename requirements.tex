@@ -9,6 +9,7 @@ Le résultat final de ce travail sera donc une solution clé en main pour les d�
 Les livrables à réaliser pour ce travail de bachelor sont les suivants:
 
 \begin{itemize}
+    \item Un cahier des charges.
     \item Un rapport intermédiaire.
     \item Un rapport final.
     \item Un résumé publiable.
@@ -23,8 +24,7 @@ Ce projet va répondre à plusieurs objectifs, répartis en 3 catégories : les 
 \subsection*{Objectifs \guillemotleft fonctionnels\guillemotright}
 
 \begin{itemize}
-    \item Développer plusieurs modules utilisant le système de Condensation qui permettront d'illustrer les fonctionnalités du système et de montrer aux développeurs comment les implémenter de manière efficace.
-    \item Un exemple conséquent permettant l'édition d'un Whiteboard simultanément avec d'autres navigateurs, avec gestion des déconnexions inattendues, support de l'édition en mode “hors-ligne”, et doit pouvoir être partagé facilement.
+    \item Développer un Whiteboard utilisant le système de Condensation qui permettront d'illustrer les fonctionnalités du système et de montrer aux développeurs comment les implémenter de manière efficace. Le Whiteboard devra suivre les spécifications definies dans la section \sectionref{sec:user-stories}.
     \item Regrouper les exemples sur une plateforme web intuitive, offrant une expérience utilisateur optimale.
     \item Fournir une documentation précise pour chaque module, comprenant des tutoriels pour aider les développeurs à comprendre comment les intégrer dans leurs projets.
     \item Fournir deux serveurs de stockage de données, pour permettre aux utilisateurs de choisir où stocker leurs données.
@@ -35,7 +35,6 @@ Ce projet va répondre à plusieurs objectifs, répartis en 3 catégories : les 
 \begin{itemize}
     \item Concevoir une interface utilisateur intuitive, afin de permettre aux développeurs de tout de suite comprendre le fonctionnement des exemples.
     \item Garantir que le système peut être facilement étendu et adapté aux besoins futurs en utilisant des architectures évolutives et modulaires.
-    \item S'assurer que le système est accessible aux utilisateurs de toutes les capacités, notamment en respectant les normes d'accessibilité et en prenant en compte les différents types d'appareils et de plateformes.
 \end{itemize}
 
 \subsection*{Objectifs \guillemotleft complémentaires\guillemotright}
@@ -45,5 +44,30 @@ Ce projet va répondre à plusieurs objectifs, répartis en 3 catégories : les 
     \item Offrir une interface multilingue pour la plateforme, afin de la rendre accessible à un public plus large.
 \end{itemize}
 
-\section*{Contraintes}
-Cependant, il est important de noter que la librairie de Condensation est encore en développement. Pour éviter de perdre du temps sur le développement, un système de mock\footnote{Un mock de l'anglais \textit{mock-up}, qui signifie \textit{maquette}. Un mock est un objet qui simule le comportement d'un autre objet dans un contexte donné.} sera introduit pour simuler les interactions avec la librairie, tout en conservant la possibilité de l'intégrer facilement une fois qu'elle sera prête. Cette contrainte sera prise en compte dans la planification et l'exécution du projet.
+\section*{User stories \label{sec:user-stories}}
+Les user stories sont des descriptions de fonctionnalités du système, écrites sous la forme d'une phrase simple, qui permettent de décrire les besoins des utilisateurs. Elles sont utilisées pour définir les fonctionnalités du système, et sont donc un outil précieux pour la planification et l'exécution du projet.
+\begin{itemize}
+    \item Je veux pouvoir éditer un Whiteboard sans authentification.
+    \item Je veux pouvoir partager un Whiteboard avec lien unique.
+    \item Je veux pouvoir ajouter et supprimer des éléments sur le Whiteboard.
+    \item Je veux pouvoir déplacer des éléments sur le Whiteboard.
+    \item Je veux pouvoir visualiser les utilisateurs connectés sur le Whiteboard.
+    \item Je veux pouvoir éditer le Whiteboard en mode “hors-ligne”.
+    \item Je veux pouvoir éditer le Whiteboard simultanément avec d'autres utilisateurs.
+    \item Je veux pouvoir choisir où stocker mes données.
+    \item Je veux pouvoir voir l'historique des modifications apportées au Whiteboard.
+\end{itemize}
+
+\section*{Contraintes et risques}
+Cependant, il est important de noter que la librairie de Condensation est encore en développement. En effet, la librairie est actuellement en cours de réécriture en Rust, pour pouvoir être par la suite compilée en WebAssembly, afin de pouvoir être utilisée dans un navigateur web.
+Pour éviter de perdre du temps sur le développement, un système de mock\footnote{Un mock de l'anglais \textit{mock-up}, qui signifie \textit{maquette}. Un mock est un objet qui simule le comportement d'un autre objet dans un contexte donné.} sera introduit pour simuler les interactions avec la librairie, tout en conservant la possibilité de l'intégrer facilement une fois qu'elle sera prête.
+Néanmoins, il existe un risque que la librairie ne soit pas prête à temps pour son intégration dans le démonstrateur. Par conséquent, une date limite sera fixée pour la livraison de la librairie, au-delà de laquelle une alternative utilisant des outils de synchronisation de données existants sera développée.
+
+\section*{Planification}
+
+\begin{itemize}
+    \item Debut du projet : Lundi 20 février 2023
+    \item Rendu intermédiaire : Vendredi 28 avril 2023 avant 17h00
+    \item Travail à plein temps : Lundi 19 juin 2023
+    \item Rendu final : Jeudi 13 juillet 2023 avant 9h00
+\end{itemize}
