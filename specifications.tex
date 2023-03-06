@@ -1,0 +1,25 @@
+\documentclass[
+    iict, % Saisir le nom de l'institut rattaché
+    il, % Saisir le nom de l'orientation
+    % confidential, % Décommentez si le travail est confidentiel
+]{heig-tb}
+
+\usepackage[nooldvoltagedirection,european,americaninductors]{circuitikz}
+
+\input{meta}
+
+\surroundwithmdframed{minted}
+
+%% Début du document
+\begin{document}
+\selectlanguage{french}
+\maketitle
+\frontmatter
+
+\pagenumbering{arabic}
+
+\begin{requirements}
+  \input{requirements}
+\end{requirements}
+
+\end{document}
