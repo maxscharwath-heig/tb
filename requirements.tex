@@ -26,6 +26,7 @@ Ce projet va répondre à plusieurs objectifs, répartis en 3 catégories : les 
 \begin{itemize}
     \item Développer un Whiteboard utilisant le système de Condensation qui permettront d'illustrer les fonctionnalités du système et de montrer aux développeurs comment les implémenter de manière efficace. Le Whiteboard devra suivre les spécifications definies dans la section \sectionref{sec:user-stories}.
     \item Regrouper les exemples sur une plateforme web intuitive, offrant une expérience utilisateur optimale.
+    \item Fournir un outil pour visualiser les données stockées sous forme de hash, et d'arbres Merkle.
     \item Fournir une documentation précise pour chaque module, comprenant des tutoriels pour aider les développeurs à comprendre comment les intégrer dans leurs projets.
     \item Fournir deux serveurs de stockage de données, pour permettre aux utilisateurs de choisir où stocker leurs données.
 \end{itemize}
@@ -59,15 +60,15 @@ Les user stories sont des descriptions de fonctionnalités du système, écrites
 \end{itemize}
 
 \section*{Contraintes et risques}
-Cependant, il est important de noter que la librairie de Condensation est encore en développement. En effet, la librairie est actuellement en cours de réécriture en Rust, pour pouvoir être par la suite compilée en WebAssembly, afin de pouvoir être utilisée dans un navigateur web.
-Pour éviter de perdre du temps sur le développement, un système de mock\footnote{Un mock de l'anglais \textit{mock-up}, qui signifie \textit{maquette}. Un mock est un objet qui simule le comportement d'un autre objet dans un contexte donné.} sera introduit pour simuler les interactions avec la librairie, tout en conservant la possibilité de l'intégrer facilement une fois qu'elle sera prête.
-Néanmoins, il existe un risque que la librairie ne soit pas prête à temps pour son intégration dans le démonstrateur. Par conséquent, une date limite sera fixée pour la livraison de la librairie, au-delà de laquelle une alternative utilisant des outils de synchronisation de données existants sera développée.
-
-\section*{Planification}
-
+Le projet est soumis à certaines contraintes et risques qu'il est important de prendre en compte pour garantir sa réussite.
+Tout d'abord, la livraison de la librairie de Condensation est un élément clé du projet et sa disponibilité en temps voulu est essentielle pour avancer dans le développement des fonctionnalités prévues. 
+Bien que Condensation ait promis de livrer la librairie en plusieurs étapes, il est possible que des retards surviennent, ce qui pourrait avoir un impact sur la planification du projet.
+Pour minimiser ces risques, il a été décidé de planifier la livraison de la librairie en étapes successives pour pouvoir implémenter les fonctionnalités du projet au fur et à mesure de la disponibilité de la librairie.
+\section*{Planification de livraison de la librairie de Condensation}
+La livraison de la librairie de Condensation étant en attente, le projet sera implémenté en plusieurs étapes en fonction des livraisons successives de la librairie.
 \begin{itemize}
-    \item Debut du projet : Lundi 20 février 2023
-    \item Rendu intermédiaire : Vendredi 28 avril 2023 avant 17h00
-    \item Travail à plein temps : Lundi 19 juin 2023
-    \item Rendu final : Jeudi 13 juillet 2023 avant 9h00
+    \item \textbf{Étape 1} : Gérer les données en local et visualiser les données dans la forme de document et dans la forme de hash. Cette étape permettra de visualiser les données dans un document et de les stocker sous forme de hash en local.
+    \item \textbf{Étape 2} : Gérer les données en remote et visualiser les hash / les messages stockés sur le serveur. Cette étape permettra de stocker les données sur un serveur distant et de les visualiser sous forme de hash / messages.
+    \item \textbf{Étape 3} : Créer un second acteur qui peut communiquer avec un flux d'information sécurisé. Cette étape permettra la communication sécurisée entre deux acteurs en utilisant la librairie de Condensation.
+    \item \textbf{Étape 4} : endre l'expérience collaborative en live avec la résolution de conflits. Cette étape permettra la collaboration en temps réel entre plusieurs acteurs et la résolution de conflits éventuels.
 \end{itemize}

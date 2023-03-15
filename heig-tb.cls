@@ -166,6 +166,13 @@
   \def\@field{Ingénierie}
 }
 
+\DeclareOption{iscl}{
+  \def\@orientation{Informatique logicielle}
+  \def\@department{TIC}
+  \def\@faculty{ Informatique et systèmes de communication}
+  \def\@field{Ingénierie}
+}
+
 \DeclareOption{tr}{
   \def\@orientation{Réseaux et systèmes}
   \def\@department{TIC}
