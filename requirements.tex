@@ -1,9 +1,15 @@
 \section*{Présentation}
 L'objectif principal de ce travail est de contribuer au développement de la startup Condensation en construisant un démonstrateur qui permettra de mettre en lumière les fonctionnalités du système, et de fournir aux développeurs des exemples concrets pour les aider à implémenter efficacement la librairie Condensation.
 
-Pour atteindre cet objectif, plusieurs exemples seront développés pour exploiter les capacités du système de Condensation. Ces exemples seront regroupés sur une plateforme web intuitive, accompagnés d'une documentation qui fournira des explications détaillées sur l'utilisation de chaque exemple, ainsi que des tutoriels pour aider les développeurs à intégrer la librairie dans leurs projets.
+Pour rappel, la startup Condensation est spécialisée dans le développement d'une solution pour la synchronisation de données distribuées. La bibliothèque de Condensation offre une approche innovante pour garantir la cohérence des données en utilisant un système de synchronisation conflict-free qui garantit l'intégrité des données et la sécurité de bout en bout.
 
-Le résultat final de ce travail sera donc une solution clé en main pour les développeurs qui souhaitent utiliser le système de Condensation. Le démonstrateur développé constituera un outil précieux pour faciliter l'adoption du système, et contribuera ainsi au développement de la librairie en tant que solution de référence pour la synchronisation de données distribuées.
+Pour atteindre cet objectif, plusieurs exemples seront développés pour exploiter les capacités du système de Condensation. 
+
+Premièrement, un Whiteboard sera développé pour illustrer les fonctionnalités du système. 
+
+En parallèle, un outil de développement sera développé pour visualiser et éditer les données stockées dans le système de Condensation.
+
+Pour finir, une documentation détaillée sera fournie pour expliquer comment utiliser la librairie Condensation dans ses projets.
 
 \section*{Livrables}
 Les livrables à réaliser pour ce travail de bachelor sont les suivants:
@@ -15,7 +21,8 @@ Les livrables à réaliser pour ce travail de bachelor sont les suivants:
     \item Un résumé publiable.
     \item Un poster.
     \item Un démonstrateur fonctionnel basé sur la librairie de Condensation permettant de mettre en évidence les fonctionnalités du système.
-    \item Une plateforme web permettant de regrouper l'ensemble des modules développés, avec une documentation et tutoriels détaillés.
+    \item Un outil de développement permettant de visualiser et éditer les données stockées dans le système de Condensation.
+    \item Une documentation détaillée pour l'utilisation de la librairie Condensation.
 \end{itemize}
 
 \section*{Objectifs}
@@ -24,11 +31,9 @@ Ce projet va répondre à plusieurs objectifs, répartis en 3 catégories : les 
 \subsection*{Objectifs \guillemotleft fonctionnels\guillemotright}
 
 \begin{itemize}
-    \item Développer un Whiteboard utilisant le système de Condensation qui permettront d'illustrer les fonctionnalités du système et de montrer aux développeurs comment les implémenter de manière efficace. Le Whiteboard devra suivre les spécifications definies dans la section \sectionref{sec:user-stories}.
-    \item Regrouper les exemples sur une plateforme web intuitive, offrant une expérience utilisateur optimale.
-    \item Fournir un outil pour visualiser les données stockées sous forme de hash, et d'arbres Merkle.
+    \item Développer un Whiteboard utilisant le système de Condensation qui permettra d'illustrer les fonctionnalités du système. Le Whiteboard devra suivre les spécifications définies dans la section \sectionref{sec:user-stories}.
+    \item Fournir un outil pour visualiser et éditer les données stockées dans le système de Condensation. (Dev Tools)
     \item Fournir une documentation précise pour chaque module, comprenant des tutoriels pour aider les développeurs à comprendre comment les intégrer dans leurs projets.
-    \item Fournir deux serveurs de stockage de données, pour permettre aux utilisateurs de choisir où stocker leurs données.
 \end{itemize}
 
 \subsection*{Objectifs \guillemotleft non-fonctionnels\guillemotright}
@@ -41,22 +46,35 @@ Ce projet va répondre à plusieurs objectifs, répartis en 3 catégories : les 
 \subsection*{Objectifs \guillemotleft complémentaires\guillemotright}
 
 \begin{itemize}
-    \item Ajouter d'autres exemples plus complexes.
-    \item Offrir une interface multilingue pour la plateforme, afin de la rendre accessible à un public plus large.
+    \item Ajouter des fonctionnalités en temps réel tel que la visualisation des curseurs des utilisateurs.
 \end{itemize}
 
 \section*{User stories \label{sec:user-stories}}
 Les user stories sont des descriptions de fonctionnalités du système, écrites sous la forme d'une phrase simple, qui permettent de décrire les besoins des utilisateurs. Elles sont utilisées pour définir les fonctionnalités du système, et sont donc un outil précieux pour la planification et l'exécution du projet.
+
+\subsection*{Whiteboard}
+
 \begin{itemize}
-    \item Je veux pouvoir éditer un Whiteboard sans authentification.
+    \item Je veux pouvoir éditer un Whiteboard.
     \item Je veux pouvoir partager un Whiteboard avec lien unique.
     \item Je veux pouvoir ajouter et supprimer des éléments sur le Whiteboard.
     \item Je veux pouvoir déplacer des éléments sur le Whiteboard.
-    \item Je veux pouvoir visualiser les utilisateurs connectés sur le Whiteboard.
     \item Je veux pouvoir éditer le Whiteboard en mode “hors-ligne”.
     \item Je veux pouvoir éditer le Whiteboard simultanément avec d'autres utilisateurs.
     \item Je veux pouvoir choisir où stocker mes données.
     \item Je veux pouvoir voir l'historique des modifications apportées au Whiteboard.
+\end{itemize}
+
+\subsection*{Dev Tools}
+
+Le Dev Tools est un outil qui permettra de visualiser et d'éditer les données stockées dans le système de Condensation. 
+Il permettra aux développeurs de comprendre comment les données sont stockées.
+\begin{itemize}
+    \item  Je veux pouvoir visualiser les données stockées sous forme d'arbre de hash.
+    \item  Je veux pouvoir visualiser les données stockées sous forme de document.
+    \item  Je veux pouvoir éditer les données stockées sous forme de document.
+    \item  Je veux pouvoir utiliser le "Dev Tools" sous forme d'extension pour mon navigateur.
+    \item  Je veux pouvoir connecter le "Dev Tools" à mon application.
 \end{itemize}
 
 \section*{Contraintes et risques}
@@ -64,11 +82,13 @@ Le projet est soumis à certaines contraintes et risques qu'il est important de 
 Tout d'abord, la livraison de la librairie de Condensation est un élément clé du projet et sa disponibilité en temps voulu est essentielle pour avancer dans le développement des fonctionnalités prévues. 
 Bien que Condensation ait promis de livrer la librairie en plusieurs étapes, il est possible que des retards surviennent, ce qui pourrait avoir un impact sur la planification du projet.
 Pour minimiser ces risques, il a été décidé de planifier la livraison de la librairie en étapes successives pour pouvoir implémenter les fonctionnalités du projet au fur et à mesure de la disponibilité de la librairie.
+
 \section*{Planification de livraison de la librairie de Condensation}
 La livraison de la librairie de Condensation étant en attente, le projet sera implémenté en plusieurs étapes en fonction des livraisons successives de la librairie.
 \begin{itemize}
-    \item \textbf{Étape 1} : Gérer les données en local et visualiser les données dans la forme de document et dans la forme de hash. Cette étape permettra de visualiser les données dans un document et de les stocker sous forme de hash en local.
-    \item \textbf{Étape 2} : Gérer les données en remote et visualiser les hash / les messages stockés sur le serveur. Cette étape permettra de stocker les données sur un serveur distant et de les visualiser sous forme de hash / messages.
-    \item \textbf{Étape 3} : Créer un second acteur qui peut communiquer avec un flux d'information sécurisé. Cette étape permettra la communication sécurisée entre deux acteurs en utilisant la librairie de Condensation.
-    \item \textbf{Étape 4} : endre l'expérience collaborative en live avec la résolution de conflits. Cette étape permettra la collaboration en temps réel entre plusieurs acteurs et la résolution de conflits éventuels.
+    \item \textbf{Étape 0 (22 mars 2023)} : Livraison de l'interface de l'API de la libraire de Condensation. Cette étape permettra de développer les fonctionnalités en simulant la librairie de Condensation.
+    \item \textbf{Étape 1 (17 avril 2023)} : Gérer les données en local et visualiser les données dans la forme de document et dans la forme de hash. Cette étape permettra de visualiser les données dans un document et de les stocker sous forme de hash en local.
+    \item \textbf{Étape 2 (15 mai 2023)} : Gérer les données en remote et visualiser les hash / les messages stockés sur le serveur. Cette étape permettra de stocker les données sur un serveur distant et de les visualiser sous forme de hash / messages.
+    \item \textbf{Étape 3 (12 juin 2023)} : Créer un second acteur qui peut communiquer avec un flux d'information sécurisé. Cette étape permettra la communication sécurisée entre deux acteurs en utilisant la librairie de Condensation.
+    \item \textbf{Étape 4 (10 juillet 2023)} : Rendre l'expérience collaborative en live avec la résolution de conflits. Cette étape permettra la collaboration en temps réel entre plusieurs acteurs et la résolution de conflits éventuels.
 \end{itemize}
