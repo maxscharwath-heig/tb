@@ -62,11 +62,6 @@
   \def\institutename{Institut de conception mécanique et technologie des matériaux}
 }
 
-\DeclareOption{comatec}{
-  \def\instituteacronym{COMATEC}
-  \def\institutename{Institut de conception mécanique et technologie des matériaux}
-}
-
 %% Orientations
 \DeclareOption{eai}{
   \def\@orientation{Électronique et Automatisation industrielle}
@@ -107,20 +102,6 @@
   \def\@orientation{Thermotronique}
   \def\@department{TIN}
   \def\@faculty{Energie et techniques environnementales}
-  \def\@field{Ingénierie}
-}
-
-\DeclareOption{mi}{
-  \def\@orientation{Mécatronique}
-  \def\@department{TIN}
-  \def\@faculty{Microtechniques}
-  \def\@field{Ingénierie}
-}
-
-\DeclareOption{mi}{
-  \def\@orientation{Mécatronique}
-  \def\@department{TIN}
-  \def\@faculty{Microtechniques}
   \def\@field{Ingénierie}
 }
 
@@ -230,6 +211,7 @@
 \RequirePackage{mdframed}
 \RequirePackage{morefloats}
 \RequirePackage{multicol}
+\RequirePackage{microtype}
 \RequirePackage{nomencl}
 \RequirePackage{parskip}
 \RequirePackage{rotating}
@@ -453,7 +435,7 @@
   {1.0ex \@plus .2ex}%
   {\normalfont\normalsize\bfseries\itshape}}
 
-\renewcommand{\sectionref}[1]{\textit{\guillemotleft\nameref{#1}\guillemotright}}
+\newcommand{\sectionref}[1]{\textit{\guillemotleft\nameref{#1}\guillemotright}}
 
 %% Marginal Note
 \newcommand\maraja[1]{%
@@ -503,7 +485,7 @@
 \def\cf{cf.~}
 
 %% Keystroke command
-\usetikzlibrary{shadows}
+\usetikzlibrary{shadows,calc,positioning}
 
 \newcommand*\keystroke[1]{%
   \tikz[baseline=(key.base)]

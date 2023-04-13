@@ -45,12 +45,12 @@
 \clearemptydoublepage
 {
   \tableofcontents
-  \let\cleardoublepage\clearpage
-  \listoffigures
-  \let\cleardoublepage\clearpage
-  \listoftables
-  \let\cleardoublepage\clearpage
-  \listoflistings
+  %\let\cleardoublepage\clearpage
+  %\listoffigures
+  %\let\cleardoublepage\clearpage
+  %\listoftables
+  %\let\cleardoublepage\clearpage
+  %\listoflistings
 }
 
 \printnomenclature
@@ -63,8 +63,15 @@
 \input{introduction.tex}
 \input{examples.tex}
 
-\chapter{Conclusion}
-\input{conclusion.tex}
+\chapter{État de l'art}
+\input{state-of-the-art.tex}
+
+\chapter{Mise en oeuvre}
+\input{implementation.tex}
+
+% TODO : Ajouter la conclusion
+%\chapter{Conclusion}
+%\input{conclusion.tex}
 
 \clearpage
 \printbibliography
@@ -84,6 +91,6 @@
 \printindex
 
 % Le colophon est le dernier élément d'un document qui contient des notes de l'auteur concernant la mise en page et l'édition du document : il est parfaitement optionnel.
-\input{colophon.tex}
+%\input{colophon.tex}
 
 \end{document}

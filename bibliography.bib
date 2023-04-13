@@ -1,39 +1,137 @@
-@book{typo,
-  author    = {},
-  title     = {Lexique des règles typographiques en usage à l'Imprimerie nationale},
-  publisher = {L'Imprimerie nationale},
-  year      = {2002},
-  address   = {Paris},
-  isbn      = {2-7433-0482-0}
+@inproceedings{jupiter,
+  author    = {Ellis, C. A. and Gibbs, S. J.},
+  title     = {Concurrency Control in Groupware Systems},
+  year      = {1989},
+  isbn      = {0897913175},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/67544.66963},
+  doi       = {10.1145/67544.66963},
+  abstract  = {Groupware systems are computer-based systems that support two or more users engaged in a common task, and that provide an interface to a shared environment. These systems frequently require fine-granularity sharing of data and fast response times. This paper distinguishes real-time groupware systems from other multi-user systems and discusses their concurrency control requirements. An algorithm for concurrency control in real-time groupware systems is then presented. The advantages of this algorithm are its simplicity of use and its responsiveness: users can operate directly on the data without obtaining locks. The algorithm must know some semantics of the operations. However the algorithm's overall structure is independent of the semantic information, allowing the algorithm to be adapted to many situations. An example application of the algorithm to group text editing is given, along with a sketch of its proof of correctness in this particular case. We note that the behavior desired in many of these systems is non-serializable.},
+  booktitle = {Proceedings of the 1989 ACM SIGMOD International Conference on Management of Data},
+  pages     = {399–407},
+  numpages  = {9},
+  location  = {Portland, Oregon, USA},
+  series    = {SIGMOD '89}
 }
 
-@online{knuthwebsite,
-    author = "Donald Knuth",
-    title = "Knuth: Computers and Typesetting",
-    url  = "http://www-cs-faculty.stanford.edu/~uno/abcde.html",
-    addendum = "(accessed: 01.09.2016)",
-    keywords = "latex,knuth"
+@inproceedings{ellis1995,
+  author    = {Sun, Chengzheng and Ellis, Clarence},
+  title     = {Operational Transformation in Real-Time Group Editors: Issues, Algorithms, and Achievements},
+  year      = {1998},
+  isbn      = {1581130090},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/289444.289469},
+  doi       = {10.1145/289444.289469},
+  booktitle = {Proceedings of the 1998 ACM Conference on Computer Supported Cooperative Work},
+  pages     = {59–68},
+  numpages  = {10},
+  keywords  = {intention preservation, operational transformation, causality preservation, consistency maintenance, convergence, distributed computing, group editors, groupware},
+  location  = {Seattle, Washington, USA},
+  series    = {CSCW '98}
 }
 
-@article{einstein,
-    author = "Albert Einstein",
-    title = "{Zur Elektrodynamik bewegter K{\"o}rper}. ({German})
-    [{On} the electrodynamics of moving bodies]",
-    journal = "Annalen der Physik",
-    volume = "322",
-    number = "10",
-    pages = "891--921",
-    year = "1905",
-    DOI = "http://dx.doi.org/10.1002/andp.19053221004",
-    keywords = "physics"
+@online{googlewave,
+  author       = {Google Inc.},
+  title        = {Introducing Google Wave},
+  year         = {2009},
+  url          = {https://www.youtube.com/watch?v=v_UyVmITiYQ},
+  howpublished = {Google I/O Developer Conference},
+  addendum     = {(accessed: 13.04.2023)}
 }
 
-@book{dirac,
-    title = {The Principles of Quantum Mechanics},
-    author = {Paul Adrien Maurice Dirac},
-    isbn = {9780198520115},
-    series = {International series of monographs on physics},
-    year = {1981},
-    publisher = {Clarendon Press},
-    keywords = {physics}
+@online{googlewaveend,
+  author   = {Urs Hölzle},
+  title    = {Official Google Blog: Update on Google Wave},
+  year     = {2010},
+  url      = {https://googleblog.blogspot.com/2010/08/update-on-google-wave.html},
+  addendum = {(accessed: 13.04.2023)}
+}
+
+@online{apachewave,
+  author   = {The Apache Software Foundation},
+  title    = {Apache Wave},
+  year     = {2012},
+  url      = {https://incubator.apache.org/wave/},
+  addendum = {(accessed: 13.04.2023)}
+}
+
+@online{sharedb,
+  author   = {Nate Smith and Joseph Gentle},
+  title    = {ShareDB: Real-time document collaboration with operational transformation},
+  year     = {2014},
+  url      = {https://github.com/share/sharedb},
+  addendum = {(accessed: 13.04.2023)}
+}
+
+@techreport{crdt,
+  title       = {{A comprehensive study of Convergent and Commutative Replicated Data Types}},
+  author      = {Shapiro, Marc and Pregui{\c c}a, Nuno and Baquero, Carlos and Zawirski, Marek},
+  url         = {https://hal.inria.fr/inria-00555588},
+  type        = {Research Report},
+  number      = {RR-7506},
+  pages       = {50},
+  institution = {{Inria -- Centre Paris-Rocquencourt ; INRIA}},
+  year        = {2011},
+  month       = Jan,
+  keywords    = {eventual consistency ; optimistic replication ; replicated data types ; distributed algorithms ; distributed systems ; Data replication ; commutative operations},
+  pdf         = {https://hal.inria.fr/inria-00555588/file/techreport.pdf},
+  hal_id      = {inria-00555588},
+  hal_version = {v1}
+}
+
+@online{automerge,
+  author   = {Peter van Hardenberg},
+  title    = {Automerge 2.0},
+  year     = {2023},
+  url      = {https://automerge.org/blog/automerge-2},
+  addendum = {(accessed: 13.04.2023)}
+}
+
+
+@inproceedings{kleppmann2020,
+  author    = {Kleppmann, Martin and Wiggins, Adam and van Hardenberg, Peter and McGranaghan, Mark},
+  title     = {Local-First Software: You Own Your Data, in Spite of the Cloud},
+  year      = {2019},
+  isbn      = {9781450369954},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  url       = {https://doi.org/10.1145/3359591.3359737},
+  doi       = {10.1145/3359591.3359737},
+  abstract  = {Cloud apps like Google Docs and Trello are popular because they enable real-time collaboration with colleagues, and they make it easy for us to access our work from all of our devices. However, by centralizing data storage on servers, cloud apps also take away ownership and agency from users. If a service shuts down, the software stops functioning, and data created with that software is lost. In this article we propose local-first software, a set of principles for software that enables both collaboration and ownership for users. Local-first ideals include the ability to work offline and collaborate across multiple devices, while also improving the security, privacy, long-term preservation, and user control of data. We survey existing approaches to data storage and sharing, ranging from email attachments to web apps to Firebase-backed mobile apps, and we examine the trade-offs of each. We look at Conflict-free Replicated Data Types (CRDTs): data structures that are multi-user from the ground up while also being fundamentally local and private. CRDTs have the potential to be a foundational technology for realizing local-first software. We share some of our findings from developing local-first software prototypes at the Ink &amp; Switch research lab over the course of several years. These experiments test the viability of CRDTs in practice, and explore the user interface challenges for this new data model. Lastly, we suggest some next steps for moving towards local-first software: for researchers, for app developers, and a startup opportunity for entrepreneurs.},
+  booktitle = {Proceedings of the 2019 ACM SIGPLAN International Symposium on New Ideas, New Paradigms, and Reflections on Programming and Software},
+  pages     = {154–178},
+  numpages  = {25},
+  keywords  = {peer-to-peer communication, collaboration software, CRDTs, mobile computing, data ownership},
+  location  = {Athens, Greece},
+  series    = {Onward! 2019}
+}
+
+
+@online{riak,
+  author   = {Amazon.com},
+  title    = {Riak: Dynamo: Amazon’s Highly Available Key-value Store},
+  year     = {2007},
+  url      = {https://docs.riak.com/riak/kv/2.2.3/learn/dynamo/index.html},
+  addendum = {(accessed: 13.04.2023)}
+}
+
+@book{yjs,
+  author    = {Nicolaescu, Petru
+               and Jahns, Kevin
+               and Derntl, Michael
+               and Klamma, Ralf},
+  editor    = {Cimiano, Philipp
+               and Frasincar, Flavius
+               and Houben, Geert-Jan
+               and Schwabe, Daniel},
+  title     = {Yjs: A Framework for Near Real-Time P2P Shared Editing on Arbitrary Data Types},
+  booktitle = {Engineering the Web in the Big Data Era},
+  year      = {2015},
+  publisher = {Springer International Publishing},
+  address   = {Cham},
+  pages     = {675--678},
+  abstract  = {Near real-time shared editing of documents in the Web browser has become popular for many applications like text writing, drawing, sketching and others. These applications require protocols for exchanging messages among user agents and for resolving editing conflicts. The available frameworks mostly rely on operational transformation approaches and often expose drawbacks like failing to scale, restriction to linear data structures and client-server architectures. In this paper we present Yjs, a lightweight open-source JavaScript framework that can be used for collaborative editing of arbitrary data types in peer-to-peer settings. The framework is based on a new operational transformation-like approach and supports communication protocols like XMPP and WebRTC. From an engineering perspective Yjs is easy to integrate into Web applications. Evaluations show that it has a favorable runtime complexity.},
+  isbn      = {978-3-319-19890-3}
 }
