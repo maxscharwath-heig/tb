@@ -1,27 +1,25 @@
-Dans cette chapitre, nous examinerons les travaux et les outils existants liés à l'édition collaborative de document structuré, au chiffrement de bout en bout et au stoquage distribué.
-Nous allons aussi également nous penché sur les outils existants.
+Dans ce chapitre, nous étudions les outils et travaux existants pour l'édition collaborative de documents structurés, le chiffrement bout à bout et le stockage distribué.
 
 \section{Définitions}
 
 \subsection{Document structuré}
-Un document structuré est un document numérique qui organise et représente l'information de manière hiérarchique, en utilisant des éléments et des attributs pour décrire la structure et le contenu du document. Contrairement aux documents non structurés, tels que les fichiers texte simples, les documents structurés permettent une meilleure compréhension, une manipulation et une réutilisation des informations.
+Un document structuré organise l'information de manière hiérarchique avec des éléments et attributs spécifiques. Il facilite la compréhension, la manipulation et la réutilisation des informations, contrairement aux documents non structurés.
 
-Dans le contexte d'un tableau blanc collaboratif, un document structuré peut être utilisé pour organiser et représenter les différents éléments graphiques et textuels qui composent le tableau blanc. Les éléments graphiques, tels que les formes, les lignes et les images, ainsi que les éléments textuels, tels que les blocs de texte et les annotations, peuvent être définis et structurés en utilisant des éléments et des attributs spécifiques.
+Dans un tableau blanc collaboratif, un document structuré représente les éléments graphiques et textuels. Il aide à manipuler et modifier les éléments individuels, gérer l'historique des modifications et synchroniser les données entre les participants.
 
-Cette structuration permet aux participants de collaborer plus efficacement sur le tableau blanc, en facilitant la manipulation et la modification des éléments individuels, ainsi que la gestion de l'historique des modifications et la synchronisation des données entre les participants. De plus, les documents structurés sont plus faciles à analyser et à traiter par des machines, ce qui facilite l'intégration avec d'autres outils et services numériques.
+Le format SVG est un exemple de document structuré, utilisé pour décrire la structure et le contenu d'un document vectoriel. Il est composé d'éléments graphiques, tels que des rectangles, des cercles et des lignes, et de textes.
 
-Un exemple de document structuré est le format SVG (Scalable Vector Graphics), qui est un format XML basé sur des balises pour décrire des images vectorielles. Dans le cadre d'un tableau blanc collaboratif, le format SVG peut être utilisé pour décrire la structure et le contenu du tableau blanc, en organisant les éléments graphiques et textuels en fonction de leur hiérarchie et de leurs attributs.
+\subsection{Édition collaborative de documents}
+L'édition collaborative permet à plusieurs utilisateurs de travailler simultanément sur un document en fusionnant les modifications en temps réel. 
+Plusieurs outils existent pour l'édition collaborative de documents structurés, un exemple connu est Google Docs.
 
+\section{Méthodes et protocoles pour resoudre les conflits de modification}
 
-\section{Edition collaborative de documents}
-L'édition collaborative de documents permet à plusieurs utilisateurs de travailler simultanément sur un même document, en fusionnant leurs modifications en temps réel.
-Cette section passera en revue les méthodes et protocoles clés utilisés pour permettre cette collaboration, ainsi que les outils et applications populaires.
-
-\section{Méthodes et protocoles existants}
+Lors de l'édition collaborative de documents structurés, les utilisateurs peuvent modifier le document en même temps. Les modifications peuvent être effectuées sur des éléments différents ou sur le même élément. Dans ce cas, il y a un conflit de modification. Les conflits de modification peuvent être résolus de différentes manières, par exemple en utilisant un mécanisme de verrouillage ou en utilisant un algorithme de fusion. Dans cette section, nous aborderons les méthodes et protocoles pour résoudre les conflits de modification.
 
 \subsection{Operational Transformation (OT)}
 
-Operational Transformation (OT) est un mécanisme de synchronisation de données en temps réel qui permet de résoudre les conflits entre les modifications concurrentes apportées par les utilisateurs. L'idée clé derrière l'OT est de transformer les opérations de manière à préserver leur intention lorsqu'elles sont appliquées dans un ordre différent. Dans cette section, nous examinerons en détail les concepts et mécanismes fondamentaux de l'OT, ainsi que les algorithmes et systèmes basés sur l'OT.
+La Transformation Opérationnelle (OT) est un mécanisme de synchronisation de données en temps réel qui résout les conflits entre modifications concurrentes apportées par les utilisateurs. L'OT repose sur la transformation des opérations pour préserver leur intention lorsqu'elles sont appliquées dans un ordre différent. Dans cette section, nous aborderons les concepts clés, les mécanismes et les systèmes basés sur l'OT.
 
 \subsubsection{Concepts de base}
 
@@ -35,65 +33,50 @@ Pour comprendre le fonctionnement de l'OT, il est important de se familiariser a
 
 \subsubsection{Transformation des opérations}
 
-La transformation des opérations est le processus qui permet de modifier les opérations concurrentes de manière à préserver leur intention lorsqu'elles sont appliquées dans un ordre différent. Supposons que nous ayons deux utilisateurs, Alice et Bob, travaillant sur le même document. Les opérations d'Alice et de Bob sont respectivement représentées par $O_A$ et $O_B$. L'OT utilise deux fonctions de transformation, $T_1$ et $T_2$, pour résoudre les conflits éventuels:
+La transformation des opérations (OT) permet de préserver l'intention des opérations concurrentes en les modifiant. Prenons Alice et Bob travaillant sur un document, leurs opérations étant $O_A$ et $O_B$. L'OT utilise les fonctions de transformation $T_1$ et $T_2$ pour résoudre les conflits :
 
 \begin{equation}
-O_A' = T_1(O_A, O_B)\\
+O_A' = T_1(O_A, O_B) \\
 O_B' = T_2(O_B, O_A)
 \end{equation}
 
-Ici, $O_A'$ et $O_B'$ sont les opérations transformées. Lorsque les opérations transformées sont appliquées au document, elles préservent l'intention des utilisateurs tout en résolvant les conflits.
+Les opérations transformées $O_A'$ et $O_B'$, appliquées au document, préservent l'intention et résolvent les conflits.
 
 \subsubsection{Conditions de transformation}
 
-Pour que la transformation des opérations fonctionne correctement, les fonctions de transformation $T_1$ et $T_2$ doivent satisfaire certaines conditions, notamment les conditions TP1, TP2 et TP3, qui garantissent que les opérations transformées préservent l'intention des opérations d'origine et que le document final est cohérent pour tous les utilisateurs, quel que soit l'ordre d'application des opérations
+La transformation opérationnelle (OT) est un algorithme essentiel pour assurer la cohérence des documents lors de modifications simultanées par plusieurs utilisateurs. Les conditions de transformation, appelées propriétés de transformation (TP), sont définies pour préserver les intentions des utilisateurs et obtenir un document final cohérent.
 
-Pour illustrer l'Operational Transformation (OT), prenons un exemple simple avec deux utilisateurs, Alice et Bob, qui travaillent sur un document texte collaboratif. Supposons que le document initial soit la chaîne de caractères "abc".
-
-Alice et Bob effectuent simultanément des opérations sur le document. Alice insère le caractère "x" à la position 1 (juste après "a"), tandis que Bob insère le caractère "y" à la position 2 (juste après "b"). Les opérations d'Alice et de Bob sont représentées par :
+Une propriété peut garantir que les opérations transformées sont cohérentes, peu importe l'ordre d'application. D'autres conditions peuvent être ajoutées pour assurer l'équilibre et la cohérence des opérations transformées, comme celle-ci :
 
 \begin{equation}
 \begin{aligned}
-O_A &= \text{insert}(1, 'x') \
-O_B &= \text{insert}(2, 'y')
+T_1(O_A', O_B') = O_A \\
+T_2(O_B', O_A') = O_B
 \end{aligned}
 \end{equation}
 
-Sans OT, si nous appliquons d'abord l'opération d'Alice puis celle de Bob, nous obtenons le document "axbyc". Cependant, si nous appliquons d'abord l'opération de Bob puis celle d'Alice, nous obtenons le document "ayxbc". Les deux résultats sont incohérents, ce qui n'est pas souhaitable pour un système de collaboration en temps réel.
+Cette formule exprime que les opérations initiales $O_A$ et $O_B$ sont retrouvées en transformant à nouveau les opérations transformées $O_A'$ et $O_B'$ l'une par rapport à l'autre.
 
-Pour résoudre ce problème, l'OT transforme les opérations concurrentes de manière à préserver leur intention. Dans cet exemple, nous utilisons les fonctions de transformation $T_1$ et $T_2$ pour obtenir les opérations transformées $O_A'$ et $O_B'$:
+En définissant des conditions de transformation appropriées, l'algorithme OT préserve les intentions des utilisateurs et garantit un document final cohérent, même en cas de travail simultané sur un même document.
+\subsubsection{Algorithmes OT}
 
-\begin{equation}
-\begin{aligned}
-O_A' &= T_1(O_A, O_B) = \text{insert}(1, 'x')\
-O_B' &= T_2(O_B, O_A) = \text{insert}(3, 'y')
-\end{aligned}
-\end{equation}
+Plusieurs algorithmes et systèmes OT ont émergé au fil du temps. En voici quelques exemples notables:
 
-Notez que l'opération transformée de Bob, $O_B'$, a été mise à jour pour tenir compte de l'insertion effectuée par Alice. Ainsi, l'opération de Bob insère maintenant le caractère "y" à la position 3 (juste après "x").
+\subsubsection{Algorithme Jupiter}
 
-Maintenant, si nous appliquons d'abord l'opération d'Alice puis celle de Bob transformée, nous obtenons le document "axybc". De même, si nous appliquons d'abord l'opération de Bob puis celle d'Alice transformée, nous obtenons le même document "axybc". Grâce à l'OT, les opérations transformées ont préservé l'intention des opérations d'origine et ont abouti à un document cohérent pour tous les utilisateurs.
+Jupiter, un système de collaboration en temps réel OT, fut créé au début des années 1990 au Xerox PARC pour répondre à la demande croissante de collaboration en ligne sur des documents partagés. Clarence Ellis dirigea ce projet, qui aboutit à la publication d'un article en 1995 présentant les concepts clés et les algorithmes OT. Ellis avait déjà publié un article en 1989, posant les bases pour le développement de Jupiter.
 
-Ce simple exemple démontre l'efficacité de l'OT pour gérer les conflits et préserver l'intention des opérations dans un système de collaboration en temps réel.
-\subsubsection{Algorithmes et systèmes basés sur l'OT}
+Jupiter fonctionne en client-serveur, chaque client et serveur possédant sa propre copie du document et appliquant les opérations localement. Les opérations sont transmises au serveur, transformées, puis redistribuées. Jupiter utilise un mécanisme de contrôle de causalité pour garantir un ordre préservant les relations causales.
 
-Au fil des ans, plusieurs algorithmes et systèmes basés sur l'OT ont été développés. Voici quelques exemples notables:
+Malgré l'absence de développement actif, Jupiter influence toujours de nombreux systèmes de collaboration en temps réel.
 
-\subsubsection{Algorithme de Jupiter}
+\subsubsection{Algorithme Google Wave}
 
-Jupiter, un système de collaboration en temps réel basé sur l'OT, a été développé au début des années 1990 par le Xerox Palo Alto Research Center (PARC) pour répondre à la demande croissante de collaboration en ligne sur des documents partagés\cite{jupiter}. Sous la direction de Clarence Ellis, le projet Jupiter a abouti à la publication d'un article en 1995, intitulé "Operational Transformation in Real-Time Group Editors"\cite{ellis1995}, qui présentait pour la première fois les concepts clés et les algorithmes de l'OT. Ellis avait également publié un article en 1989 intitulé "Concurrency Control in Groupware Systems"\cite{ellis1989}, qui jetait les bases pour le développement de Jupiter et des systèmes de collaboration ultérieurs.
+Google Wave, annoncé en 2009, était un système de collaboration en temps réel conçu par Google. Combinant messagerie instantanée, courrier électronique, partage de documents et médias sociaux, il visait à faciliter la communication et la collaboration en ligne.
 
-L'algorithme de Jupiter fonctionne dans un environnement client-serveur où chaque client et le serveur possèdent leur propre copie du document et appliquent les opérations localement\cite{jupiter}. Les opérations sont ensuite transmises au serveur qui les transforme et les redistribue aux autres clients. Pour garantir que les opérations sont transformées et appliquées dans un ordre préservant leur relation de causalité, Jupiter utilise un mécanisme de contrôle de causalité, basé sur les travaux d'Ellis en 1989\cite{ellis1989}. Ainsi, si une opération dépend d'une autre (par exemple, effectuée par le même utilisateur après la première), cette dépendance est respectée lors de l'application des opérations.
+Basé sur l'OT, Google Wave utilisait un modèle décentralisé où chaque utilisateur maintenait sa propre copie du document. Cela offrait plus de flexibilité pour gérer les modifications hors ligne et synchroniser les données lorsqu'un utilisateur se reconnectait.
 
-Bien que Jupiter ne soit plus activement développé ou utilisé, ses concepts et techniques continuent d'influencer de nombreux systèmes et algorithmes ultérieurs de collaboration en temps réel.
-
-\subsubsection{Algorithme de Google Wave}
-
-Google Wave, annoncé en 2009, était un système de collaboration en temps réel développé par Google\cite{googlewave}. Conçu comme une plateforme unifiée de communication et de collaboration, il combinait des fonctionnalités de messagerie instantanée, de courrier électronique, de partage de documents et de médias sociaux. L'objectif de Google Wave était de faciliter la communication et la collaboration en ligne entre les utilisateurs, en permettant des conversations structurées et des modifications de documents en temps réel\cite{googlewave}.
-
-Basé sur l'OT, Google Wave utilisait un modèle décentralisé, où chaque utilisateur maintenait sa propre copie du document et échangeait des opérations directement avec les autres utilisateurs. Cela différait du modèle client-serveur de Jupiter et offrait une plus grande flexibilité pour gérer les modifications hors ligne et synchroniser les données lorsqu'un utilisateur se reconnectait.
-
-Malgré ses ambitions, Google Wave n'a pas réussi à attirer un grand nombre d'utilisateurs, et Google a annoncé l'arrêt du développement de Wave en 2010\cite{googlewaveend}. Néanmoins, certaines des idées et techniques de Wave ont été intégrées dans d'autres produits de collaboration en temps réel de Google, tels que Google Docs, ainsi que dans des projets open source tels que Apache Wave et plus récemment ShareDB\cite{apachewave, sharedb}.
+Cependant, Google Wave ne parvint pas à attirer suffisamment d'utilisateurs et son développement fut arrêté en 2010. Néanmoins, certaines idées et techniques furent intégrées dans d'autres produits de collaboration en temps réel de Google, tels que Google Docs, et des projets open source comme Apache Wave et ShareDB.
 
 \subsubsection{Limitations et défis de l'OT}
 
@@ -110,11 +93,11 @@ Malgré ces défis, l'OT reste une méthode importante et largement utilisée po
 
 \subsection{Conflict-Free Replicated Data Types (CRDT)}
 
-Les Conflict-Free Replicated Data Types (CRDT) sont des structures de données spécifiques conçues pour résoudre les conflits de manière déterministe lors de la collaboration en temps réel sur des documents partagés\cite{crdt}. Les CRDT ont deux propriétés importantes : ils sont \textit{commutatifs}, ce qui signifie que l'ordre d'application des opérations n'affecte pas le résultat final, et \textit{idempotents}, ce qui signifie que l'application répétée d'une opération a le même effet que l'application unique de cette opération. Ces propriétés permettent aux CRDT de garantir la cohérence et la convergence des documents partagés dans un environnement distribué et répliqué.
+Les CRDT (Conflict-Free Replicated Data Types) sont conçus pour résoudre les conflits de manière déterministe lors de la collaboration en temps réel sur des documents partagés, sans serveur central. Ils sont commutatifs et idempotents, garantissant ainsi la cohérence et la convergence des documents dans un environnement distribué et répliqué.
 
-\subsubsection{Concepts de base des CRDT}
+\subsubsection{Fonctionnement des CRDT}
 
-Les CRDT sont conçus pour être distribués et répliqués sur plusieurs machines, et ils sont conçus pour être utilisés dans un environnement sans serveur central, où chaque client possède sa propre copie des données. Les clients peuvent modifier les données et les synchroniser entre eux, et les modifications sont fusionnées de manière déterministe pour produire un résultat cohérent. Les CRDT utilisent des identifiants uniques pour les éléments de données afin de garantir la commutativité et l'idempotence des opérations.
+Les CRDT sont distribués et répliqués sur plusieurs machines, chaque client ayant sa propre copie des données. Les clients peuvent modifier les données et les synchroniser entre eux, avec des identifiants uniques pour garantir la commutativité et l'idempotence des opérations.
 
 \subsubsection{Exemple d'utilisation de CRDT}
 Considérons un exemple simple pour illustrer l'utilisation des CRDT et mettre en évidence les différences avec l'OT. Supposons que deux utilisateurs, Alice et Bob, collaborent sur un document texte initialisé avec le mot "chat".
@@ -123,96 +106,93 @@ Dans l'algorithme Logoot, chaque position de caractère est associée à un iden
 
 \paragraph{Scénario}
 
-Prenons le même scénario où Alice et Bob collaborent sur un document texte initialisé avec le mot "chat". Alice veut ajouter "ou" après "ch" pour former le mot "chou", tandis que Bob veut ajouter "ef" après "ch" pour former le mot "chef".
+Alice et Bob travaillent sur un texte initial "chat". Alice veut former "chou" en ajoutant "ou" après "ch", pendant que Bob veut former "chef" en ajoutant "ef" après "ch".
 
-\paragraph{Opérations avec Logoot CRDT}
+\paragraph{Logoot CRDT}
 
-Supposons que les positions initiales des caractères soient les suivantes :
-
-\begin{equation}
-    c(1),\ h(2), \ a(3), t(4) \quad \text{(chat)}
-\end{equation}
-
-Alice insère "ou" après "ch". Pour cela, elle génère de nouvelles positions pour ces caractères :
-\begin{equation}
-    o(2, 1), \ u(2, 2)
-\end{equation}
-
-Le document d'Alice devient :
+Imaginons les positions initiales des caractères :
 
 \begin{equation}
-    c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ a(3), \ t(4) \quad \text{(chouat)}
+c(1),\ h(2), \ a(3), t(4) \quad \text{(chat)}
 \end{equation}
 
-Bob insère "ef" après "ch". Pour cela, il génère également de nouvelles positions pour ces caractères :
+Alice insère "ou" après "ch" et génère de nouvelles positions :
 
 \begin{equation}
-    e(2, 3), f(2, 4)
+o(2, 1), \ u(2, 2)
 \end{equation}
 
-Le document de Bob devient :
+Le texte d'Alice devient :
 
 \begin{equation}
-    c(1), \ h(2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chefat)}
+c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ a(3), \ t(4) \quad \text{(chouat)}
 \end{equation}
 
-Les opérations d'insertion sont propagées entre les utilisateurs.
-
-Alice reçoit l'opération d'insertion de Bob et insère "ef" après "ch" en utilisant les positions générées par Bob :
-
-Le document d'Alice devient :
+Bob insère "ef" après "ch" et génère aussi de nouvelles positions :
 
 \begin{equation}
-    c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
+e(2, 3), f(2, 4)
 \end{equation}
 
-Bob reçoit l'opération d'insertion d'Alice et insère "ou" après "ch" en utilisant les positions générées par Alice :
-Le document de Bob devient :
+Le texte de Bob devient :
 
 \begin{equation}
-    c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
+c(1), \ h(2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chefat)}
 \end{equation}
 
-Le résultat final est le même pour Alice et Bob, même si leurs opérations ont été appliquées dans un ordre différent. Les CRDT garantissent la convergence et la cohérence des données sans nécessiter de transformation opérationnelle. Dans cet exemple, l'algorithme Logoot permet d'attribuer des positions uniques aux caractères insérés, garantissant que les documents convergeront vers le même état final.
+Les opérations d'insertion sont échangées.
 
-\subsubsection{Algorithmes et systèmes basés sur CRDT}
+Alice intègre l'insertion de Bob :
 
-Les CRDT ont été utilisés pour développer plusieurs algorithmes et systèmes de collaboration en temps réel, tels que WOOT, Treedoc, RGA, Logoot et LSEQ, pour l'édition de texte, ainsi que des bibliothothèques et des systèmes tels qu'Automerge, Yjs et Riak pour la collaboration sur d'autres types de données et structures de données.
+\begin{equation}
+c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
+\end{equation}
 
-\paragraph{Automerge\cite{automerge}}
+Bob intègre l'insertion d'Alice :
 
-Automerge est une bibliothèque JavaScript permettant de développer des applications collaboratives en temps réel, telles que des éditeurs de texte et des tableaux Kanban. Automerge utilise des CRDT pour assurer la synchronisation des données entre les différentes instances de l'application, tout en maintenant la cohérence et en résolvant les conflits.
+\begin{equation}
+c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
+\end{equation}
 
-\paragraph{Yjs\cite{yjs}}
+Le résultat est identique pour Alice et Bob, malgré un ordre différent d'opérations. Les CRDT assurent convergence et cohérence sans transformation opérationnelle. Ici, Logoot attribue des positions uniques aux caractères insérés, garantissant la convergence vers un état final commun.
+\subsubsection{CRDT dans les algorithmes et systèmes}
 
-Yjs est une bibliothèque JavaScript de collaboration en temps réel, qui utilise également les CRDT pour la synchronisation des données. Yjs prend en charge un large éventail de structures de données et de fonctionnalités, y compris la collaboration sur des documents texte, des tableaux et des graphes.
+Les CRDT inspirent de nombreux algorithmes et systèmes de collaboration en temps réel, tels que WOOT, Treedoc, RGA, Logoot, LSEQ, Automerge, Yjs et Riak.
 
-\paragraph{Riak\cite{riak}}
+\paragraph{Automerge}
 
-Riak est une base de données distribuée et décentralisée, conçue pour offrir une grande disponibilité et une tolérance aux partitions. Riak utilise des CRDT pour assurer la cohérence des données entre les noeuds du système, permettant ainsi aux clients d'effectuer des opérations de lecture et d'écriture même en cas de défaillance partielle du réseau.
+Automerge est une bibliothèque JavaScript pour développer des applications collaboratives en temps réel, comme des éditeurs de texte et des tableaux Kanban. Elle utilise des CRDT pour synchroniser les données entre les instances de l'application, en maintenant la cohérence et en résolvant les conflits.
 
-En résumé, les CRDT sont une approche intéressante pour la collaboration en temps réel, car elles permettent de résoudre les problèmes de synchronisation et de cohérence des données sans nécessiter de transformation opérationnelle. Cependant, les CRDT ne sont pas adaptés à tous les types de données et structures de données, et ils ne sont pas toujours faciles à implémenter.
+\paragraph{Yjs}
+
+Yjs est une bibliothèque JavaScript de collaboration en temps réel qui utilise aussi les CRDT pour la synchronisation des données. Yjs supporte diverses structures de données et fonctionnalités, dont la collaboration sur des documents texte, des tableaux et des graphes.
+
+\paragraph{Riak}
+
+Riak est une base de données distribuée et décentralisée conçue pour offrir une grande disponibilité et une tolérance aux partitions. Riak utilise des CRDT pour assurer la cohérence des données entre les nœuds du système, permettant aux clients d'effectuer des opérations de lecture et d'écriture même en cas de défaillance partielle du réseau.
+
+En bref, les CRDT sont une approche intéressante pour la collaboration en temps réel. Elles résolvent les problèmes de synchronisation et de cohérence des données sans recourir à la transformation opérationnelle. Toutefois, les CRDT ne conviennent pas à tous les types de données et structures de données, et leur mise en œuvre peut être complexe.
 
 \section{Zéro Trust}
-Le modèle Zero Trust est une approche de cybersécurité qui repose sur le principe de ne faire confiance à aucune entité, interne ou externe, dans un système informatique. Il s'agit de vérifier constamment les identités et les autorisations des utilisateurs, des dispositifs et des applications, avant de leur accorder l'accès aux ressources. Cette approche permet de réduire les risques de failles de sécurité et de protéger les données sensibles contre les accès non autorisés.
+Le modèle Zéro Trust est une approche de cybersécurité basée sur l'idée de ne faire confiance à aucune entité, interne ou externe, dans un système informatique. On vérifie constamment les identités et les autorisations avant d'accorder l'accès aux ressources. Cette méthode réduit les risques de failles de sécurité et protège les données sensibles contre les accès non autorisés.
 
 \section{Bases de données immuables}
-Les bases de données immuables, telles qu'Immudb \cite{immudb}, sont des systèmes de stockage de données conçus pour préserver l'intégrité et l'auditabilité des données en empêchant toute modification ou suppression des enregistrements une fois qu'ils sont ajoutés. Dans ces bases de données, les nouvelles données sont ajoutées sous forme d'événements ou de transactions, et les anciennes données restent inchangées, créant ainsi un historique complet et vérifiable des modifications apportées.
+Les bases de données immuables, comme Immudb, préservent l'intégrité et l'auditabilité des données en empêchant leur modification ou suppression une fois ajoutées. Les nouvelles données sont ajoutées sous forme d'événements ou de transactions, et les anciennes restent inchangées, créant un historique complet et vérifiable des modifications.
 
-\section{Chiffrement de bout en bout}
-Le chiffrement de bout en bout est une méthode de sécurisation des communications et des données en les chiffrant de manière à ce que seules les parties concernées puissent les déchiffrer. Cette technique est utilisée pour protéger les données sensibles et garantir la confidentialité des communications, en empêchant les tiers d'accéder aux informations échangées ou stockées.
+\section{Chiffrement bout à bout}
+Le chiffrement bout à bout sécurise les communications et les données en les chiffrant pour que seules les parties concernées puissent les déchiffrer. Cette technique protège les données sensibles et garantit la confidentialité des communications, empêchant les tiers d'accéder aux informations échangées ou stockées.
 
-\subsection{Fonctionnement du chiffrement de bout en bout}
-Le chiffrement de bout en bout fonctionne en utilisant des clés de chiffrement asymétriques pour chaque utilisateur participant à une communication sécurisée. Chaque utilisateur possède une paire de clés, composée d'une clé publique et d'une clé privée. La clé publique peut être partagée librement, tandis que la clé privée doit rester secrète et uniquement accessible à l'utilisateur concerné.
+\subsection{Fonctionnement du chiffrement bout à bout}
+Le chiffrement bout à bout utilise des clés de chiffrement asymétriques pour chaque utilisateur participant à une communication sécurisée. Chaque utilisateur possède une paire de clés, une publique et une privée. La clé publique est partagée librement, tandis que la clé privée reste secrète et accessible uniquement à l'utilisateur concerné.
 
-Lorsqu'un utilisateur A souhaite envoyer un message chiffré à un utilisateur B, A chiffre le message à l'aide de la clé publique de B. Une fois chiffré, le message ne peut être déchiffré qu'avec la clé privée correspondante de B, garantissant ainsi que seul B peut accéder au contenu du message. Ce processus est également connu sous le nom de chiffrement asymétrique.
+Pour envoyer un message chiffré, un utilisateur A utilise la clé publique de l'utilisateur B pour chiffrer le message. Une fois chiffré, seul B peut déchiffrer le message avec sa clé privée. Ce processus est également appelé chiffrement asymétrique.
 
-Prenons l'exemple d'une application de messagerie électronique offrant un chiffrement de bout en bout. Lorsque Alice souhaite envoyer un message chiffré à Bob, elle utilise la clé publique de Bob pour chiffrer le contenu du message. Une fois le message chiffré, il est envoyé à travers le réseau et stocké sur le serveur de messagerie. Même si le serveur est compromis ou que les données sont interceptées en transit, le contenu de le message reste illisible sans la clé privée de Bob. Lorsque Bob reçoit l'e-mail, il utilise sa clé privée pour déchiffrer le message et accéder au contenu.
+Par exemple, dans une application de messagerie chiffrée bout à bout, Alice utilise la clé publique de Bob pour chiffrer un message. Le message chiffré est envoyé et stocké sur le serveur de messagerie. Même si le serveur est compromis ou que les données sont interceptées, le message reste illisible sans la clé privée de Bob. Bob déchiffre ensuite le message avec sa clé privée.
 
-La partie du processus où l'on doit faire attention est le partage des clés de chiffrement. Si les clés sont partagées de manière inappropriée, elles peuvent être interceptées et utilisées pour déchiffrer les messages. Pour éviter cela, les clés de chiffrement doivent être échangées de manière sécurisée, en utilisant un canal de communication sécurisé.
+Le partage des clés de chiffrement doit être effectué avec prudence pour éviter leur interception. Les clés doivent être échangées de manière sécurisée, en utilisant un canal de communication sûr.
 
 \section{Conclusion}
 
-Dans ce chapitre nous avons pu voir les différentes méthodes de sécurisation des données et des communications. Nous avons vu que les bases de données distribuées et les systèmes de collaboration en temps réel sont des technologies qui peuvent être utilisées pour créer des applications sécurisées. Nous avons également vu que le chiffrement de bout en bout est une méthode efficace pour protéger les données sensibles et garantir la confidentialité des communications.
+Dans ce chapitre, nous avons examiné diverses méthodes de sécurisation des données et des communications. Les bases de données distribuées et les systèmes de collaboration en temps réel sont des technologies pour créer des applications sécurisées. Le chiffrement bout à bout est une méthode efficace pour protéger les données sensibles et garantir la confidentialité des communications.
 
-Tous ces outils peuvent être combiné pour la création d'une application d'édition collaborative de structuré de manière à ce que les données soient sécurisées et que les utilisateurs puissent collaborer en toute confiance.
+Ces outils peuvent être combinés pour créer une application d'édition collaborative sécurisée, permettant aux utilisateurs de collaborer en toute confiance.
