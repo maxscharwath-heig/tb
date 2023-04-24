@@ -1,7 +1,6 @@
 Dans ce chapitre, nous étudions les outils et travaux existants pour l'édition collaborative de documents structurés, le chiffrement bout à bout et le stockage distribué.
 
 \section{Définitions}
-
 \subsection{Document structuré}
 Un document structuré organise l'information de manière hiérarchique avec des éléments et attributs spécifiques. Il facilite la compréhension, la manipulation et la réutilisation des informations, contrairement aux documents non structurés.
 
@@ -10,60 +9,53 @@ Dans un tableau blanc collaboratif, un document structuré représente les élé
 Le format SVG est un exemple de document structuré, utilisé pour décrire la structure et le contenu d'un document vectoriel. Il est composé d'éléments graphiques, tels que des rectangles, des cercles et des lignes, et de textes.
 
 \subsection{Édition collaborative de documents}
-L'édition collaborative permet à plusieurs utilisateurs de travailler simultanément sur un document en fusionnant les modifications en temps réel. 
+L'édition collaborative permet à plusieurs utilisateurs de travailler simultanément sur un document en fusionnant les modifications en temps réel.
 Plusieurs outils existent pour l'édition collaborative de documents structurés, un exemple connu est Google Docs.
 
 \section{Méthodes et protocoles pour resoudre les conflits de modification}
-
 Lors de l'édition collaborative de documents structurés, les utilisateurs peuvent modifier le document en même temps. Les modifications peuvent être effectuées sur des éléments différents ou sur le même élément. Dans ce cas, il y a un conflit de modification. Les conflits de modification peuvent être résolus de différentes manières, par exemple en utilisant un mécanisme de verrouillage ou en utilisant un algorithme de fusion. Dans cette section, nous aborderons les méthodes et protocoles pour résoudre les conflits de modification.
 
 \subsection{Operational Transformation (OT)}
-
 La Transformation Opérationnelle (OT) est un mécanisme de synchronisation de données en temps réel qui résout les conflits entre modifications concurrentes apportées par les utilisateurs. L'OT repose sur la transformation des opérations pour préserver leur intention lorsqu'elles sont appliquées dans un ordre différent. Dans cette section, nous aborderons les concepts clés, les mécanismes et les systèmes basés sur l'OT.
 
 \subsubsection{Concepts de base}
-
 Pour comprendre le fonctionnement de l'OT, il est important de se familiariser avec les concepts de base suivants:
 
-\begin{itemize}
-\item \textbf{Opération:} Une opération est une action effectuée par un utilisateur sur un document, telle que l'insertion ou la suppression d'un caractère. Les opérations sont généralement représentées par des objets contenant des informations sur l'action effectuée, la position dans le document et, le cas échéant, le caractère inséré ou supprimé.
-\item \textbf{Intention:} L'intention d'une opération est l'effet souhaité de l'opération sur le document. L'OT vise à préserver l'intention des opérations, même lorsqu'elles sont appliquées dans un ordre différent.
-\item \textbf{Conflit:} Un conflit se produit lorsque deux opérations sont effectuées simultanément sur le même document, et que l'application de ces opérations dans un ordre différent peut entraîner des résultats incohérents. L'OT résout les conflits en transformant les opérations concurrentes de manière à préserver leur intention.
-\end{itemize}
+\paragraph{Opération:} Une opération est une action effectuée par un utilisateur sur un document, telle que l'insertion ou la suppression d'un caractère. Les opérations sont généralement représentées par des objets contenant des informations sur l'action effectuée, la position dans le document et, le cas échéant, le caractère inséré ou supprimé.
+\paragraph{Intention:} L'intention d'une opération est l'effet souhaité de l'opération sur le document. L'OT vise à préserver l'intention des opérations, même lorsqu'elles sont appliquées dans un ordre différent.
+\paragraph{Conflit:} Un conflit se produit lorsque deux opérations sont effectuées simultanément sur le même document, et que l'application de ces opérations dans un ordre différent peut entraîner des résultats incohérents. L'OT résout les conflits en transformant les opérations concurrentes de manière à préserver leur intention.
 
 \subsubsection{Transformation des opérations}
-
 La transformation des opérations (OT) permet de préserver l'intention des opérations concurrentes en les modifiant. Prenons Alice et Bob travaillant sur un document, leurs opérations étant $O_A$ et $O_B$. L'OT utilise les fonctions de transformation $T_1$ et $T_2$ pour résoudre les conflits :
 
 \begin{equation}
-O_A' = T_1(O_A, O_B) \\
-O_B' = T_2(O_B, O_A)
+    \begin{aligned}
+        O_A' = T_1(O_A, O_B) \\
+        O_B' = T_2(O_B, O_A)
+    \end{aligned}
 \end{equation}
 
 Les opérations transformées $O_A'$ et $O_B'$, appliquées au document, préservent l'intention et résolvent les conflits.
 
 \subsubsection{Conditions de transformation}
-
 La transformation opérationnelle (OT) est un algorithme essentiel pour assurer la cohérence des documents lors de modifications simultanées par plusieurs utilisateurs. Les conditions de transformation, appelées propriétés de transformation (TP), sont définies pour préserver les intentions des utilisateurs et obtenir un document final cohérent.
 
 Une propriété peut garantir que les opérations transformées sont cohérentes, peu importe l'ordre d'application. D'autres conditions peuvent être ajoutées pour assurer l'équilibre et la cohérence des opérations transformées, comme celle-ci :
 
 \begin{equation}
-\begin{aligned}
-T_1(O_A', O_B') = O_A \\
-T_2(O_B', O_A') = O_B
-\end{aligned}
+    \begin{aligned}
+        T_1(O_A', O_B') = O_A \\
+        T_2(O_B', O_A') = O_B
+    \end{aligned}
 \end{equation}
 
 Cette formule exprime que les opérations initiales $O_A$ et $O_B$ sont retrouvées en transformant à nouveau les opérations transformées $O_A'$ et $O_B'$ l'une par rapport à l'autre.
 
 En définissant des conditions de transformation appropriées, l'algorithme OT préserve les intentions des utilisateurs et garantit un document final cohérent, même en cas de travail simultané sur un même document.
 \subsubsection{Algorithmes OT}
-
 Plusieurs algorithmes et systèmes OT ont émergé au fil du temps. En voici quelques exemples notables:
 
 \subsubsection{Algorithme Jupiter}
-
 Jupiter, un système de collaboration en temps réel OT, fut créé au début des années 1990 au Xerox PARC pour répondre à la demande croissante de collaboration en ligne sur des documents partagés. Clarence Ellis dirigea ce projet, qui aboutit à la publication d'un article en 1995 présentant les concepts clés et les algorithmes OT. Ellis avait déjà publié un article en 1989, posant les bases pour le développement de Jupiter.
 
 Jupiter fonctionne en client-serveur, chaque client et serveur possédant sa propre copie du document et appliquant les opérations localement. Les opérations sont transmises au serveur, transformées, puis redistribuées. Jupiter utilise un mécanisme de contrôle de causalité pour garantir un ordre préservant les relations causales.
@@ -71,7 +63,6 @@ Jupiter fonctionne en client-serveur, chaque client et serveur possédant sa pro
 Malgré l'absence de développement actif, Jupiter influence toujours de nombreux systèmes de collaboration en temps réel.
 
 \subsubsection{Algorithme Google Wave}
-
 Google Wave, annoncé en 2009, était un système de collaboration en temps réel conçu par Google. Combinant messagerie instantanée, courrier électronique, partage de documents et médias sociaux, il visait à faciliter la communication et la collaboration en ligne.
 
 Basé sur l'OT, Google Wave utilisait un modèle décentralisé où chaque utilisateur maintenait sa propre copie du document. Cela offrait plus de flexibilité pour gérer les modifications hors ligne et synchroniser les données lorsqu'un utilisateur se reconnectait.
@@ -79,24 +70,19 @@ Basé sur l'OT, Google Wave utilisait un modèle décentralisé où chaque utili
 Cependant, Google Wave ne parvint pas à attirer suffisamment d'utilisateurs et son développement fut arrêté en 2010. Néanmoins, certaines idées et techniques furent intégrées dans d'autres produits de collaboration en temps réel de Google, tels que Google Docs, et des projets open source comme Apache Wave et ShareDB.
 
 \subsubsection{Limitations et défis de l'OT}
-
 Bien que l'OT soit un mécanisme puissant pour la synchronisation en temps réel des documents et la résolution des conflits, il présente également certaines limitations et défis:
 
-\begin{itemize}
-    \item \textbf{Complexité:} Les algorithmes basés sur l'OT peuvent être complexes à mettre en oeuvre et à déboguer, en particulier lorsqu'ils doivent gérer des cas de conflits complexes et des relations de causalité.
-    \item \textbf{Performances:} La transformation des opérations et le contrôle de la causalité peuvent avoir un impact sur les performances, surtout lorsque le nombre d'utilisateurs et d'opérations concurrentes augmente.
-    \item \textbf{Interopérabilité:} Les systèmes basés sur l'OT peuvent avoir des difficultés à interagir avec d'autres systèmes de synchronisation de données qui n'utilisent pas l'OT, ce qui peut limiter leur applicabilité dans certaines situations.
-    \item \textbf{Sémantique des opérations:} Les fonctions de transformation doivent être définies pour chaque type d'opération et chaque structure de données, ce qui peut être délicat lorsque les opérations ont des sémantiques complexes ou interdépendantes.
-\end{itemize}
+\paragraph{Complexité:} Les algorithmes basés sur l'OT peuvent être complexes à mettre en oeuvre et à déboguer, en particulier lorsqu'ils doivent gérer des cas de conflits complexes et des relations de causalité.
+\paragraph{Performances:} La transformation des opérations et le contrôle de la causalité peuvent avoir un impact sur les performances, surtout lorsque le nombre d'utilisateurs et d'opérations concurrentes augmente.
+\paragraph{Interopérabilité:} Les systèmes basés sur l'OT peuvent avoir des difficultés à interagir avec d'autres systèmes de synchronisation de données qui n'utilisent pas l'OT, ce qui peut limiter leur applicabilité dans certaines situations.
+\paragraph{Sémantique des opérations:} Les fonctions de transformation doivent être définies pour chaque type d'opération et chaque structure de données, ce qui peut être délicat lorsque les opérations ont des sémantiques complexes ou interdépendantes.
 
 Malgré ces défis, l'OT reste une méthode importante et largement utilisée pour la collaboration en temps réel et la synchronisation des données dans les systèmes distribués.
 
 \subsection{Conflict-Free Replicated Data Types (CRDT)}
-
 Les CRDT (Conflict-Free Replicated Data Types) sont conçus pour résoudre les conflits de manière déterministe lors de la collaboration en temps réel sur des documents partagés, sans serveur central. Ils sont commutatifs et idempotents, garantissant ainsi la cohérence et la convergence des documents dans un environnement distribué et répliqué.
 
 \subsubsection{Fonctionnement des CRDT}
-
 Les CRDT sont distribués et répliqués sur plusieurs machines, chaque client ayant sa propre copie des données. Les clients peuvent modifier les données et les synchroniser entre eux, avec des identifiants uniques pour garantir la commutativité et l'idempotence des opérations.
 
 \subsubsection{Exemple d'utilisation de CRDT}
@@ -105,39 +91,37 @@ Considérons un exemple simple pour illustrer l'utilisation des CRDT et mettre e
 Dans l'algorithme Logoot, chaque position de caractère est associée à un identifiant unique. Les identifiants sont des listes d'entiers de taille variable, appelées positions. Les positions sont comparées lexicographiquement pour déterminer l'ordre des caractères dans le document.
 
 \paragraph{Scénario}
-
 Alice et Bob travaillent sur un texte initial "chat". Alice veut former "chou" en ajoutant "ou" après "ch", pendant que Bob veut former "chef" en ajoutant "ef" après "ch".
 
 \paragraph{Logoot CRDT}
-
 Imaginons les positions initiales des caractères :
 
 \begin{equation}
-c(1),\ h(2), \ a(3), t(4) \quad \text{(chat)}
+    c(1),\ h(2), \ a(3), t(4) \quad \text{(chat)}
 \end{equation}
 
 Alice insère "ou" après "ch" et génère de nouvelles positions :
 
 \begin{equation}
-o(2, 1), \ u(2, 2)
+    o(2, 1), \ u(2, 2)
 \end{equation}
 
 Le texte d'Alice devient :
 
 \begin{equation}
-c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ a(3), \ t(4) \quad \text{(chouat)}
+    c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ a(3), \ t(4) \quad \text{(chouat)}
 \end{equation}
 
 Bob insère "ef" après "ch" et génère aussi de nouvelles positions :
 
 \begin{equation}
-e(2, 3), f(2, 4)
+    e(2, 3), f(2, 4)
 \end{equation}
 
 Le texte de Bob devient :
 
 \begin{equation}
-c(1), \ h(2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chefat)}
+    c(1), \ h(2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chefat)}
 \end{equation}
 
 Les opérations d'insertion sont échangées.
@@ -145,31 +129,24 @@ Les opérations d'insertion sont échangées.
 Alice intègre l'insertion de Bob :
 
 \begin{equation}
-c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
+    c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
 \end{equation}
 
 Bob intègre l'insertion d'Alice :
 
 \begin{equation}
-c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
+    c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
 \end{equation}
 
 Le résultat est identique pour Alice et Bob, malgré un ordre différent d'opérations. Les CRDT assurent convergence et cohérence sans transformation opérationnelle. Ici, Logoot attribue des positions uniques aux caractères insérés, garantissant la convergence vers un état final commun.
 \subsubsection{CRDT dans les algorithmes et systèmes}
-
 Les CRDT inspirent de nombreux algorithmes et systèmes de collaboration en temps réel, tels que WOOT, Treedoc, RGA, Logoot, LSEQ, Automerge, Yjs et Riak.
 
-\paragraph{Automerge}
+\paragraph{Automerge: } Automerge est une bibliothèque JavaScript pour développer des applications collaboratives en temps réel, comme des éditeurs de texte et des tableaux Kanban. Elle utilise des CRDT pour synchroniser les données entre les instances de l'application, en maintenant la cohérence et en résolvant les conflits.
 
-Automerge est une bibliothèque JavaScript pour développer des applications collaboratives en temps réel, comme des éditeurs de texte et des tableaux Kanban. Elle utilise des CRDT pour synchroniser les données entre les instances de l'application, en maintenant la cohérence et en résolvant les conflits.
+\paragraph{Yjs: } Yjs est une bibliothèque JavaScript de collaboration en temps réel qui utilise aussi les CRDT pour la synchronisation des données. Yjs supporte diverses structures de données et fonctionnalités, dont la collaboration sur des documents texte, des tableaux et des graphes.
 
-\paragraph{Yjs}
-
-Yjs est une bibliothèque JavaScript de collaboration en temps réel qui utilise aussi les CRDT pour la synchronisation des données. Yjs supporte diverses structures de données et fonctionnalités, dont la collaboration sur des documents texte, des tableaux et des graphes.
-
-\paragraph{Riak}
-
-Riak est une base de données distribuée et décentralisée conçue pour offrir une grande disponibilité et une tolérance aux partitions. Riak utilise des CRDT pour assurer la cohérence des données entre les nœuds du système, permettant aux clients d'effectuer des opérations de lecture et d'écriture même en cas de défaillance partielle du réseau.
+\paragraph{Riak: } Riak est une base de données distribuée et décentralisée conçue pour offrir une grande disponibilité et une tolérance aux partitions. Riak utilise des CRDT pour assurer la cohérence des données entre les nœuds du système, permettant aux clients d'effectuer des opérations de lecture et d'écriture même en cas de défaillance partielle du réseau.
 
 En bref, les CRDT sont une approche intéressante pour la collaboration en temps réel. Elles résolvent les problèmes de synchronisation et de cohérence des données sans recourir à la transformation opérationnelle. Toutefois, les CRDT ne conviennent pas à tous les types de données et structures de données, et leur mise en œuvre peut être complexe.
 
@@ -192,7 +169,6 @@ Par exemple, dans une application de messagerie chiffrée bout à bout, Alice ut
 Le partage des clés de chiffrement doit être effectué avec prudence pour éviter leur interception. Les clés doivent être échangées de manière sécurisée, en utilisant un canal de communication sûr.
 
 \section{Conclusion}
-
 Dans ce chapitre, nous avons examiné diverses méthodes de sécurisation des données et des communications. Les bases de données distribuées et les systèmes de collaboration en temps réel sont des technologies pour créer des applications sécurisées. Le chiffrement bout à bout est une méthode efficace pour protéger les données sensibles et garantir la confidentialité des communications.
 
 Ces outils peuvent être combinés pour créer une application d'édition collaborative sécurisée, permettant aux utilisateurs de collaborer en toute confiance.
