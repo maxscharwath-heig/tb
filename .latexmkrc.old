@@ -1,6 +1,6 @@
 system ("mkdir -p build/figures");
 
-@default_files = ('report.tex');
+@default_files = ('report.tex', 'specifications.tex');
 @cus_dep_list = (@cus_dep_list, "glo gls 0 makenomenclature");
 sub makenomenclature {
    system("makeindex $_[0].glo -s nomencl.ist -o $_[0].gls"); }
@@ -30,9 +30,9 @@ sub mypythontex {
    if ($fh) {
       while (<$fh>) {
          if ( /^%PythonTeX dependency:\s+'([^']+)';/ ) {
-      print "Found pythontex dependency '$1'\n";
+	     print "Found pythontex dependency '$1'\n";
              rdb_ensure_file( $rule, $aux_dir1.$1 );
-  }
+	 }
       }
       undef $fh;
    }

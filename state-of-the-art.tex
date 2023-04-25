@@ -56,18 +56,18 @@ En définissant des conditions de transformation appropriées, l'algorithme OT p
 Plusieurs algorithmes et systèmes OT ont émergé au fil du temps. En voici quelques exemples notables:
 
 \subsubsection{Algorithme Jupiter}
-Jupiter, un système de collaboration en temps réel OT, fut créé au début des années 1990 au Xerox PARC pour répondre à la demande croissante de collaboration en ligne sur des documents partagés. Clarence Ellis dirigea ce projet, qui aboutit à la publication d'un article en 1995 présentant les concepts clés et les algorithmes OT. Ellis avait déjà publié un article en 1989, posant les bases pour le développement de Jupiter.
+Jupiter, un système de collaboration en temps réel OT, fut créé au début des années 1990 au Xerox PARC pour répondre à la demande croissante de collaboration en ligne sur des documents partagés. Clarence Ellis dirigea ce projet, qui aboutit à la publication d'un article\cite{sunOperationalTransformationRealTime1998} en 1998 présentant les concepts clés et les algorithmes OT. Ellis avait déjà publié un article\cite{ellisConcurrencyControlGroupware1989} en 1989, posant les bases pour le développement de Jupiter.
 
 Jupiter fonctionne en client-serveur, chaque client et serveur possédant sa propre copie du document et appliquant les opérations localement. Les opérations sont transmises au serveur, transformées, puis redistribuées. Jupiter utilise un mécanisme de contrôle de causalité pour garantir un ordre préservant les relations causales.
 
 Malgré l'absence de développement actif, Jupiter influence toujours de nombreux systèmes de collaboration en temps réel.
 
 \subsubsection{Algorithme Google Wave}
-Google Wave, annoncé en 2009, était un système de collaboration en temps réel conçu par Google. Combinant messagerie instantanée, courrier électronique, partage de documents et médias sociaux, il visait à faciliter la communication et la collaboration en ligne.
+Google Wave\cite{incIntroducingGoogleWave2009}, annoncé en 2009, était un système de collaboration en temps réel conçu par Google. Combinant messagerie instantanée, courrier électronique, partage de documents et médias sociaux, il visait à faciliter la communication et la collaboration en ligne.
 
 Basé sur l'OT, Google Wave utilisait un modèle décentralisé où chaque utilisateur maintenait sa propre copie du document. Cela offrait plus de flexibilité pour gérer les modifications hors ligne et synchroniser les données lorsqu'un utilisateur se reconnectait.
 
-Cependant, Google Wave ne parvint pas à attirer suffisamment d'utilisateurs et son développement fut arrêté en 2010. Néanmoins, certaines idées et techniques furent intégrées dans d'autres produits de collaboration en temps réel de Google, tels que Google Docs, et des projets open source comme Apache Wave et ShareDB.
+Cependant, Google Wave ne parvint pas à attirer suffisamment d'utilisateurs et son développement fut arrêté en 2010\cite{holzleOfficialGoogleBlog2010}. Néanmoins, certaines idées et techniques furent intégrées dans d'autres produits de collaboration en temps réel de Google, tels que Google Docs, et des projets open source comme Apache Wave\cite{foundationApacheWave2012} et ShareDB\cite{smithShareDBRealtimeDocument2014}.
 
 \subsubsection{Limitations et défis de l'OT}
 Bien que l'OT soit un mécanisme puissant pour la synchronisation en temps réel des documents et la résolution des conflits, il présente également certaines limitations et défis:
@@ -142,11 +142,11 @@ Le résultat est identique pour Alice et Bob, malgré un ordre différent d'opé
 \subsubsection{CRDT dans les algorithmes et systèmes}
 Les CRDT inspirent de nombreux algorithmes et systèmes de collaboration en temps réel, tels que WOOT, Treedoc, RGA, Logoot, LSEQ, Automerge, Yjs et Riak.
 
-\paragraph{Automerge: } Automerge est une bibliothèque JavaScript pour développer des applications collaboratives en temps réel, comme des éditeurs de texte et des tableaux Kanban. Elle utilise des CRDT pour synchroniser les données entre les instances de l'application, en maintenant la cohérence et en résolvant les conflits.
+\paragraph{Automerge\cite{hardenbergAutomerge2023}: } Automerge est une bibliothèque JavaScript pour développer des applications collaboratives en temps réel, comme des éditeurs de texte et des tableaux Kanban. Elle utilise des CRDT pour synchroniser les données entre les instances de l'application, en maintenant la cohérence et en résolvant les conflits.
 
-\paragraph{Yjs: } Yjs est une bibliothèque JavaScript de collaboration en temps réel qui utilise aussi les CRDT pour la synchronisation des données. Yjs supporte diverses structures de données et fonctionnalités, dont la collaboration sur des documents texte, des tableaux et des graphes.
+\paragraph{Yjs\cite{nicolaescuYjsFrameworkRealTime2015}: } Yjs est une bibliothèque JavaScript de collaboration en temps réel qui utilise aussi les CRDT pour la synchronisation des données. Yjs supporte diverses structures de données et fonctionnalités, dont la collaboration sur des documents texte, des tableaux et des graphes.
 
-\paragraph{Riak: } Riak est une base de données distribuée et décentralisée conçue pour offrir une grande disponibilité et une tolérance aux partitions. Riak utilise des CRDT pour assurer la cohérence des données entre les nœuds du système, permettant aux clients d'effectuer des opérations de lecture et d'écriture même en cas de défaillance partielle du réseau.
+\paragraph{Riak\cite{amazon.comRiakDynamoAmazon2007}: } Riak est une base de données distribuée et décentralisée conçue pour offrir une grande disponibilité et une tolérance aux partitions. Riak utilise des CRDT pour assurer la cohérence des données entre les nœuds du système, permettant aux clients d'effectuer des opérations de lecture et d'écriture même en cas de défaillance partielle du réseau.
 
 En bref, les CRDT sont une approche intéressante pour la collaboration en temps réel. Elles résolvent les problèmes de synchronisation et de cohérence des données sans recourir à la transformation opérationnelle. Toutefois, les CRDT ne conviennent pas à tous les types de données et structures de données, et leur mise en œuvre peut être complexe.
 
@@ -154,7 +154,7 @@ En bref, les CRDT sont une approche intéressante pour la collaboration en temps
 Le modèle Zéro Trust est une approche de cybersécurité basée sur l'idée de ne faire confiance à aucune entité, interne ou externe, dans un système informatique. On vérifie constamment les identités et les autorisations avant d'accorder l'accès aux ressources. Cette méthode réduit les risques de failles de sécurité et protège les données sensibles contre les accès non autorisés.
 
 \section{Bases de données immuables}
-Les bases de données immuables, comme Immudb, préservent l'intégrité et l'auditabilité des données en empêchant leur modification ou suppression une fois ajoutées. Les nouvelles données sont ajoutées sous forme d'événements ou de transactions, et les anciennes restent inchangées, créant un historique complet et vérifiable des modifications.
+Les bases de données immuables, comme Immudb\cite{incImmuDB2023}, préservent l'intégrité et l'auditabilité des données en empêchant leur modification ou suppression une fois ajoutées. Les nouvelles données sont ajoutées sous forme d'événements ou de transactions, et les anciennes restent inchangées, créant un historique complet et vérifiable des modifications.
 
 \section{Chiffrement bout à bout}
 Le chiffrement bout à bout sécurise les communications et les données en les chiffrant pour que seules les parties concernées puissent les déchiffrer. Cette technique protège les données sensibles et garantit la confidentialité des communications, empêchant les tiers d'accéder aux informations échangées ou stockées.
