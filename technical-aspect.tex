@@ -22,7 +22,14 @@ Malgré ses avantages, l'utilisation d'un monorepo peut également présenter qu
 
 \section{TurboRepo}
 
-TurboRepo est un système de construction hautes performances pour les projets TypeScript et JavaScript, conçu pour optimiser et accélérer les processus de construction dans les monorepos. Il offre plusieurs fonctionnalités puissantes, telles que :
+\begin{wrapfigure}{l}{0.25\textwidth}
+    \centering
+    \includegraphics[width=0.2\textwidth]{assets/figures/turborepo.png}
+    \caption{Logo de TurboRepo}
+    \label{fig:turborepo}
+\end{wrapfigure}
+
+TurboRepo\cite{Turborepo} est un système de construction hautes performances pour les projets JavaScript, conçu pour optimiser et accélérer les processus de construction dans les monorepos. Il offre plusieurs fonctionnalités puissantes, telles que :
 
 \begin{itemize}
     \item Construction incrémentale rapide;
@@ -33,28 +40,28 @@ TurboRepo est un système de construction hautes performances pour les projets T
     \item Partage du code source;
 \end{itemize}
 
-L'un des principaux avantages de TurboRepo est sa capacité à minimiser les temps d'inactivité du CPU et à accélérer les tâches grâce à une planification intelligente. Il est conçu pour être adopté de manière incrémentale, ce qui signifie qu'il peut être ajouté à un codebase existant en quelques minutes seulement.
+L'un des principaux avantages de TurboRepo est sa capacité à minimiser les temps d'inactivité du CPU et à accélérer les tâches grâce à une planification intelligente. Il est conçu pour être adopté de manière incrémentale, ce qui signifie qu'il peut être ajouté à une codebase existant en quelques minutes seulement.
 
 \section{Gestionnaires de paquets et pnpm}
 
 Un gestionnaire de paquets est un outil qui permet d'automatiser l'installation, la mise à niveau, la configuration et la désinstallation de paquets logiciels. Dans le contexte des projets Node.js, un gestionnaire de paquets gère les dépendances et les bibliothèques requises par le projet. Les gestionnaires de paquets aident à simplifier et à organiser le développement en fournissant un moyen structuré et centralisé de gérer les dépendances, ce qui améliore la maintenabilité et la reproductibilité des projets.
 
-Les gestionnaires de paquets les plus couramment utilisés dans l'écosystème JavaScript et Node.js sont npm (Node Package Manager) et yarn. Ces outils permettent aux développeurs d'installer et de gérer les bibliothèques et les modules dont leurs projets ont besoin, en téléchargeant les paquets à partir d'un registre en ligne, généralement le registre npm.
+Les gestionnaires de paquets les plus couramment utilisés dans l'écosystème JavaScript et Node.js sont npm (Node Package Manager) et yarn. Ces outils permettent aux développeurs d'installer et de gérer les bibliothèques et les modules dont leurs projets ont besoin, en téléchargeant les paquets à partir d'un registre en ligne, généralement le registre npm\cite{Npm}.
 
 \subsection{pnpm}
 
-pnpm est un gestionnaire de paquets alternatif pour Node.js qui est compatible avec le registre npm. Il se distingue par son approche de stockage des paquets, qui utilise des liens durs et des liens symboliques pour créer un stockage partagé des paquets. Cela permet d'économiser de l'espace disque et de réduire les temps d'installation des paquets.
+pnpm\cite{MotivationPnpm} est un gestionnaire de paquets alternatif pour Node.js qui est compatible avec le registre npm. Il se distingue par son approche de stockage des paquets, qui utilise des liens durs et des liens symboliques pour créer un stockage partagé des paquets. Cela permet d'économiser de l'espace disque et de réduire les temps d'installation des paquets.
 
 \subsection{Pourquoi choisir pnpm ?}
 
 Il existe plusieurs raisons pour lesquelles vous pourriez choisir pnpm plutôt que d'autres gestionnaires de paquets comme npm ou yarn :
 
 \paragraph{Efficacité du stockage :} Comme mentionné précédemment, pnpm utilise des liens durs et des liens symboliques pour créer un stockage partagé des paquets. Cela signifie que chaque version d'un paquet n'est stockée qu'une seule fois sur le disque, même si elle est utilisée par plusieurs projets. Cela permet de réduire considérablement l'espace disque utilisé par les dépendances du projet.
-\paragraph{Performances d'installation :} Grâce à son approche de stockage des paquets, pnpm peut réduire les temps d'installation en évitant de télécharger et d'extraire les mêmes paquets plusieurs fois. Les paquets sont simplement liés au projet, ce qui est beaucoup plus rapide que de les copier.
+\paragraph{Performances d'installation :} Grâce à son approche de stockage des paquets, pnpm peut réduire les temps d'installation en évitant de télécharger et d'extraire les mêmes paquets plusieurs fois. Les paquets sont simplement liés au projet, ce qui est beaucoup plus rapide que de les installer à partir du registre npm.
 \paragraph{Garantie d'isolation :} pnpm garantit que les dépendances d'un projet sont strictement isolées des autres projets, ce qui évite les problèmes causés par les dépendances partagées ou les dépendances non déclarées. Cela permet de détecter et de corriger les erreurs de configuration des dépendances plus tôt dans le processus de développement.
 \paragraph{Compatibilité :} pnpm est compatible avec le registre npm et les fichiers package.json standard, ce qui signifie qu'il peut être utilisé comme un remplacement direct pour npm ou yarn sans nécessiter de modifications importantes dans la configuration du projet.
 
-En somme, pnpm est une alternative intéressante aux gestionnaires de paquets traditionnels comme npm ou yarn. Il offre des avantages en termes d'efficacité du stockage, de performances d'installation et d'isolation des dépendances, tout en restant compatible avec l'écosystème npm existant. L'utilisation de pnpm dans un grand projet peut entraîner des gains significatifs en matière d'espace disque et de temps d'installation, ainsi qu'une meilleure gestion et détection des problèmes liés aux dépendances.
+En somme, pnpm est une alternative intéressante aux gestionnaires de paquets traditionnels comme npm ou yarn. Il offre des avantages en termes d'efficacité du stockage, de performances d'installation et d'isolation des dépendances, tout en restant compatible avec l'écosystème npm existant. L'utilisation de pnpm dans un grand projet peut entraîner des gains significatifs en matière d'espace disque et de temps d'installation, ainsi qu'une meilleure gestion et détection des problèmes liés aux dépendances. Le choix de pnpm a été motivé par ces avantages et sa rapidité d'utilisation, ce qui permet d'accélérer la productivité.
 
 \subsection{Intégration avec TurboRepo}
 
@@ -125,7 +132,7 @@ Les frameworks frontend réactifs offrent plusieurs avantages pour le développe
 
 \subsection{Pourquoi choisir React par rapport aux alternatives ?}
 
-Plusieurs frameworks frontend réactifs sont disponibles, tels que React, Angular et Vue.js. Nous avons choisi React pour ce projet en raison de sa popularité, de sa large compatibilité avec les bibliothèques existantes et de son approche flexible et modulaire. Voici quelques raisons qui ont motivé notre choix :
+Plusieurs frameworks frontend réactifs sont disponibles, tels que React, Angular et Vue.js. Nous avons choisi React\cite{QuickStartReact} pour ce projet en raison de sa popularité, de sa large compatibilité avec les bibliothèques existantes et de son approche flexible et modulaire. Voici quelques raisons qui ont motivé notre choix :
 
 \paragraph{Popularité :} React est l'un des frameworks frontend les plus populaires et largement utilisés, avec une grande communauté de développeurs et une vaste documentation. Cette popularité signifie que de nombreux problèmes et défis courants ont déjà été résolus par d'autres développeurs, et il existe de nombreuses ressources pour apprendre et se familiariser avec le framework.
 \paragraph{Compatibilité avec les bibliothèques :} Grâce à sa popularité, React est compatible avec un grand nombre de bibliothèques et de plugins existants, ce qui facilite l'intégration de fonctionnalités supplémentaires dans notre projet sans avoir à réinventer la roue.
@@ -138,13 +145,18 @@ Plusieurs frameworks frontend réactifs sont disponibles, tels que React, Angula
 
 \section{Utilisation de Tailwind CSS}
 
-Tailwind CSS est un framework CSS moderne et très populaire qui se concentre sur l'utilité, la flexibilité et la personnalisation. Il est conçu pour faciliter la création de designs responsifs et cohérents en fournissant un ensemble de classes CSS préconfigurées qui peuvent être facilement combinées pour construire rapidement des interfaces utilisateur. Dans cette section, nous discuterons des avantages et des inconvénients de l'utilisation de Tailwind CSS, ainsi que des raisons pour lesquelles il a été choisi pour ce projet.
+Tailwind CSS\cite{InstallationTailwindCSS} est un framework CSS moderne et très populaire qui se concentre sur l'utilité, la flexibilité et la personnalisation. Il est conçu pour faciliter la création de designs responsifs et cohérents en fournissant un ensemble de classes CSS préconfigurées qui peuvent être facilement combinées pour construire rapidement des interfaces utilisateur. Dans cette section, nous discuterons des avantages et des inconvénients de l'utilisation de Tailwind CSS, ainsi que des raisons pour lesquelles il a été choisi pour ce projet.
 
 \subsection{Avantages}
 
 \paragraph{Utilitaires basés sur des classes}
 
 Tailwind CSS utilise une approche basée sur des classes utilitaires, ce qui permet de créer des styles directement dans le code HTML. Cela facilite la compréhension du style appliqué à un élément, car il n'est pas nécessaire de naviguer entre plusieurs fichiers CSS. Cette approche permet également une meilleure réutilisabilité et une maintenance plus facile des styles, car les classes utilitaires sont cohérentes et préconfigurées.
+
+\begin{listing}[H]
+    \inputminted{HTML}{assets/code/tailwind-example.html}
+    \caption{Code HTML d'un bouton stylisé avec Tailwind CSS\label{fig:tailwind-example}}
+\end{listing}
 
 \paragraph{Personnalisation}
 
@@ -174,7 +186,7 @@ Dans les applications React, la gestion de l'état est un aspect essentiel qui p
 
 \subsection{Zustand: une alternative aux React Providers}
 
-Zustand est une bibliothèque de gestion d'état minimaliste et légère pour les applications React. Elle se distingue par sa simplicité, sa flexibilité et sa facilité d'utilisation. Contrairement aux React Providers, qui reposent sur le mécanisme de contexte de React pour partager et consommer l'état, Zustand utilise un système de stores pour gérer et distribuer l'état de manière centralisée.
+Zustand\cite{Zustand2023} est une bibliothèque de gestion d'état minimaliste et légère pour les applications React. Elle se distingue par sa simplicité, sa flexibilité et sa facilité d'utilisation. Contrairement aux React Providers, qui reposent sur le mécanisme de contexte de React pour partager et consommer l'état, Zustand utilise un système de stores pour gérer et distribuer l'état de manière centralisée.
 
 Les stores Zustand sont des objets JavaScript qui contiennent l'état et les fonctions associées pour le manipuler. Les composants React peuvent s'abonner à ces stores et accéder à l'état et aux fonctions sans avoir besoin de passer par des providers ou des consommateurs. Cette approche simplifie la gestion de l'état en éliminant la nécessité de gérer le contexte ou de propager les données à travers les composants de manière manuelle.
 
@@ -188,4 +200,11 @@ Voici quelques-uns des avantages de l'utilisation de Zustand pour la gestion de 
 
 \paragraph{Performance :} Zustand utilise un mécanisme d'abonnement pour mettre à jour sélectivement les composants qui consomment l'état. Cela garantit que seuls les composants concernés par les modifications d'état sont re-rendus, ce qui améliore les performances de l'application.
 
-\paragraph{{Interopérabilité :} Zustand est compatible avec les hooks React et peut être facilement intégré à d'autres bibliothèques.
+\paragraph{Interopérabilité :} Zustand est compatible avec les hooks React et peut être facilement intégré à d'autres bibliothèques.
+
+\section{Conclusion}
+En conclusion, le choix des technologies et des outils pour ce projet a été guidé par plusieurs facteurs, notamment la performance, la facilité d'utilisation, la documentation, la communauté et le gain de productivité. L'utilisation de frameworks tels que React et Tailwind CSS, ainsi que la bibliothèque de gestion d'état Zustand, a permis de créer une application Web moderne, performante et maintenable.
+
+En outre, l'adoption d'outils de gain de productivité tels que TurboRepo et pnpm a également contribué à améliorer le processus de développement. TurboRepo facilite l'organisation, la maintenance et la collaboration sur des projets de grande envergure, tout en optimisant les workflows en automatisant la construction, le test et le déploiement des applications et des bibliothèques. Parallèlement, pnpm améliore la vitesse d'installation des dépendances et réduit la taille du dossier \verb|node_modules| grâce à l'utilisation d'un cache global.
+
+Ainsi, ces choix technologiques et outils ont été faits en tenant compte de leurs avantages respectifs et de leur capacité à répondre aux besoins spécifiques du projet, tout en optimisant la productivité et l'efficacité du processus de développement.

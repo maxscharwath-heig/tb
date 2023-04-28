@@ -6,7 +6,12 @@ Un document structuré organise l'information de manière hiérarchique avec des
 
 Dans un tableau blanc collaboratif, un document structuré représente les éléments graphiques et textuels. Il aide à manipuler et modifier les éléments individuels, gérer l'historique des modifications et synchroniser les données entre les participants.
 
-Le format SVG est un exemple de document structuré, utilisé pour décrire la structure et le contenu d'un document vectoriel. Il est composé d'éléments graphiques, tels que des rectangles, des cercles et des lignes, et de textes.
+Le format SVG qui utilise le langage XML est un exemple de document structuré. Il est utilisé pour décrire la structure et le contenu d'un document vectoriel. Il est composé d'éléments graphiques, tels que des rectangles, des cercles et des lignes, et de textes.
+
+\begin{listing}[H]
+    \inputminted{XML}{assets/figure/svg-example.svg}
+    \caption{Exemple de document SVG \label{fig:svg-example}}
+\end{listing}
 
 \subsection{Édition collaborative de documents}
 L'édition collaborative permet à plusieurs utilisateurs de travailler simultanément sur un document en fusionnant les modifications en temps réel.
@@ -94,7 +99,7 @@ Dans l'algorithme Logoot, chaque position de caractère est associée à un iden
 Alice et Bob travaillent sur un texte initial "chat". Alice veut former "chou" en ajoutant "ou" après "ch", pendant que Bob veut former "chef" en ajoutant "ef" après "ch".
 
 \paragraph{Logoot CRDT}
-Imaginons les positions initiales des caractères :
+Voici comment Alice et Bob peuvent collaborer sur le document texte en utilisant Logoot CRDT en se concentrant seulement sur l'étape d'insertion:
 
 \begin{equation}
     c(1),\ h(2), \ a(3), t(4) \quad \text{(chat)}
@@ -138,7 +143,7 @@ Bob intègre l'insertion d'Alice :
     c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ e(2, 3), \ f(2, 4), \ a(3), \ t(4) \quad \text{(chouefat)}
 \end{equation}
 
-Le résultat est identique pour Alice et Bob, malgré un ordre différent d'opérations. Les CRDT assurent convergence et cohérence sans transformation opérationnelle. Ici, Logoot attribue des positions uniques aux caractères insérés, garantissant la convergence vers un état final commun.
+Le résultat est identique pour Alice et Bob, malgré un ordre différent d'opérations. Les CRDT assurent convergence et cohérence sans transformation opérationnelle.
 \subsubsection{CRDT dans les algorithmes et systèmes}
 Les CRDT inspirent de nombreux algorithmes et systèmes de collaboration en temps réel, tels que WOOT, Treedoc, RGA, Logoot, LSEQ, Automerge, Yjs et Riak.
 
@@ -146,19 +151,15 @@ Les CRDT inspirent de nombreux algorithmes et systèmes de collaboration en temp
 
 \paragraph{Yjs\cite{nicolaescuYjsFrameworkRealTime2015}: } Yjs est une bibliothèque JavaScript de collaboration en temps réel qui utilise aussi les CRDT pour la synchronisation des données. Yjs supporte diverses structures de données et fonctionnalités, dont la collaboration sur des documents texte, des tableaux et des graphes.
 
-\paragraph{Riak\cite{amazon.comRiakDynamoAmazon2007}: } Riak est une base de données distribuée et décentralisée conçue pour offrir une grande disponibilité et une tolérance aux partitions. Riak utilise des CRDT pour assurer la cohérence des données entre les nœuds du système, permettant aux clients d'effectuer des opérations de lecture et d'écriture même en cas de défaillance partielle du réseau.
+\paragraph{Riak\cite{amazon.comRiakDynamoAmazon2007}: } Riak est une base de données distribuée et décentralisée conçue pour offrir une grande disponibilité et une tolérance aux partitions. Riak utilise des CRDT pour assurer la cohérence des données entre les n\oe udss du système, permettant aux clients d'effectuer des opérations de lecture et d'écriture même en cas de défaillance partielle du réseau.
 
 En bref, les CRDT sont une approche intéressante pour la collaboration en temps réel. Elles résolvent les problèmes de synchronisation et de cohérence des données sans recourir à la transformation opérationnelle. Toutefois, les CRDT ne conviennent pas à tous les types de données et structures de données, et leur mise en œuvre peut être complexe.
 
 \section{Zéro Trust}
 Le modèle Zéro Trust est une approche de cybersécurité basée sur l'idée de ne faire confiance à aucune entité, interne ou externe, dans un système informatique. On vérifie constamment les identités et les autorisations avant d'accorder l'accès aux ressources. Cette méthode réduit les risques de failles de sécurité et protège les données sensibles contre les accès non autorisés.
 
-\section{Bases de données immuables}
-Les bases de données immuables, comme Immudb\cite{incImmuDB2023}, préservent l'intégrité et l'auditabilité des données en empêchant leur modification ou suppression une fois ajoutées. Les nouvelles données sont ajoutées sous forme d'événements ou de transactions, et les anciennes restent inchangées, créant un historique complet et vérifiable des modifications.
-
 \section{Chiffrement bout à bout}
-Le chiffrement bout à bout sécurise les communications et les données en les chiffrant pour que seules les parties concernées puissent les déchiffrer. Cette technique protège les données sensibles et garantit la confidentialité des communications, empêchant les tiers d'accéder aux informations échangées ou stockées.
-
+Le chiffrement bout à bout (E2EE) est un système de communication qui garantit que seuls les utilisateurs participant à la conversation peuvent lire les messages échangés. Il vise à protéger la confidentialité des communications en empêchant les tiers, tels que les fournisseurs de télécommunications, les acteurs malveillants et même les fournisseurs de services, d'accéder aux clés de chiffrement nécessaires pour déchiffrer les messages. Ainsi, seul l'expéditeur et les destinataires légitimes peuvent lire ou modifier les données échangées. L'expéditeur chiffre les messages, et le tiers ne dispose pas des moyens pour les déchiffrer, les stockant donc sous forme chiffrée. Les destinataires récupèrent les données chiffrées et les déchiffrent eux-mêmes, assurant ainsi la confidentialité de la communication.
 \subsection{Fonctionnement du chiffrement bout à bout}
 Le chiffrement bout à bout utilise des clés de chiffrement asymétriques pour chaque utilisateur participant à une communication sécurisée. Chaque utilisateur possède une paire de clés, une publique et une privée. La clé publique est partagée librement, tandis que la clé privée reste secrète et accessible uniquement à l'utilisateur concerné.
 
@@ -168,7 +169,17 @@ Par exemple, dans une application de messagerie chiffrée bout à bout, Alice ut
 
 Le partage des clés de chiffrement doit être effectué avec prudence pour éviter leur interception. Les clés doivent être échangées de manière sécurisée, en utilisant un canal de communication sûr.
 
-\section{Conclusion}
-Dans ce chapitre, nous avons examiné diverses méthodes de sécurisation des données et des communications. Les bases de données distribuées et les systèmes de collaboration en temps réel sont des technologies pour créer des applications sécurisées. Le chiffrement bout à bout est une méthode efficace pour protéger les données sensibles et garantir la confidentialité des communications.
+\section{Bases de données immuables}
+Les bases de données immuables, comme Immudb\cite{incImmuDB2023}, préservent l'intégrité et l'auditabilité des données en empêchant leur modification ou suppression une fois ajoutées. Les nouvelles données sont ajoutées sous forme d'événements ou de transactions, et les anciennes restent inchangées, créant un historique complet et vérifiable des modifications. Une des structures de données utilisées pour assurer l'intégrité et l'authenticité des données dans ce type de base de données est l'arbre de Merkle (voir la figure \ref{merkle}).
 
-Ces outils peuvent être combinés pour créer une application d'édition collaborative sécurisée, permettant aux utilisateurs de collaborer en toute confiance.
+\begin{figure}[!htb]
+    \begin{center}
+        \includegraphics[]{\assetsdir/merkle-tree.svg}
+    \end{center}
+    \caption[Arbre de Merkle]{\label{merkle} L'arbre de Merkle illustre la structure de données utilisée pour vérifier l'intégrité et l'authenticité des données dans une base de données immuable. Les feuilles de l'arbre représentent les empreintes cryptographiques des données, tandis que les n\oe uds internes sont les empreintes cryptographiques des n\oe uds enfants. Cette structure permet de créer un registre vérifiable qui préserve l'historique des enregistrements et garantit l'inaltérabilité des données.}
+\end{figure}
+
+\section{Conclusion}
+En conclusion, l'état de l'art dans le domaine de l'édition collaborative de documents, du chiffrement bout à bout et du stockage distribué montre qu'il existe plusieurs approches pour aborder ces problématiques. Les systèmes basés sur resolution de conflits, tels que Jupiter et Google Wave, ont apporté des contributions significatives dans la synchronisation des données en temps réel et la résolution des conflits. Cependant, des défis subsistent, tels que la complexité et les performances des algorithmes.
+
+Face à ces défis, les chercheurs et les développeurs continuent d'explorer de nouvelles approches et d'améliorer les technologies existantes pour répondre aux besoins croissants en matière de collaboration, de sécurité et de décentralisation des données.
