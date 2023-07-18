@@ -7,7 +7,7 @@ Dans un tableau blanc collaboratif, un document structuré représente les élé
 Le format SVG qui utilise le langage XML est un exemple de document structuré. Il est utilisé pour décrire la structure et le contenu d'un document vectoriel. Il est composé d'éléments graphiques, tels que des rectangles, des cercles et des lignes, et de textes.
 
 \begin{listing}[H]
-    \inputminted{XML}{assets/figure/svg-example.svg}
+    \inputminted{XML}{assets/code/svg-example.svg}
     \caption{Exemple de document SVG \label{fig:svg-example}}
 \end{listing}
 
@@ -59,7 +59,7 @@ En définissant des conditions de transformation appropriées, l'algorithme OT p
 Plusieurs algorithmes et systèmes OT ont émergé au fil du temps. En voici quelques exemples notables:
 
 \subsubsection{Algorithme Jupiter}
-Jupiter, un système de collaboration en temps réel OT, fut créé au début des années 1990 au Xerox PARC pour répondre à la demande croissante de collaboration en ligne sur des documents partagés. Clarence Ellis dirigea ce projet, qui aboutit à la publication d'un article\cite{sunOperationalTransformationRealTime1998} en 1998 présentant les concepts clés et les algorithmes OT. Ellis avait déjà publié un article\cite{ellisConcurrencyControlGroupware1989} en 1989, posant les bases pour le développement de Jupiter.
+Jupiter, un système de collaboration en temps réel OT, fut créé au début des années 1990 au Xerox PARC pour répondre à la demande croissante de collaboration en ligne sur des documents partagés. Clarence Ellis dirigea ce projet, qui aboutit à la publication d'un article\cite{sunOperationalTransformationRealtime1998} en 1998 présentant les concepts clés et les algorithmes OT. Ellis avait déjà publié un article\cite{ellisConcurrencyControlGroupware1989} en 1989, posant les bases pour le développement de Jupiter.
 
 Jupiter fonctionne en client-serveur, chaque client et serveur possédant sa propre copie du document et appliquant les opérations localement. Les opérations sont transmises au serveur, transformées, puis redistribuées. Jupiter utilise un mécanisme de contrôle de causalité pour garantir un ordre préservant les relations causales.
 
@@ -70,7 +70,7 @@ Google Wave\cite{incIntroducingGoogleWave2009}, annoncé en 2009, était un syst
 
 Basé sur l'OT, Google Wave utilisait un modèle décentralisé où chaque utilisateur maintenait sa propre copie du document. Cela offrait plus de flexibilité pour gérer les modifications hors ligne et synchroniser les données lorsqu'un utilisateur se reconnectait.
 
-Cependant, Google Wave ne parvint pas à attirer suffisamment d'utilisateurs et son développement fut arrêté en 2010\cite{holzleOfficialGoogleBlog2010}. Néanmoins, certaines idées et techniques furent intégrées dans d'autres produits de collaboration en temps réel de Google, tels que Google Docs, et des projets open source comme Apache Wave\cite{foundationApacheWave2012} et ShareDB\cite{smithShareDBRealtimeDocument2014}.
+Cependant, Google Wave ne parvint pas à attirer suffisamment d'utilisateurs et son développement fut arrêté en 2010\cite{holzleUpdateGoogleWave2010}. Néanmoins, certaines idées et techniques furent intégrées dans d'autres produits de collaboration en temps réel de Google, tels que Google Docs, et des projets open source comme Apache Wave\cite{foundationApacheWave2012} et ShareDB\cite{smithShareDBRealtimeDocument2014}.
 
 \subsubsection{Limitations et défis de l'OT}
 Bien que l'OT soit un mécanisme puissant pour la synchronisation en temps réel des documents et la résolution des conflits, il présente également certaines limitations et défis:
