@@ -202,6 +202,7 @@
 \RequirePackage{fmtcount}
 \RequirePackage{framed}
 \RequirePackage{glossaries}
+\RequirePackage{wrapfig}
 \RequirePackage{graphicx}
 \RequirePackage{lastpage}
 \RequirePackage{lipsum}
@@ -223,11 +224,10 @@
 \RequirePackage{ifthen}
 \RequirePackage{expkv-cs}
 \RequirePackage[outputdir=build,chapter]{minted}
-
 \RequirePackage[
   backref=true,
   backend=biber,
-  style=alphabetic,
+  style=numeric,
   sorting=ynt
 ]{biblatex}
 
@@ -257,8 +257,8 @@
 \RequirePackage{csquotes}
 
 \usetikzlibrary{babel}
-\usemintedstyle{colorful}
-\setminted{frame=single,fontsize=\footnotesize}
+\usemintedstyle{borland}
+\setminted{frame=single,fontsize=\footnotesize,framesep=3mm}
 
 \newcommand{\clearemptydoublepage}{%
   \newpage{\thispagestyle{empty}\cleardoublepage}}
@@ -310,12 +310,15 @@
     \sffamily
     {\usefont{T1}{lmss}{bx}{n}\huge\selectfont\@title\\\vspace{0.5em}
       \large{\@subtitle}\par}%
-    \ifdefined\@confidential
-      \vskip 5em%
-      \textbf{\MakeUppercase{\@confidential}}
-      \vskip 5em%
-    \else
-      \vskip 10em%
+    % \ifdefined\@confidential
+    %   \vskip 5em%
+    %   \textbf{\MakeUppercase{\@confidential}}
+    %   \vskip 5em%
+    % \else
+    %   \vskip 10em%
+    \vskip 5em%
+    \textbf{\MakeUppercase{Rendu intermédiaire}}
+    \vskip 5em%
     \fi
     Département \@department\par
     Filière \@faculty\par
