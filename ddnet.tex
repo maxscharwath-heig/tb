@@ -44,27 +44,44 @@ Le processus d'authentification suit les étapes suivantes :
 \item Si la vérification est réussie, le serveur reconnait le client comme authentifié. Sinon, il ferme la connexion.
 \end{enumerate}
 
+\begin{figure}[H]
+  \begin{center}
+      \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-auth.svg} % half of the text width
+  \end{center}
+  \caption[Mécanisme de Défi-Réponse]{Le diagramme représente le processus du mécanisme de défi-réponse utilisé pour l'authentification.}
+\end{figure}
+
 \subsection{Routage des Messages}
 
 Le serveur de signalisation est responsable du routage des messages entre les clients. Pour ce faire, il maintient un registre des clients et de leurs connexions. Chaque client peut avoir plusieurs connexions, et chaque connexion est identifiée de manière unique par un ID de client généré de manière aléatoire. Ceci, associé à la clé publique du client, nous permet d'envoyer un message à tous les clients, à toutes les connexions d'un client spécifique, ou à une connexion spécifique.
 
-\subsubsection{Structure du Message}
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-registry.svg}
+  \end{center}
+  \caption[Registre et Connexions]{Illustration du registre du serveur contenant les clés publiques des clients et leurs connexions associées.}
+\end{figure}
+
+\subsection{Structure du Message}
 
 La structure d'un message est conçue avec la flexibilité et la sécurité à l'esprit :
 
-\begin{verbatim}
-    type Message<TData> = {
-        from: {
-          publicKey: Uint8Array;  // sender's public key
-          clientId: Uint8Array;   // sender's clientId
-        };
-        to?: {
-          publicKey: Uint8Array;  // recipient's public key
-          clientId?: Uint8Array;  // recipient's clientId (optional)
-        };
-        data: TData;              // payload data of the message
+\begin{listing}[H]
+  \begin{minted}[breaklines]{typescript}
+  type Message<TData> = {
+      from: {
+        publicKey: Uint8Array;  // sender's public key
+        clientId: Uint8Array;   // sender's clientId
       };
-\end{verbatim}
+      to?: {
+        publicKey: Uint8Array;  // recipient's public key
+        clientId?: Uint8Array;  // recipient's clientId (optional)
+      };
+      data: TData;              // payload data of the message
+  };
+  \end{minted}
+  \caption{Type Typescript de la structure d'un Message} 
+  \end{listing}
 
 Le champ from identifie l'expéditeur du message.
 Le champ to est facultatif et identifie le destinataire du message. Ce champ est nécessaire lorsque le message est privé et destiné à un utilisateur spécifique. Si le champ to est omis, le message est considéré comme public et peut être lu par n'importe quel utilisateur du réseau.
@@ -82,6 +99,29 @@ Le système chiffre automatiquement les messages si la clé publique du destinat
 \end{itemize}
 
 Ce protocole assure une communication sécurisée et confidentielle, où seuls les destinataires prévus peuvent déchiffrer et lire le message. Il vérifie également l'authenticité de l'expéditeur et garantit l'intégrité du message.
+
+\subsection{Transmission des Messages}
+
+Les messages dans ce système peuvent être transmis de trois manières différentes en fonction du destinataire cible :
+
+\begin{itemize}
+\item \textbf{Broadcast} : Un message est diffusé à tous les utilisateurs du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est omis.
+\item \textbf{Multicast} : Un message est envoyé à un utilisateur spécifique du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié, mais que le champ `clientId` est omis.
+\item \textbf{Unicast} : Un message est envoyé à une session spécifique d'un utilisateur dans le réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié et que le champ `clientId` est spécifié.
+\end{itemize}
+
+La sécurité est une préoccupation majeure dans la transmission des messages dans ce système. Chaque message est signé numériquement par l'expéditeur, ce qui permet au serveur de vérifier son intégrité à la réception. Si le serveur détecte que le message a été altéré pendant la transmission, il le supprime immédiatement et arrête sa propagation.
+
+La signature numérique garantit non seulement que le message provient bien de l'expéditeur déclaré, mais elle permet également de détecter tout changement ou corruption du contenu du message. Cela est crucial pour maintenir la confiance et la fiabilité du système de communication.
+
+Voici un diagramme représentant la logique de routage :
+
+\begin{figure}[H]
+  \begin{center}
+      \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-routing.svg}
+  \end{center}
+  \caption[Logique de Routage des Messages]{Schéma illustrant la logique de routage des messages dans le système.}
+\end{figure}
 
 
 \section{Gestionnaire de documents}

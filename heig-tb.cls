@@ -401,42 +401,91 @@
 \renewcommand\listoflistingscaption{Liste des codes sources}
 \renewcommand{\nomname}{Liste des Symboles}
 
+% Headers and footers
+% \fancypagestyle{plain}{
+%   \fancyhf{}
+%   \fancyfoot[C]{\thepage}
+%   \ifdefined\@confidential
+%     \fancyfoot[LE]{\MakeUppercase{\@confidential}}
+%     \fancyfoot[RO]{\MakeUppercase{\@confidential}}
+%   \fi
+% }
 \fancypagestyle{plain}{
   \fancyhf{}
-  \fancyfoot[C]{\thepage}
-  \ifdefined\@confidential
-    \fancyfoot[LE]{\MakeUppercase{\@confidential}}
-    \fancyfoot[RO]{\MakeUppercase{\@confidential}}
+  \if@mainmatter
+    \fancyfoot[C]{\thepage \ sur \pageref{LastPage}}
+    \fancyfoot[L]{{HEIG-VD}}
+    \fancyfoot[R]{\@author}
+    \fancyhead[L]{\@subtitle}
+    \fancyhead[R]{\slshape\nouppercase{\leftmark}}
+    \renewcommand{\headrulewidth}{0.5pt}
+    \renewcommand{\footrulewidth}{0.5pt}
+  \else
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+    
   \fi
 }
 
+% \fancypagestyle{headings}{
+%   \fancyhf{}
+%   \fancyhead[LO]{\textsl{\rightmark}}
+%   \fancyhead[RE]{\textsl{\leftmark}}
+%   \ifdefined\@confidential
+%     \fancyfoot[LE]{\MakeUppercase{\@confidential}}
+%     \fancyfoot[RO]{\MakeUppercase{\@confidential}}
+%   \fi
+%   \fancyfoot[C]{\thepage}
+%   \renewcommand{\headrulewidth}{0pt}
+%   \renewcommand{\footrulewidth}{0pt}}
+
 \fancypagestyle{headings}{
   \fancyhf{}
-  \fancyhead[LO]{\textsl{\rightmark}}
-  \fancyhead[RE]{\textsl{\leftmark}}
-  \ifdefined\@confidential
-    \fancyfoot[LE]{\MakeUppercase{\@confidential}}
-    \fancyfoot[RO]{\MakeUppercase{\@confidential}}
+  \if@mainmatter
+    \fancyfoot[C]{\thepage \ sur \pageref{LastPage}}
+    \fancyfoot[L]{{HEIG-VD}}
+    \fancyfoot[R]{\@author}
+    \fancyhead[L]{\@subtitle}
+    \fancyhead[R]{\slshape\nouppercase{\leftmark}}
+    \renewcommand{\headrulewidth}{0.5pt}
+    \renewcommand{\footrulewidth}{0.5pt}
+  \else
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+    
   \fi
-  \fancyfoot[C]{\thepage}
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}}
+}
 
 \pagestyle{headings}
 
 
+% \renewcommand\section{\@startsection {section}{1}{\z@}%
+%   {-2.5ex \@plus -1ex \@minus -.2ex}%
+%   {2.0ex \@plus.2ex}%
+%   {\normalfont\Large\bfseries\itshape}}
+% \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+%   {-2.5ex\@plus -1ex \@minus -.2ex}%
+%   {1.0ex \@plus .2ex}%
+%   {\normalfont\large\bfseries\itshape}}
+% \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
+%   {-2.25ex\@plus -1ex \@minus -.2ex}%
+%   {1.0ex \@plus .2ex}%
+%   {\normalfont\normalsize\bfseries\itshape}}
+
 \renewcommand\section{\@startsection {section}{1}{\z@}%
   {-2.5ex \@plus -1ex \@minus -.2ex}%
   {2.0ex \@plus.2ex}%
-  {\normalfont\Large\bfseries\itshape}}
+  {\normalfont\Large\bfseries}}
 \renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
   {-2.5ex\@plus -1ex \@minus -.2ex}%
   {1.0ex \@plus .2ex}%
-  {\normalfont\large\bfseries\itshape}}
+  {\normalfont\large\bfseries}}
 \renewcommand\subsubsection{\@startsection{subsubsection}{3}{\z@}%
   {-2.25ex\@plus -1ex \@minus -.2ex}%
   {1.0ex \@plus .2ex}%
-  {\normalfont\normalsize\bfseries\itshape}}
+  {\normalfont\normalsize\bfseries}}
 
 \newcommand{\sectionref}[1]{\textit{\guillemotleft\nameref{#1}\guillemotright}}
 
