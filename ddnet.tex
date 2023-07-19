@@ -37,77 +37,77 @@ Le mécanisme de défi-réponse est une méthode pour prouver une identité en d
 Le processus d'authentification suit les étapes suivantes :
 
 \begin{enumerate}
-\item Le serveur envoie un défi aléatoire au client.
-\item Le client reçoit le défi et crée une signature de réponse en utilisant sa clé privée.
-\item Le client renvoie la réponse signée au serveur.
-\item Le serveur vérifie la réponse en utilisant la clé publique du client.
-\item Si la vérification est réussie, le serveur reconnait le client comme authentifié. Sinon, il ferme la connexion.
+  \item Le serveur envoie un défi aléatoire au client.
+  \item Le client reçoit le défi et crée une signature de réponse en utilisant sa clé privée.
+  \item Le client renvoie la réponse signée au serveur.
+  \item Le serveur vérifie la réponse en utilisant la clé publique du client.
+  \item Si la vérification est réussie, le serveur reconnait le client comme authentifié. Sinon, il ferme la connexion.
 \end{enumerate}
 
 \begin{figure}[H]
   \begin{center}
-      \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-auth.svg} % half of the text width
+    \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-auth.svg} % half of the text width
   \end{center}
   \caption[Mécanisme de Défi-Réponse]{Le diagramme représente le processus du mécanisme de défi-réponse utilisé pour l'authentification.}
 \end{figure}
 
-\subsection{Routage des Messages}
+\subsection{Gestion des Connexions : Le Registre}
 
-Le serveur de signalisation est responsable du routage des messages entre les clients. Pour ce faire, il maintient un registre des clients et de leurs connexions. Chaque client peut avoir plusieurs connexions, et chaque connexion est identifiée de manière unique par un ID de client généré de manière aléatoire. Ceci, associé à la clé publique du client, nous permet d'envoyer un message à tous les clients, à toutes les connexions d'un client spécifique, ou à une connexion spécifique.
+Le serveur de signalisation joue un rôle crucial dans le routage des messages entre les clients en maintenant un registre des clients et de leurs connexions actives. Ce registre est structuré comme un système de double registre imbriqué :
+
+\begin{itemize}
+  \item Le premier niveau du registre stocke les clés publiques des clients, chaque clé publique représentant un client unique.
+  \item Le second niveau, imbriqué dans le premier, stocke les connexions associées à chaque clé publique. Chaque connexion est identifiée par un ID de client unique, qui est généré de manière aléatoire lors de l'établissement de la connexion.
+\end{itemize}
+
+Ce système de registre imbriqué offre un moyen efficace et organisé de stocker et de gérer les connexions. Il permet de facilement identifier et retracer toutes les connexions associées à un client spécifique, rendant ainsi le routage des messages plus efficace.
 
 \begin{figure}[H]
   \begin{center}
     \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-registry.svg}
   \end{center}
-  \caption[Registre et Connexions]{Illustration du registre du serveur contenant les clés publiques des clients et leurs connexions associées.}
+  \caption[Registre et Connexions]{Le registre du serveur illustre les clés publiques des clients et leurs connexions associées.}
 \end{figure}
+
+En outre, le registre est également responsable de la gestion du cycle de vie des connexions. Lorsqu'une nouvelle connexion est établie, elle est automatiquement ajoutée au registre. De même, lorsque la connexion est fermée, le registre supprime cette connexion. Cela garantit que le registre reste toujours à jour, reflétant l'état actuel des connexions dans le réseau.
+
+Ainsi, le registre facilite non seulement le routage des messages, mais contribue également à maintenir la santé globale et l'efficacité du réseau.
 
 \subsection{Structure du Message}
 
-La structure d'un message est conçue avec la flexibilité et la sécurité à l'esprit :
+La structure du message a été conçue en privilégiant la flexibilité et la sécurité. Dans cette perspective, chaque message comporte plusieurs champs qui lui permettent d'être adressé correctement, tout en maintenant l'intégrité des informations transmises.
 
 \begin{listing}[H]
   \begin{minted}[breaklines]{typescript}
-  type Message<TData> = {
-      from: {
-        publicKey: Uint8Array;  // sender's public key
-        clientId: Uint8Array;   // sender's clientId
-      };
-      to?: {
-        publicKey: Uint8Array;  // recipient's public key
-        clientId?: Uint8Array;  // recipient's clientId (optional)
-      };
-      data: TData;              // payload data of the message
+type Message<TData> = {
+  from: {
+    publicKey: Uint8Array; // clé publique de l'expéditeur
+    clientId: Uint8Array; // ID du client de l'expéditeur
   };
-  \end{minted}
-  \caption{Type Typescript de la structure d'un Message} 
-  \end{listing}
-
-Le champ from identifie l'expéditeur du message.
-Le champ to est facultatif et identifie le destinataire du message. Ce champ est nécessaire lorsque le message est privé et destiné à un utilisateur spécifique. Si le champ to est omis, le message est considéré comme public et peut être lu par n'importe quel utilisateur du réseau.
-Le champ data contient les véritables données de la charge utile du message.
-
-\subsection{Chiffrement des Messages}
-
-Le système chiffre automatiquement les messages si la clé publique du destinataire est spécifiée. Il implémente un protocole de transmission sécurisé, qui utilise la cryptographie pour maintenir la confidentialité et l'intégrité des messages. Les opérations cryptographiques spécifiques utilisées incluent :
+  to?: {
+    publicKey: Uint8Array; // clé publique du destinataire
+    clientId?: Uint8Array; // ID du client du destinataire (facultatif)
+  };
+  data: TData; // données contenues dans le message
+};
+\end{minted}
+  \caption{Type Typescript de la structure d'un Message}
+\end{listing}
 
 \begin{itemize}
-\item \textbf{Diffie-Hellman sur courbes elliptiques (ECDH)} : Un protocole d'échange de clés qui permet à deux parties d'établir un secret partagé sur un canal non sécurisé. Ce secret partagé est généré en utilisant la clé privée de l'expéditeur et la clé publique du destinataire.
-\item \textbf{Fonction de dérivation de clés basée sur un mot de passe 2 (PBKDF2)} : Une fonction de dérivation de clés utilisée pour dériver une clé AES à partir du secret partagé obtenu lors de l'échange ECDH. Elle ajoute un sel pour la randomisation, offrant une résistance contre les attaques par dictionnaire.
-\item \textbf{Advanced Encryption Standard - Galois/Counter Mode (AES-GCM)} : Cet algorithme de chiffrement symétrique utilise la clé AES dérivée pour chiffrer le message, garantissant ainsi que seul le destinataire prévu peut le déchiffrer et le lire. L'AES-GCM assure à la fois la confidentialité et l'intégrité des données.
-\item \textbf{Algorithme de signature numérique sur courbes elliptiques (ECDSA) avec la courbe secp256k1} : Après que le message a été chiffré, il est signé en utilisant la clé privée de l'expéditeur. La signature permet de vérifier l'authenticité de l'expéditeur et confirme que le message n'a pas été altéré pendant la transmission.
+  \item Le champ \texttt{from} identifie l'expéditeur du message. Il comprend la clé publique de l'expéditeur, qui est unique pour chaque utilisateur, et l'ID du client de l'expéditeur, qui est unique pour chaque instance d'un utilisateur (par exemple, différentes fenêtres de navigateur ou différents appareils). Cela permet de retracer l'origine de chaque message.
+  \item Le champ \texttt{to} est facultatif et identifie le destinataire du message. Si ce champ est spécifié, cela signifie que le message est privé et destiné à un utilisateur spécifique, déterminé par sa clé publique. En outre, si un ID de client est spécifié, le message est destiné à une instance spécifique de cet utilisateur. Si le champ \texttt{to} est omis, le message est considéré comme public et peut être reçu par n'importe quel utilisateur du réseau. Cette flexibilité permet une grande variété de types de communication, allant des messages directs à la diffusion publique.
+  \item Le champ \texttt{data} contient les véritables données transportées par le message. Ces données sont génériques et peuvent être de n'importe quel type, permettant ainsi aux utilisateurs de transmettre une variété d'informations et d'instructions à travers le réseau.
 \end{itemize}
-
-Ce protocole assure une communication sécurisée et confidentielle, où seuls les destinataires prévus peuvent déchiffrer et lire le message. Il vérifie également l'authenticité de l'expéditeur et garantit l'intégrité du message.
 
 \subsection{Transmission des Messages}
 
 Les messages dans ce système peuvent être transmis de trois manières différentes en fonction du destinataire cible :
 
 \begin{itemize}
-\item \textbf{Broadcast} : Un message est diffusé à tous les utilisateurs du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est omis.
-\item \textbf{Multicast} : Un message est envoyé à un utilisateur spécifique du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié, mais que le champ `clientId` est omis.
-\item \textbf{Unicast} : Un message est envoyé à une session spécifique d'un utilisateur dans le réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié et que le champ `clientId` est spécifié.
+  \item \textbf{Broadcast} : Un message est diffusé à tous les utilisateurs du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est omis.
+  \item \textbf{Multicast} : Un message est envoyé à un utilisateur spécifique du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié, mais que le champ `clientId` est omis.
+  \item \textbf{Unicast} : Un message est envoyé à une session spécifique d'un utilisateur dans le réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié et que le champ `clientId` est spécifié.
 \end{itemize}
 
 La sécurité est une préoccupation majeure dans la transmission des messages dans ce système. Chaque message est signé numériquement par l'expéditeur, ce qui permet au serveur de vérifier son intégrité à la réception. Si le serveur détecte que le message a été altéré pendant la transmission, il le supprime immédiatement et arrête sa propagation.
@@ -118,21 +118,149 @@ Voici un diagramme représentant la logique de routage :
 
 \begin{figure}[H]
   \begin{center}
-      \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-routing.svg}
+    \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-routing.svg}
   \end{center}
   \caption[Logique de Routage des Messages]{Schéma illustrant la logique de routage des messages dans le système.}
 \end{figure}
 
 
-\section{Gestionnaire de documents}
-\subsection{Structure des documents}
-#TODO : Structure des documents, Headers, etc.
-\subsection{Synchronisation}
-#TODO : Utilisation de Automerge, etc.
+\subsection{Chiffrement des Messages}
+
+Le système chiffre automatiquement les messages si la clé publique du destinataire est spécifiée. Il implémente un protocole de transmission sécurisé, qui utilise la cryptographie pour maintenir la confidentialité et l'intégrité des messages. Les opérations cryptographiques spécifiques utilisées incluent :
+
+\begin{itemize}
+  \item \textbf{Diffie-Hellman sur courbes elliptiques (ECDH)} : Un protocole d'échange de clés qui permet à deux parties d'établir un secret partagé sur un canal non sécurisé. Ce secret partagé est généré en utilisant la clé privée de l'expéditeur et la clé publique du destinataire.
+  \item \textbf{Fonction de dérivation de clés basée sur un mot de passe 2 (PBKDF2)} : Une fonction de dérivation de clés utilisée pour dériver une clé AES à partir du secret partagé obtenu lors de l'échange ECDH. Elle ajoute un sel pour la randomisation, offrant une résistance contre les attaques par dictionnaire.
+  \item \textbf{Advanced Encryption Standard - Galois/Counter Mode (AES-GCM)} : Cet algorithme de chiffrement symétrique utilise la clé AES dérivée pour chiffrer le message, garantissant ainsi que seul le destinataire prévu peut le déchiffrer et le lire. L'AES-GCM assure à la fois la confidentialité et l'intégrité des données.
+  \item \textbf{Algorithme de signature numérique sur courbes elliptiques (ECDSA) avec la courbe secp256k1} : Après que le message a été chiffré, il est signé en utilisant la clé privée de l'expéditeur. La signature permet de vérifier l'authenticité de l'expéditeur et confirme que le message n'a pas été altéré pendant la transmission.
+\end{itemize}
+
+Ce protocole assure une communication sécurisée et confidentielle, où seuls les destinataires prévus peuvent déchiffrer et lire le message.
+Il vérifie également l'authenticité de l'expéditeur et garantit l'intégrité du message.
+
+\section{Documents}
+
+\subsection{En-tête du Document \label{doc_header}}
+
+L'en-tête du document encapsule les métadonnées cruciales pour chaque document.
+Ces métadonnées incluent des éléments tels que l'identifiant unique (ID) du document, la clé publique du propriétaire du document (servant de preuve de propriété), la liste des identifiants de clients autorisés à accéder au document, et le numéro de version actuel de l'en-tête. Un champ de signature supplémentaire, signé par le propriétaire du document, confirme l'authenticité et l'intégrité des données contenues dans l'en-tête.
+
+\setlength{\extrarowheight}{2pt} % Ajoute un espace vertical de 2pt
+
+\begin{table}[h]
+  \begin{center}
+    \caption{Structure de l'en-tête du document.}
+    \begin{tabularx}{\textwidth}{|c|c|X|}
+      \hline
+      \rowcolor{gray!20}
+      \textbf{Propriété} & \textbf{Type}         & \textbf{Description}                                                                                 \\
+      \hline
+      id                 & \texttt{Uint8Array}   & Identifiant unique pour le document, généré en utilisant UUID v4 sous sa forme binaire sur 128 bits. \\
+      \hline
+      owner              & \texttt{Uint8Array}   & Clé publique du propriétaire du document.                                                            \\
+      \hline
+      allowedClients     & \texttt{Uint8Array[]} & Liste des identifiants de clients autorisés à accéder au document.                                   \\
+      \hline
+      version            & \texttt{number}       & Version actuelle de l'en-tête.                                                                       \\
+      \hline
+      signature          & \texttt{Uint8Array}   & Signature de l'en-tête, signée par le propriétaire.                                                  \\
+      \hline
+    \end{tabularx}
+  \end{center}
+\end{table}
+
+
+
+Le numéro de version joue un rôle essentiel dans la gestion du document. Chaque fois que l'en-tête du document est mis à jour, le numéro de version s'incrémente. Ce mécanisme assure un état de données cohérent et à jour à travers tout le réseau DDnet.
+
+L'en-tête du document est conçu de manière immuable. Chaque fois qu'une mise à jour est apportée, une nouvelle instance de l'en-tête est créée. Cela garantit que l'en-tête du document ne peut pas être modifié une fois qu'il a été créé, ajoutant ainsi une couche de sécurité supplémentaire.
+
+\subsection{Données du Document}
+
+Les données du Document sont gérées à l'aide des types de données répliquées sans conflit (CRDT). Les CRDT sont des structures de données qui permettent à plusieurs répliques d'être mises à jour indépendamment et simultanément sans coordination entre elles. Les répliques peuvent ensuite être fusionnées sans conflits.
+Comme mentionné précédemment, la gestion des données du document est effectuée par le package Automerge.
+
+\subsection{Synchronisation et conflits}
+
+#TODO : Ajouter un schéma illustrant la synchronisation et la résolution des conflits
+
 \subsection{Sécurité des documents}
-#TODO : Chiffrement des documents, autorisations, etc.
-\subsection{Stockage des documents}
-#TODO : Stockage des documents, IndexDB, etc.
+
+La sécurité des documents repose sur plusieurs mécanismes intégrés à leur conception. Le premier est l'utilisation d'une adresse unique pour chaque document. Cette adresse est générée en utilisant une fonction de hachage cryptographique, plus précisément SHA-256.
+
+Pour obtenir cette adresse unique, la fonction de hachage SHA-256 est appliquée à la concaténation de l'identifiant unique du document et de la clé publique du propriétaire. Soit $id$ l'identifiant unique du document et $owner$ la clé publique du propriétaire, alors l'adresse du document est calculée comme suit :
+
+\begin{equation}
+  \text{Adresse du Document} = \text{SHA-256}(id | owner)
+\end{equation}
+
+La concaténation de $id$ et $owner$ est notée par "$|$". L'objectif de cette opération est double. D'abord, elle garantit l'unicité de l'adresse du document. De plus, elle permet de lier de manière intrinsèque l'adresse du document à la clé publique du propriétaire. Si une adresse ne correspond pas à la clé publique du propriétaire lors de la vérification, cela signifie que l'adresse a été altérée.
+
+\subsection{Contrôle d'accès au document}
+
+La gestion des documents au sein de DDnet repose sur deux piliers : le registre des documents, qui fait office de cache, et la persistance des documents.
+
+\section{Cache et Persistance des Documents}
+
+La gestion des documents au sein de DDnet repose sur deux piliers : le registre des documents, qui fait office de cache, et la persistance des documents.
+
+\subsection{Registre des Documents}
+
+Le registre des documents fonctionne comme un espace de stockage en mémoire, qui accueille les instances de documents actuellement utilisées ou récemment consultées. Cette caractéristique optimise l'efficacité du système, en fournissant un accès rapide aux documents tout en minimisant la sollicitation constante du système de persistance.
+
+\subsection{Persistance des Documents}
+
+La persistance des documents assure leur sauvegarde à long terme. Grâce à sa modularité, le système peut adopter plusieurs types de stockage. De plus, il est possible de créer des fournisseurs de persistance personnalisés pour étendre le système de persistance. Actuellement, quelques fournisseurs de persistance sont disponibles, comme décrit ci-dessous.
+
+\subsubsection{IndexDB}
+
+Pour le stockage côté navigateur, DDnet utilise principalement IndexDB. Contrairement à l'API LocalStorage qui est limitée en termes de type et de taille de données, IndexDB peut stocker des objets plus complexes, comme les ArrayBuffer. Cette capacité facilite la manipulation des structures de données complexes présentes dans DDnet. De plus, IndexDB n'est pas contraint par un quota de taille, ce qui le rend idéal pour des applications nécessitant un stockage de grande ampleur.
+
+\subsubsection{Node FileSystem}
+
+DDnet peut aussi utiliser le système de fichiers Node (Node FileSystem) pour le stockage local dans un environnement Node. Cette solution assure une persistance robuste, capable de répondre aux besoins du système.
+
+\subsubsection{SecureProvider}
+
+Afin de garantir la sécurité des données, DDnet propose le wrapper SecureProvider. Il peut être appliqué à n'importe quel fournisseur de stockage pour chiffrer les données avant leur sauvegarde. L'usage de ce wrapper nécessite une organisation spécifique du système de persistance. C'est pourquoi DDnet adopte une approche basée sur des namespaces. Ces derniers, pouvant correspondre à une clé publique par exemple, permettent au SecureProvider de déterminer le namespace à utiliser lors du chiffrement ou déchiffrement des données.
+
+\subsection{Structure du Système de Persistance}
+
+La persistance des données dans DDnet distingue les headers des documents de leurs données. Les headers sont stockés dans un namespace distinct, tandis que les données des documents sont stockées dans un autre namespace. Cette séparation optimise la gestion des documents, en fournissant un accès rapide aux headers tout en minimisant l'utilisation de la mémoire pour les données des documents.
+
+DDnet gère intelligemment l'opération de sauvegarde. Lorsqu'un document est modifié, le système décide s'il est nécessaire d'effectuer une sauvegarde complète ou incrémentale en fonction du nombre de modifications depuis la dernière sauvegarde. Un mécanisme de limitation est également mis en place pour éviter des sauvegardes trop fréquentes pouvant ralentir l'application : les sauvegardes ne sont pas réalisées plus d'une fois toutes les 500 millisecondes.
+
+\section{Accès aux documents}
+
+Les documents dans le système DDnet sont gérés grâce à une série de processus qui facilitent leur création, récupération, mise à jour et suppression.
+
+\subsection{Création de documents}
+
+La création d'un document commence par l'utilisation de la clé privée de la session en cours pour générer et signer l'en-tête initial du document, comme décrit dans la section~\ref{doc_header}. Le document est ensuite enregistré dans le registre des documents. L'ajout du document au registre déclenche un événement système qui précise les clients autorisés à y accéder.
+
+\subsection{Récupération de documents}
+
+Pour récupérer un document, le système effectue d'abord une vérification dans le registre des documents. Si le document n'est pas dans le registre, le système cherche ensuite dans le stockage local. Si la recherche échoue également, une demande est envoyée au serveur de signalisation pour obtenir le document. Le système effectue alors une série de vérifications pour valider le document et les droits d'accès du client.
+
+\subsection{Mise à jour de documents}
+
+La mise à jour d'un document est gérée via le registre des documents. Que le document soit déjà présent dans le registre ou qu'il soit ajouté à ce dernier, la mise à jour déclenche un événement système. Cet événement entraîne une mise à jour du stockage local et une synchronisation avec les autres pairs.
+
+\subsection{Suppression de documents}
+
+Pour supprimer un document, le système effectue d'abord une vérification dans le registre des documents. Si le document est trouvé, il est supprimé du registre et du stockage local. Cette suppression déclenche un événement système.
+
+\subsection{Partage de documents}
+
+Le partage de documents implique la réception d'une demande de document via le serveur de signalisation. Le système vérifie ensuite la disponibilité du document et les droits d'accès du client demandeur. Si ces conditions sont remplies, le document est envoyé au client. Ce processus sécurisé utilise des clés privées et publiques pour assurer l'intégrité et la confidentialité des données.
+
+En somme, le système d'accès aux documents de DDnet est un ensemble complexe de mécanismes qui garantissent non seulement une gestion efficace des documents, mais aussi la sécurité et la confidentialité des informations qu'ils contiennent.
+
+
+
+
+
+
 
 \section{Module de présence}
 #TODO : Messages éphémères par document.

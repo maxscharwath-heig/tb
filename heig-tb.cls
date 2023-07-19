@@ -218,6 +218,7 @@
 \RequirePackage{rotating}
 \RequirePackage{siunitx}
 \RequirePackage{tabularx}
+\RequirePackage[table]{xcolor}
 \RequirePackage{tikz}
 \RequirePackage{makecell}
 \RequirePackage{bold-extra}
