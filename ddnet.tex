@@ -1,6 +1,6 @@
 \section{Introduction}
 
-Au commencement du projet, un ensemble majeur de fonctionnalités - notamment la synchronisation, la résolution de conflits à l'aide de types de données répliqués sans conflit (CRDT), la gestion des clés cryptographiques et l'implémentation réseau - devait être réalisé par une entreprise externe. Cependant, pour diverses raisons, ce partenariat n'a pas abouti. Ceci a conduit à une réorientation majeure du projet : l'ensemble de ces fonctionnalités a dû être conçu et mis en œuvre en interne.
+Au commencement du projet, un ensemble majeur de fonctionnalités - notamment la synchronisation, la résolution de conflits à l'aide de types de données répliqués sans conflit (CRDT), la gestion des clés cryptographiques et l'implémentation réseau - devait être réalisé par une entreprise externe. Cependant, pour diverses raisons, ce partenariat n'a pas abouti. Ceci a conduit à une réorientation majeure du projet : l'ensemble de ces fonctionnalités a dû être conçu et mis en oeuvre en interne.
 
 C'est ainsi que le Decentralized Document Network (DDnet) a vu le jour. DDnet est un système de gestion de documents décentralisé axé sur le principe du "Local-First". Il permet de partager et de synchroniser des documents en temps réel entre plusieurs utilisateurs, le tout de manière sécurisée et chiffrée de bout en bout.
 
@@ -78,7 +78,7 @@ Ainsi, le registre facilite non seulement le routage des messages, mais contribu
 La structure du message a été conçue en privilégiant la flexibilité et la sécurité. Dans cette perspective, chaque message comporte plusieurs champs qui lui permettent d'être adressé correctement, tout en maintenant l'intégrité des informations transmises.
 
 \begin{listing}[H]
-  \begin{minted}[breaklines]{typescript}
+  \begin{minted}[breaklines,frame=none]{typescript}
 type Message<TData> = {
   from: {
     publicKey: Uint8Array; // clé publique de l'expéditeur
@@ -143,9 +143,9 @@ Il vérifie également l'authenticité de l'expéditeur et garantit l'intégrit�
 \subsection{En-tête du Document \label{doc_header}}
 
 L'en-tête du document encapsule les métadonnées cruciales pour chaque document.
-Ces métadonnées incluent des éléments tels que l'identifiant unique (ID) du document, la clé publique du propriétaire du document (servant de preuve de propriété), la liste des identifiants de clients autorisés à accéder au document, et le numéro de version actuel de l'en-tête. Un champ de signature supplémentaire, signé par le propriétaire du document, confirme l'authenticité et l'intégrité des données contenues dans l'en-tête.
+Ces métadonnées incluent des éléments tels que l'identifiant unique (ID) du document, la clé publique du propriétaire du document (servant de preuve de propriété), la liste des identifiants de clients autorisés à accéder au document, un objet avec des metadonnées arbitraires et le numéro de version actuel de l'en-tête. Un champ de signature supplémentaire, signé par le propriétaire du document, confirme l'authenticité et l'intégrité des données contenues dans l'en-tête.
 
-\setlength{\extrarowheight}{2pt} % Ajoute un espace vertical de 2pt
+\setlength{\extrarowheight}{2pt}
 
 \begin{table}[h]
   \begin{center}
@@ -160,6 +160,8 @@ Ces métadonnées incluent des éléments tels que l'identifiant unique (ID) du 
       owner              & \texttt{Uint8Array}   & Clé publique du propriétaire du document.                                                            \\
       \hline
       allowedClients     & \texttt{Uint8Array[]} & Liste des identifiants de clients autorisés à accéder au document.                                   \\
+      \hline
+      metadata           & \texttt{any}          & Métadonnées supplémentaires.                                                                         \\
       \hline
       version            & \texttt{number}       & Version actuelle de l'en-tête.                                                                       \\
       \hline
@@ -180,9 +182,67 @@ L'en-tête du document est conçu de manière immuable. Chaque fois qu'une mise 
 Les données du Document sont gérées à l'aide des types de données répliquées sans conflit (CRDT). Les CRDT sont des structures de données qui permettent à plusieurs répliques d'être mises à jour indépendamment et simultanément sans coordination entre elles. Les répliques peuvent ensuite être fusionnées sans conflits.
 Comme mentionné précédemment, la gestion des données du document est effectuée par le package Automerge.
 
-\subsection{Synchronisation et conflits}
+\subsection{Choix de la librairie de gestion de données répliquées sans conflit (CRDT)}
 
-#TODO : Ajouter un schéma illustrant la synchronisation et la résolution des conflits
+L'une des principales fonctionnalités du système DDnet est la synchronisation automatique et transparente des documents. Ce souci de simplicité d'utilisation ne doit pas compromettre la robustesse et la fiabilité du système. Dans cette optique, le choix de la librairie de gestion de données répliquées sans conflit (CRDT) est crucial.
+
+Diverses librairies CRDT ont été examinées pour satisfaire à ces exigences. Yjs, par exemple, est une librairie CRDT bien connue. Cependant, Yjs a été écarté en raison de sa conception spécifique. En effet, Yjs crée ses propres structures de données et classes, ce qui pourrait rendre le projet DDnet excessivement dépendant de cette librairie et réduire sa modularité.
+
+C'est finalement Automerge qui a été choisi. Cette librairie CRDT offre un degré élevé de modularité. Contrairement à Yjs, Automerge utilise des structures de données plus standard, telles que les tableaux et les objets JavaScript, ce qui facilite leur manipulation et leur intégration au projet.
+
+Automerge se distingue techniquement par sa gestion des modifications. En effet, bien qu'Automerge reste complètement immuable, il utilise un système de proxy pour détecter les modifications. Cela est illustré dans l'exemple de code suivant :
+
+\begin{listing}[H]
+  \begin{minted}[breaklines,frame=none]{typescript}
+type DocData = {
+pets: Array<{name: string, type: string}>
+}
+
+// Création d'un document Automerge vide
+let doc = automerge.init<DocData>()
+
+// Modification du document
+doc = automerge.change(doc, state => {
+state.pets = [];
+state.pets.push({name: "Lassie", type: "dog"});
+state.pets.push({name: "Garfield", type: "cat"});
+})
+
+// Récupération des données du document
+const pets = doc.pets
+/*
+pets = [
+{name: "Lassie", type: "dog"},
+{name: "Garfield", type: "cat"}
+]
+*/
+\end{minted}
+  \caption{Exemple de manipulation d'un document Automerge}
+\end{listing}
+
+Automerge utilise une fonction change où les modifications sont appliquées directement au document. Le document agit en tant que proxy pour détecter et enregistrer les modifications, tout en restant immuable. Les fonctions change renvoient une nouvelle instance du document avec les modifications intégrées, ce qui permet de conserver l'immuabilité du document tout en facilitant sa manipulation.
+
+Un autre point important à noter est la fusion des documents avec Automerge. En fait, il est possible de fusionner deux documents ensemble, ce qui permet de garder les données à jour et cohérentes sur différents appareils ou sessions. Par exemple :
+
+\begin{listing}[H]
+  \begin{minted}[breaklines,frame=none]{typescript}
+let doc2 = Automerge.init<DocData>()
+doc2 = Automerge.merge(doc2, doc1)
+  \end{minted}
+  \caption{Exemple de fusion de deux documents Automerge}
+\end{listing}
+
+En ce qui concerne la persistance des données, Automerge fournit un mécanisme de sauvegarde au format binaire\cite{BinaryDocumentFormat}. Ce format est compact et optimisé pour le stockage, comme le montre l'exemple suivant :
+\begin{listing}[H]
+  \begin{minted}[breaklines,frame=none]{typescript}
+let binary = Automerge.save(doc1)
+let doc2 = Automerge.load(binary)
+  \end{minted}
+  \caption{Exemple de sauvegarde et chargement d'un document Automerge}
+\end{listing}
+
+Pour plus d'informations, consultez la documentation d'Automerge\footnote{\url{https://automerge.org}}.
+
 
 \subsection{Sécurité des documents}
 
@@ -256,11 +316,13 @@ Le partage de documents implique la réception d'une demande de document via le 
 
 En somme, le système d'accès aux documents de DDnet est un ensemble complexe de mécanismes qui garantissent non seulement une gestion efficace des documents, mais aussi la sécurité et la confidentialité des informations qu'ils contiennent.
 
+\section{Le module de présence}
+Le module de présence est un composant essentiel du système de partage de documents DDnet. Son rôle est de gérer les informations de présence, c'est-à-dire les données arbitraires échangées en temps réel entre les clients connectés à un document spécifique.
 
+\subsection{Fonctionnement du module de présence}
+Le module de présence s'appuie sur la connexion WebRTC existante pour communiquer les informations de présence. Grâce à cette infrastructure, les clients peuvent partager, recevoir et répondre aux informations de présence de tous les autres clients liés à un document.
 
+Il est important de noter que les informations de présence sont éphémères : elles sont stockées uniquement en mémoire pendant la durée de la session. Lorsqu'un client se déconnecte, toutes ses informations de présence sont immédiatement supprimées. De plus, seuls les dernières données de présence envoyées par chaque client sont conservées, assurant ainsi la disponibilité des informations les plus récentes et pertinentes.
 
-
-
-
-\section{Module de présence}
-#TODO : Messages éphémères par document.
+\subsection{Utilité du module de présence}
+La flexibilité du module de présence lui permet d'implémenter une gamme de fonctionnalités collaboratives. Par exemple, il peut être utilisé pour afficher la position des curseurs des autres utilisateurs, permettant ainsi une conscience partagée de l'activité au sein du document. De même, un système de chat en temps réel peut être mis en place, où les messages sont considérés comme des informations de présence, assurant une communication en temps réel entre les utilisateurs.

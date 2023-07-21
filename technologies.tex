@@ -1,9 +1,20 @@
-Dans ce chapitre, nous allons explorer en profondeur les aspects techniques de la mise en oeuvre du projet, en examinant les technologies et les méthodes employées. Nous aborderons également l'intégration de la bibliothèque Condensation et la gestion du stockage des données.
+Dans ce chapitre, nous explorerons en profondeur les outils et technologies utilisés pour l'implémentation du projet, en examinant leurs rôles, leurs avantages et leurs inconvénients.
 
-\section{Monorepo}
-Un monorepo, ou dépôt mono-référentiel, est une approche de gestion de code source qui consiste à stocker l'ensemble du code et des ressources d'un projet, y compris ses bibliothèques, ses composants et ses applications, dans un seul et même dépôt de contrôle de version. Cette approche contraste avec les polyrepos, où chaque projet, bibliothèque ou composant est stocké dans un dépôt séparé.
+\section{Choix du langage de programmation}
 
-\subsection{Avantages}
+L'adoption du JavaScript comme langage de programmation principal et le choix de développer une application web plutôt qu'une application de bureau traditionnelle ont été les décisions stratégiques prises au début de ce projet. Ces décisions ont été prises en raison de plusieurs facteurs clés liés à la fois à la flexibilité du JavaScript et aux avantages inhérents aux applications web.
+
+Le JavaScript, en tant que langage de programmation du Web, présente des avantages significatifs pour le développement d'applications. Il offre une grande flexibilité et est soutenu par une vaste communauté de développeurs, ce qui se traduit par un écosystème riche en bibliothèques et en frameworks. De plus, l'utilisation de JavaScript permet une cohérence de la base de code entre le client et le serveur, réduisant ainsi la complexité et les efforts de développement.
+
+Concernant le choix d'une application web par rapport à une application de bureau traditionnelle, plusieurs facteurs ont influencé cette décision. D'une part, les applications web sont accessibles depuis n'importe quel appareil disposant d'un navigateur web. Cette universalité d'accès est un atout majeur dans le contexte actuel, où l'utilisation de divers appareils est la norme. D'autre part, les applications web simplifient la maintenance et les mises à jour, qui peuvent être déployées directement et accessibles à tous les utilisateurs sans nécessité de téléchargement ou d'installation.
+
+En comparaison, le développement d'applications de bureau, comme celles en Java ou en C++, peut entraîner une compatibilité limitée avec différents systèmes d'exploitation et nécessite généralement une installation par l'utilisateur. De plus, la maintenance et la mise à jour de ces applications peuvent être plus laborieuses, nécessitant souvent des téléchargements et des installations supplémentaires de la part de l'utilisateur.
+
+En somme, le choix du JavaScript et du développement d'une application web a été dicté par la volonté de maximiser la flexibilité, la portabilité et la facilité de maintenance, tout en bénéficiant d'un écosystème de développement riche et diversifié.
+
+\section{L'adoption du Monorepo}
+Un monorepo, ou dépôt mono-référentiel, est une stratégie de gestion du code source qui centralise l'intégralité du code et des ressources d'un projet, incluant ses bibliothèques, ses composants et ses applications, dans un seul dépôt de contrôle de version. Ce modèle s'oppose à l'approche des polyrepos, où chaque projet, bibliothèque ou composant est stocké dans un dépôt distinct.
+\subsection{Les avantages d'un Monorepo}
 
 L'utilisation d'un monorepo présente plusieurs avantages pour les grands projets, notamment :
 
@@ -12,7 +23,7 @@ L'utilisation d'un monorepo présente plusieurs avantages pour les grands projet
 \paragraph{Intégration et tests simplifiés :} Dans un monorepo, il est plus facile d'assurer l'intégration et la cohérence des différentes parties du projet, car les modifications apportées à une partie du code peuvent être immédiatement testées et validées dans le contexte global du projet. Cela permet de détecter rapidement les régressions et les problèmes de compatibilité.
 \paragraph{Historique et traçabilité unifiés :} Un monorepo conserve l'historique de l'ensemble du projet en un seul endroit, ce qui facilite la recherche et la compréhension des modifications apportées au fil du temps. Cela permet également de suivre les dépendances et les interactions entre les différentes parties du projet, ce qui peut être utile pour l'analyse d'impact et le débogage.
 
-\subsection{Inconvénients}
+\subsection{Les inconvénients d'un Monorepo}
 
 Malgré ses avantages, l'utilisation d'un monorepo peut également présenter quelques inconvénients, tels que :
 
@@ -20,7 +31,7 @@ Malgré ses avantages, l'utilisation d'un monorepo peut également présenter qu
 \paragraph{Complexité de la configuration :} La configuration d'un monorepo peut être plus complexe que celle d'un polyrepo, notamment en ce qui concerne la gestion des dépendances, la configuration des outils de développement et l'automatisation des tests et des déploiements.
 \paragraph{Séparation des responsabilités :} Dans un monorepo, il peut être plus difficile de maintenir une séparation claire des responsabilités entre les différentes parties du projet, et de contrôler l'accès et les autorisations des développeurs.
 
-\section{TurboRepo}
+\section{L'utilisation de TurboRepo dans notre projet}
 
 \begin{wrapfigure}{l}{0.25\textwidth}
     \centering
@@ -29,7 +40,7 @@ Malgré ses avantages, l'utilisation d'un monorepo peut également présenter qu
     \label{fig:turborepo}
 \end{wrapfigure}
 
-TurboRepo\cite{Turborepo} est un système de construction hautes performances pour les projets JavaScript, conçu pour optimiser et accélérer les processus de construction dans les monorepos. Il offre plusieurs fonctionnalités puissantes, telles que :
+TurboRepo\cite{Turborepo} est un système de construction hautement performant pour les projets JavaScript. Il est spécifiquement conçu pour optimiser et accélérer les processus de construction dans un contexte de monorepos.
 
 \begin{itemize}
     \item Construction incrémentale rapide;
@@ -48,7 +59,7 @@ Un gestionnaire de paquets est un outil qui permet d'automatiser l'installation,
 
 Les gestionnaires de paquets les plus couramment utilisés dans l'écosystème JavaScript et Node.js sont npm (Node Package Manager) et yarn. Ces outils permettent aux développeurs d'installer et de gérer les bibliothèques et les modules dont leurs projets ont besoin, en téléchargeant les paquets à partir d'un registre en ligne, généralement le registre npm\cite{Npm}.
 
-\subsection{pnpm}
+\subsection{La gestion des paquets avec pnpm}
 
 pnpm\cite{MotivationPnpm} est un gestionnaire de paquets alternatif pour Node.js qui est compatible avec le registre npm. Il se distingue par son approche de stockage des paquets, qui utilise des liens durs et des liens symboliques pour créer un stockage partagé des paquets. Cela permet d'économiser de l'espace disque et de réduire les temps d'installation des paquets.
 
@@ -63,7 +74,7 @@ Il existe plusieurs raisons pour lesquelles vous pourriez choisir pnpm plutôt q
 
 En somme, pnpm est une alternative intéressante aux gestionnaires de paquets traditionnels comme npm ou yarn. Il offre des avantages en termes d'efficacité du stockage, de performances d'installation et d'isolation des dépendances, tout en restant compatible avec l'écosystème npm existant. L'utilisation de pnpm dans un grand projet peut entraîner des gains significatifs en matière d'espace disque et de temps d'installation, ainsi qu'une meilleure gestion et détection des problèmes liés aux dépendances. Le choix de pnpm a été motivé par ces avantages et sa rapidité d'utilisation, ce qui permet d'accélérer la productivité.
 
-\subsection{Intégration avec TurboRepo}
+\subsection{L'intégration de pnpm avec TurboRepo}
 
 Comme mentionné précédemment, pnpm peut être utilisé en conjonction avec TurboRepo pour améliorer encore les performances et la gestion des dépendances dans un projet monorepo. TurboRepo se concentre sur l'exécution efficace des tâches de build et de test, tandis que pnpm gère l'installation et la gestion des paquets.
 
@@ -72,12 +83,12 @@ L'intégration de pnpm avec TurboRepo permet de tirer parti des avantages de cha
 En conclusion, l'utilisation de pnpm en combinaison avec TurboRepo dans un grand projet peut offrir une solution robuste et performante pour la gestion des dépendances et l'exécution des tâches de build. Les avantages de ces outils peuvent contribuer à améliorer la productivité et la maintenabilité du projet, tout en offrant une expérience de développement plus fluide et plus rapide.
 
 
-\section{TypeScript}
+\section{L'utilisation de TypeScript dans un projet}
 TypeScript est un langage de programmation développé par Microsoft qui est un sur-ensemble typé de JavaScript. Cela signifie que tout code JavaScript est également du code TypeScript valide. TypeScript ajoute un système de typage statique optionnel à JavaScript, ce qui permet de détecter et d'éviter les erreurs de typage à la compilation plutôt qu'à l'exécution. Le code TypeScript est transcompilé en JavaScript, ce qui le rend compatible avec tous les navigateurs et environnements qui supportent JavaScript.
 
 Dans cette section, nous expliquerons en profondeur ce qu'est TypeScript et pourquoi il est particulièrement utile et nécessaire dans les grands projets.
 
-\subsection{Typage statique}
+\subsection{Les bénéfices du typage statique}
 Le typage statique est l'un des principaux avantages de TypeScript par rapport à JavaScript. Contrairement à JavaScript, qui est un langage à typage dynamique, TypeScript permet de définir des types pour les variables, les fonctions, les objets et les classes. Cela permet au compilateur TypeScript de vérifier la conformité des types lors de la compilation et d'alerter le développeur en cas d'erreurs de typage.
 
 Le typage statique présente plusieurs avantages pour les grands projets :
@@ -86,19 +97,19 @@ Le typage statique présente plusieurs avantages pour les grands projets :
 \paragraph{Documentation implicite :} Les types fournissent une documentation implicite pour le code, rendant plus facile la compréhension du code par les autres développeurs et facilitant la maintenance et l'évolution du projet.
 \paragraph{Amélioration de l'autocomplétion et du refactoring :} Les outils de développement modernes peuvent utiliser les informations de type pour fournir une meilleure autocomplétion et faciliter le refactoring du code.
 
-\subsection{Compatibilité avec JavaScript}
+\subsection{La compatibilité de TypeScript avec JavaScript}
 
 Comme TypeScript est un sur-ensemble de JavaScript, il est compatible avec tout le code JavaScript existant. Cela signifie que les développeurs peuvent migrer progressivement leur codebase vers TypeScript en ajoutant des types aux parties les plus critiques du code, sans avoir à réécrire l'ensemble de l'application.
 
 Cette compatibilité permet également d'utiliser toutes les bibliothèques et frameworks JavaScript existants, tels que React, Angular et Vue.js, ainsi que les packages npm.
 
-\subsection{Support des fonctionnalités modernes de JavaScript}
+\subsection{L'adoption des fonctionnalités modernes de JavaScript par TypeScript}
 
 TypeScript supporte toutes les fonctionnalités modernes de JavaScript, telles que les classes, les modules, les décorateurs, les fonctions fléchées et les promesses. Il ajoute également des fonctionnalités supplémentaires, telles que les interfaces, les types génériques et les espaces de noms.
 
 Cela permet aux développeurs d'utiliser les dernières fonctionnalités de JavaScript tout en bénéficiant des avantages du typage statique.
 
-\subsection{Scalabilité et maintenabilité}
+\subsection{L'importance de TypeScript pour la scalabilité et la maintenabilité}
 
 Dans les grands projets, la complexité du code et la taille de l'équipe de développement peuvent rendre difficile la maintenance et l'évolution du code. TypeScript facilite la gestion de cette complexité en fournissant un système de typage statique et des fonctionnalités avancées de modularisation.
 
@@ -179,32 +190,3 @@ L'utilisation de classes utilitaires peut rendre le code HTML plus verbeux, car 
 \subsection{Pourquoi choisir Tailwind CSS pour ce projet?}
 
 Le choix de Tailwind CSS pour ce projet s'est avéré être une décision judicieuse, car il offre un grand nombre d'avantages et de fonctionnalités qui répondent aux besoins du projet. En plus de ses avantages évidents, tels que la facilité d'utilisation et la rapidité de développement, Tailwind CSS offre également une grande flexibilité et une personnalisation poussée, ce qui permet de créer des designs uniques et cohérents. De plus, Tailwind CSS est livré avec des outils d'optimisation intégrés qui aident à réduire la taille du fichier CSS final, ce qui améliore les performances de l'application.
-
-\section{Gestion des états avec les stores React et l'utilisation de Zustand}
-
-Dans les applications React, la gestion de l'état est un aspect essentiel qui permet de maintenir et de contrôler les données à travers les composants de l'application. React offre plusieurs méthodes pour gérer l'état, notamment les hooks d'état locaux, le contexte et les providers. Cependant, ces solutions natives peuvent devenir rapidement complexes et difficiles à maintenir lorsqu'on travaille sur de grandes applications ou avec des états globaux. C'est là qu'interviennent les bibliothèques de gestion d'état tierces, telles que Redux, MobX et Zustand.
-
-\subsection{Zustand: une alternative aux React Providers}
-
-Zustand\cite{Zustand2023} est une bibliothèque de gestion d'état minimaliste et légère pour les applications React. Elle se distingue par sa simplicité, sa flexibilité et sa facilité d'utilisation. Contrairement aux React Providers, qui reposent sur le mécanisme de contexte de React pour partager et consommer l'état, Zustand utilise un système de stores pour gérer et distribuer l'état de manière centralisée.
-
-Les stores Zustand sont des objets JavaScript qui contiennent l'état et les fonctions associées pour le manipuler. Les composants React peuvent s'abonner à ces stores et accéder à l'état et aux fonctions sans avoir besoin de passer par des providers ou des consommateurs. Cette approche simplifie la gestion de l'état en éliminant la nécessité de gérer le contexte ou de propager les données à travers les composants de manière manuelle.
-
-\subsection{Avantages de l'utilisation de Zustand}
-
-Voici quelques-uns des avantages de l'utilisation de Zustand pour la gestion de l'état dans les applications React:
-
-\paragraph{Simplicité :} Zustand offre une API simple et concise pour définir, manipuler et consommer l'état. Il n'y a pas besoin de configurer des providers, des reducers ou des actions comme avec d'autres solutions de gestion d'état. Les développeurs peuvent ainsi se concentrer sur la logique métier et l'expérience utilisateur.
-
-\paragraph{Flexibilité :} Les stores Zustand peuvent être créés et combinés de manière modulaire pour répondre aux besoins spécifiques de l'application. Cette flexibilité permet d'organiser et de structurer l'état de manière logique et maintenable.
-
-\paragraph{Performance :} Zustand utilise un mécanisme d'abonnement pour mettre à jour sélectivement les composants qui consomment l'état. Cela garantit que seuls les composants concernés par les modifications d'état sont re-rendus, ce qui améliore les performances de l'application.
-
-\paragraph{Interopérabilité :} Zustand est compatible avec les hooks React et peut être facilement intégré à d'autres bibliothèques.
-
-\section{Conclusion}
-En conclusion, le choix des technologies et des outils pour ce projet a été guidé par plusieurs facteurs, notamment la performance, la facilité d'utilisation, la documentation, la communauté et le gain de productivité. L'utilisation de frameworks tels que React et Tailwind CSS, ainsi que la bibliothèque de gestion d'état Zustand, a permis de créer une application Web moderne, performante et maintenable.
-
-En outre, l'adoption d'outils de gain de productivité tels que TurboRepo et pnpm a également contribué à améliorer le processus de développement. TurboRepo facilite l'organisation, la maintenance et la collaboration sur des projets de grande envergure, tout en optimisant les workflows en automatisant la construction, le test et le déploiement des applications et des bibliothèques. Parallèlement, pnpm améliore la vitesse d'installation des dépendances et réduit la taille du dossier \verb|node_modules| grâce à l'utilisation d'un cache global.
-
-Ainsi, ces choix technologiques et outils ont été faits en tenant compte de leurs avantages respectifs et de leur capacité à répondre aux besoins spécifiques du projet, tout en optimisant la productivité et l'efficacité du processus de développement.

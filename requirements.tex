@@ -56,25 +56,25 @@ Les user stories sont des descriptions de fonctionnalités du système, écrites
 \subsection*{Whiteboard \label{sec:user-stories-whiteboard}}
 
 \begin{itemize}
-    \item Je veux pouvoir éditer un Whiteboard.
-    \item Je veux pouvoir partager un Whiteboard avec lien unique.
-    \item Je veux pouvoir ajouter et supprimer des éléments sur le Whiteboard.
-    \item Je veux pouvoir déplacer des éléments sur le Whiteboard.
-    \item Je veux pouvoir éditer le Whiteboard en mode “hors-ligne”.
-    \item Je veux pouvoir éditer le Whiteboard simultanément avec d'autres utilisateurs.
-    \item Je veux pouvoir choisir où stocker mes données.
-    \item Je veux pouvoir voir l'historique des modifications apportées au Whiteboard.
+    \item En tant qu'utilisateur, je veux pouvoir éditer un Whiteboard afin de pouvoir créer et modifier du contenu.
+    \item En tant qu'utilisateur, je veux pouvoir partager un Whiteboard avec un lien unique pour faciliter la collaboration avec d'autres personnes.
+    \item En tant qu'utilisateur, je veux pouvoir ajouter et supprimer des éléments sur le Whiteboard afin de gérer le contenu présenté.
+    \item En tant qu'utilisateur, je veux pouvoir déplacer des éléments sur le Whiteboard pour organiser l'espace selon mes besoins.
+    \item En tant qu'utilisateur, je veux pouvoir éditer le Whiteboard en mode “hors-ligne” pour pouvoir travailler sans une connexion internet stable.
+    \item En tant qu'utilisateur, je veux pouvoir éditer le Whiteboard simultanément avec d'autres utilisateurs pour faciliter la collaboration en temps réel.
+    \item En tant qu'utilisateur, je veux pouvoir choisir où stocker mes données pour assurer la confidentialité et la sécurité de mes informations.
+    \item En tant qu'utilisateur, je veux pouvoir voir l'historique des modifications apportées au Whiteboard pour comprendre l'évolution du contenu et peut-être revenir à une version précédente.
 \end{itemize}
 
 \subsection*{Outil de développement \label{sec:user-stories-devtools}}
 
-l'outil de développement est une application qui permettra de visualiser et d'éditer les données stockées dans le système de Condensation. 
-Il permettra aux développeurs de comprendre comment les données sont stockées.
+L'outil de développement est une application qui permettra de visualiser et d'éditer les données stockées dans le système. Il permettra aux développeurs de comprendre comment les données sont stockées.
+
 \begin{itemize}
-    \item  Je veux pouvoir visualiser les données stockées sous forme d'arbre de hash.
-    \item  Je veux pouvoir visualiser les données stockées sous forme de document.
-    \item  Je veux pouvoir éditer les données stockées sous forme de document.
-    \item  Je veux pouvoir utiliser l'outil de développement sous forme d'extension pour mon navigateur Chromium.
+    \item En tant que développeur, je veux pouvoir visualiser les données stockées sous forme d'arbre de hash pour comprendre la structure des données.
+    \item En tant que développeur, je veux pouvoir visualiser les données stockées sous forme de document pour comprendre le contenu.
+    \item En tant que développeur, je veux pouvoir éditer les données stockées sous forme de document pour modifier le contenu si nécessaire.
+    \item En tant que développeur, je veux pouvoir utiliser l'outil de développement sous forme d'extension pour mon navigateur Chromium pour faciliter l'accès et l'utilisation de l'outil.
 \end{itemize}
 \newpage
 \section*{Contraintes et risques}
@@ -111,4 +111,102 @@ La livraison de la librairie de Condensation étant en attente, le projet sera i
 \end{itemize}
 
 \section*{Date limite pour un plan B}
-Tenant compte des différentes étapes de la planification et de la nécessité de prévoir suffisamment de temps pour la mise en œuvre d'un plan B, une date limite pour décider d'un plan B est fixée au \textbf{19 juin 2023}. Cette date offre un délai approprié pour évaluer la situation et mettre en place une alternative si nécessaire, tout en maintenant un calendrier raisonnable pour achever le projet dans les temps impartis.
+Tenant compte des différentes étapes de la planification et de la nécessité de
+prévoir suffisamment de temps pour la mise en oeuvre d'un plan B, une date limite
+pour décider d'un plan B est fixée au \textbf{19 juin 2023}. Cette date offre un
+délai approprié pour évaluer la situation et mettre en place une alternative si
+nécessaire, tout en maintenant un calendrier raisonnable pour achever le projet
+dans les temps impartis.
+
+
+\section*{Rectification du cahier des charges}
+
+Suite à une discussion approfondie avec mon superviseur, le Professeur Bertil Chapuis, il est devenu évident qu'une rectification du cahier des charges était nécessaire. Cela a été principalement dû à l'absence de la bibliothèque Condensation nécessaire pour la réalisation du projet initial. Ainsi, une réorientation importante du projet a été mise en oeuvre.
+
+L'outil de développement et les exemples d'utilisation, qui étaient intimement liés à la bibliothèque de Condensation, n'ont pas pu être réalisés. Par contre, le Whiteboard, qui était prévu initialement comme un simple démonstrateur des capacités du système, a été largement développé et enrichi pour devenir un produit complet en soi.
+
+Des fonctionnalités supplémentaires ont été ajoutées au Whiteboard, notamment un plus grand nombre d'outils de dessin, une gestion de documents, une internationalisation et un déploiement en production. Le système sur lequel se base le Whiteboard a été développé entièrement à partir de zéro, remplaçant ainsi la bibliothèque de Condensation initialement prévue.
+
+Ce système a été conçu dès le départ pour être open source. Par conséquent, un effort supplémentaire a été consenti pour l'écrire de manière à ce qu'il soit public, en le commentant et en le documentant de manière adéquate. Le système a été rendu accessible sur le registre de paquets NPM, pour faciliter l'utilisation de la librairie par le public.
+
+Ainsi, le cahier des charges a été modifié pour refléter ces changements majeurs :
+\section*{Livrables}
+
+Les livrables à réaliser pour ce travail de bachelor sont les suivants :
+
+\begin{itemize}
+    \item Un cahier des charges;
+    \item Un rapport intermédiaire;
+    \item Un rapport final;
+    \item Un résumé publiable;
+    \item Un poster;
+    \item Un système complet de Whiteboard, avec des outils de dessin avancés, une gestion de documents et une internationalisation;
+    \item Un déploiement en production du Whiteboard;
+    \item Un système de synchronisation de données distribuées développé de A à Z, conçu pour être open source et utilisable par le public.
+\end{itemize}
+
+\section*{Objectifs}
+
+\subsection*{Objectifs \guillemotleft fonctionnels\guillemotright}
+
+\begin{itemize}
+    \item Développer un Whiteboard utilisant le système de synchronisation de données distribuées développé spécifiquement pour ce projet, et le rendre complet avec des outils de dessin avancés, une gestion de documents, une internationalisation, et un déploiement en production.
+\end{itemize}
+
+\subsection*{Objectifs \guillemotleft non fonctionnels\guillemotright}
+
+\begin{itemize}
+    \item Concevoir une interface utilisateur intuitive, afin de permettre aux utilisateurs de tout de suite comprendre le fonctionnement du Whiteboard.
+    \item Garantir que le système peut être facilement étendu et adapté aux besoins futurs en utilisant des architectures évolutives et modulaires.
+    \item Assurer que le code source soit bien structuré, propre et documenté, afin de faciliter la lecture et la compréhension par d'autres développeurs.
+\end{itemize}
+
+\subsection*{Objectifs \guillemotleft complémentaires\guillemotright}
+
+\begin{itemize}
+    \item Ajouter des fonctionnalités en temps réel tel que la visualisation des curseurs des utilisateurs.
+\end{itemize}
+
+\section*{User stories}
+\subsubsection*{Whiteboard}
+
+\begin{itemize}
+    \item En tant qu'utilisateur, je veux pouvoir éditer un Whiteboard afin de pouvoir créer et modifier du contenu.
+    \item En tant qu'utilisateur, je veux pouvoir partager un Whiteboard avec un lien unique pour faciliter la collaboration avec d'autres personnes.
+    \item En tant qu'utilisateur, je veux pouvoir ajouter, modifier, déplacer, et supprimer des éléments sur le Whiteboard pour gérer le contenu présenté.
+    \item En tant qu'utilisateur, je veux pouvoir changer le style d'un élément sur le Whiteboard pour améliorer l'esthétique et la clarté de mon contenu.
+    \item En tant qu'utilisateur, je veux pouvoir utiliser un système d'annulation/rétablissement (undo/redo) pour corriger facilement mes erreurs.
+    \item En tant qu'utilisateur, je veux pouvoir éditer le Whiteboard en mode “hors-ligne” pour pouvoir travailler sans une connexion internet stable.
+    \item En tant qu'utilisateur, je veux pouvoir éditer le Whiteboard simultanément avec d'autres utilisateurs pour faciliter la collaboration en temps réel.
+    \item En tant qu'utilisateur, je veux pouvoir gérer finement les accès à mon document pour contrôler qui peut voir et modifier mon contenu.
+    \item En tant qu'utilisateur, je veux pouvoir lister tous les documents disponibles sur ma machine pour faciliter la gestion et l'accès à mes documents.
+    \item En tant qu'utilisateur, je veux pouvoir utiliser l'application avec un système de session pour maintenir mes préférences et mon état de travail entre les utilisations.
+    \item En tant qu'utilisateur, je veux pouvoir utiliser l'application avec plusieurs comptes pour gérer différents ensembles de documents et préférences.
+\end{itemize}
+
+\subsubsection*{Système de synchronisation de données distribuées}
+
+\begin{itemize}
+    \item En tant que développeur, je veux pouvoir utiliser une librairie de synchronisation de données distribuées pour faciliter le développement d'applications nécessitant ce genre de fonctionnalités.
+    \item En tant que développeur, je veux que la librairie de synchronisation de données distribuées soit bien documentée et commentée pour faciliter sa compréhension et son utilisation.
+    \item En tant que développeur, je veux que la librairie de synchronisation de données distribuées soit accessible sur le registre de paquets NPM pour en faciliter l'installation et la gestion des dépendances.
+    \item En tant que développeur, je veux pouvoir observer le comportement du système de synchronisation de données en temps réel pour comprendre son fonctionnement et déboguer les problèmes.
+    \item En tant que développeur, je veux pouvoir tester facilement le système de synchronisation de données distribuées pour garantir sa fiabilité et sa robustesse.
+    \item En tant que développeur, je veux pouvoir étendre et personnaliser le système de synchronisation de données distribuées pour l'adapter aux besoins spécifiques de mes projets.
+    \item En tant que développeur, je veux pouvoir utiliser le système de synchronisation de données distribuées dans une variété d'environnements (navigateur, Node.js, etc.) pour maximiser sa flexibilité et sa portabilité.
+\end{itemize}
+
+\section*{Nouvelle Planification du Projet (à partir de mi-Juin 2023)}
+
+Afin d'assurer la réalisation des objectifs du projet, une nouvelle
+planification a été conçue pour la période allant de mi-Juin à fin Juillet 2023.
+
+\begin{itemize}
+    \item \textbf{Mi-Juin 2023 :} Prise de décision de réorienter le projet et définition de la nouvelle planification.
+    \item \textbf{Mi-Juin à début Juillet 2023 (3 semaines) :} Concentration totale sur le développement du système de synchronisation de données distribuées. Cela comprend le prototypage, l'implémentation et les tests préliminaires du système.
+    \item \textbf{Début Juillet à mi-Juillet 2023 (2 semaines) :} Intégration du système de synchronisation de données dans l'application Whiteboard. Continuation du développement de l'application en parallèle avec le système de synchronisation, ajout et amélioration des fonctionnalités existantes du Whiteboard.
+    \item \textbf{Mi-Juillet à 17 Juillet 2023 (1 semaine) :} Finalisation du développement, réalisation des tests finaux, correction des bugs et optimisation du code.
+    \item \textbf{17 Juillet à 27 Juillet 2023 :} Période dédiée à la correction de bugs mineurs, l'optimisation du code, la rédaction du rapport final, du résumé publiable et du poster.
+\end{itemize}
+
+Cette planification a été conçue pour maximiser l'efficacité du développement et garantir la réalisation du projet dans le délai imparti.
