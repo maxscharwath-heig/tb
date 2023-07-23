@@ -1,0 +1,33 @@
+Suite à une réorientation majeure du projet et à la révision du cahier des charges, le démonstrateur initial de tableau blanc a évolué pour devenir une application autonome et sophistiquée, nommée Describble.
+
+Le but initial était de créer un outil démonstrateur pour le système Condensation. Cependant, en raison de contraintes imprévues et de l'absence de la bibliothèque Condensation, le projet a dû prendre une nouvelle direction.
+
+Describble est une application de tableau blanc décentralisée qui fonctionne sur le principe du "Local-First". Elle est conçue pour permettre une collaboration en temps réel entre plusieurs utilisateurs, offrant la possibilité de créer, de partager et de modifier des documents de manière simultanée et sécurisée, sans dépendre d'un serveur centralisé.
+
+Le nom Describble est une combinaison de "De", un préfixe signifiant décentralisé, et "scribble", un terme anglais pour gribouillage. Ce nom a été choisi non seulement pour sa signification, mais aussi pour donner à l'application une identité distincte, plutôt que de la désigner simplement comme "Whiteboard". Cela a permis de donner plus d'importance au projet et de le positionner comme un projet à part entière.
+
+Dans ce chapitre, nous examinerons les principales fonctionnalités de Describble, les défis rencontrés lors de son développement et les solutions adoptées pour y faire face. Nous explorerons également les décisions prises lors du développement de l'application.
+
+\section{Architecture générale de l'application Describble}
+
+L'architecture de l'application de tableau blanc interactif Describble est construite de manière à être modulaire et extensible. Le cœur de l'application, nommé "Whiteboard Core", contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
+
+Cette section décrit les fonctions clés de chaque sous-module dans l'architecture de Describble :
+
+\begin{itemize}
+    \item \textbf{Activities}: Ce module est responsable de la gestion des interactions complexes au sein de l'application, y compris la logique de manipulation et de dessin sur le tableau blanc.
+
+    \item \textbf{Layers}: Ce module gère les différentes types d'objets qui peuvent être placés et manipulés sur le tableau blanc. Chaque objet sur le tableau est considéré comme une couche.
+
+    \item \textbf{Managers}: Ce module contient des classes de gestion qui sont responsables de la manipulation de différents aspects de l'application, y compris la gestion de l'état de l'application et la manipulation des documents.
+
+    \item \textbf{Selectors}: Ce module contient des fonctions de sélection qui facilitent l'extraction de parties spécifiques de l'état de l'application.
+
+    \item \textbf{State}: Ce module contient la classe `StateManager` qui est responsable de la gestion de l'état de l'application, y compris la manipulation de l'état et la persistance de l'état entre les sessions.
+
+    \item \textbf{Tools}: Ce module contient des classes d'outils et la logique associée pour divers outils utilisés dans l'application Describble.
+\end{itemize}
+
+La classe principale `WhiteboardApp` agit comme un orchestrateur qui utilise différentes instances de ces modules pour exécuter des tâches spécifiques selon les interactions de l'utilisateur.
+
+Cette architecture modulaire aide à la lisibilité du code, à l'extension des fonctionnalités et à la maintenance du projet dans son ensemble.
