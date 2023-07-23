@@ -17,7 +17,7 @@ Cette section décrit les fonctions clés de chaque sous-module dans l'architect
 \begin{itemize}
     \item \textbf{Activities}: Ce module est responsable de la gestion des interactions complexes au sein de l'application, y compris la logique de manipulation et de dessin sur le tableau blanc.
 
-    \item \textbf{Layers}: Ce module gère les différentes types d'objets qui peuvent être placés et manipulés sur le tableau blanc. Chaque objet sur le tableau est considéré comme une couche.
+    \item \textbf{Layers}: Ce module gère les différentes types d'objets qui peuvent être placés et manipulés sur le tableau blanc. Chaque objet sur le tableau est considéré comme un calque.
 
     \item \textbf{Managers}: Ce module contient des classes de gestion qui sont responsables de la manipulation de différents aspects de l'application, y compris la gestion de l'état de l'application et la manipulation des documents.
 
@@ -28,6 +28,107 @@ Cette section décrit les fonctions clés de chaque sous-module dans l'architect
     \item \textbf{Tools}: Ce module contient des classes d'outils et la logique associée pour divers outils utilisés dans l'application Describble.
 \end{itemize}
 
-La classe principale `WhiteboardApp` agit comme un orchestrateur qui utilise différentes instances de ces modules pour exécuter des tâches spécifiques selon les interactions de l'utilisateur.
+La classe principale \textbf{WhiteboardApp}  agit comme le chef d'orchestre qui gère les interactions entre ces différents modules. Par exemple, elle maintient une référence à l'outil actuellement sélectionné par l'utilisateur, initie les gestionnaires d'événements pour les interactions au clavier et à la souris, et supervise l'état global de l'application.
 
-Cette architecture modulaire aide à la lisibilité du code, à l'extension des fonctionnalités et à la maintenance du projet dans son ensemble.
+\section{Principe et gestion des calques}
+
+Dans l'application, les différents objets que l'utilisateur peut placer et manipuler sont représentés par des calques. Ces calques peuvent être de simples formes comme des cercles et des rectangles, ou des objets plus complexes comme des images et des chemins. Chaque type de calque a son propre ensemble de propriétés et de méthodes pour interagir avec eux.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{\assetsdir/diagram-describble-BaseLayer.svg}
+    \caption{Diagramme de l'interface de base des calques}
+    \label{fig:baseLayerDiagram}
+\end{figure}
+
+L'interface BaseLayer est la base pour tous les types de calques. Elle comprend des propriétés communes telles que l'identifiant, le nom, le type, la visibilité, l'index z, et le style. Chaque type de calque étend cette interface pour inclure ses propriétés spécifiques.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\textwidth]{\assetsdir/diagram-describble-BaseLayerUtil.svg}
+    \caption{Diagramme de la classe utilitaire de base des calques}
+    \label{fig:baseLayerUtilDiagram}
+\end{figure}
+
+La classe abstraite BaseLayerUtil fournit des méthodes utilitaires pour travailler avec les calques. Elle a des méthodes pour créer, redimensionner, et obtenir les limites d'un calque. Chaque type de calque a une classe LayerUtil correspondante qui étend la classe BaseLayerUtil et implémente ses méthodes abstraites.
+
+Afin d'ajouter un nouveau type de calque à l'application, il faut suivre ces étapes:
+
+\begin{enumerate}
+    \item Créer une nouvelle classe utilitaire qui étend BaseLayerUtil et implémente ses méthodes abstraites.
+    \item Mettre à jour le fichier \texttt{index.ts} pour importer la nouvelle classe utilitaire et créer une nouvelle instance de celle-ci.
+    \item Ajouter la nouvelle instance utilitaire à l'appel de la fonction \texttt{createLayerUtils} dans \texttt{index.ts}.
+\end{enumerate}
+
+En suivant ces étapes, on assure que le noyau de l'application est conscient du nouveau type de calque et peut l'utiliser dans le cadre de ses fonctionnalités.
+
+\section{Les outils et leur cycle de vie}
+
+L'application de dessin met à la disposition de l'utilisateur divers outils pour interagir avec le canevas. Ces outils comprennent des fonctions pour dessiner des formes, insérer des images, sélectionner et déplacer des éléments sur le canevas.
+
+Chaque outil est programmé pour répondre de manière spécifique aux interactions de l'utilisateur. Par exemple, lorsqu'un utilisateur clique et glisse sur le canevas, un outil de dessin de forme peut commencer à dessiner une forme, tandis qu'un outil de déplacement peut commencer à déplacer un élément existant. C'est ici qu'intervient le concept du "cycle de vie de l'outil".
+
+\subsection{Le cycle de vie de l'outil}
+
+Chaque outil peut passer par différentes phases ou "états" en réponse aux interactions de l'utilisateur. Ces états sont gérés par des méthodes spécifiques :
+
+\begin{itemize}
+    \item \textbf{onActivate} : Cette méthode est appelée lorsque l'outil devient actif. Elle permet d'établir les configurations nécessaires pour l'outil.
+    \item \textbf{onDeactivate} : Cette méthode est appelée lorsque l'outil est désactivé, ce qui permet de nettoyer ou de réinitialiser l'état de l'outil.
+    \item \textbf{onAbort} : Cette méthode est appelée lorsque l'outil doit être interrompu, généralement en réponse à l'utilisateur qui appuie sur la touche Échap. Elle doit gérer le nettoyage nécessaire et ramener l'outil à son état initial.
+\end{itemize}
+
+Ainsi, lorsqu'un outil est sélectionné pour la première fois, la méthode \textbf{onActivate} est appelée, mettant l'outil dans un état "Idle". Lorsque l'utilisateur commence une interaction, comme un clic et un glissement, l'outil peut passer à un état "Creating" ou "Dragging", selon le type d'outil. Lorsque l'interaction de l'utilisateur se termine, l'outil peut revenir à l'état "Idle" ou passer à un autre état approprié. Enfin, si un autre outil est sélectionné, la méthode \textbf{onDeactivate} est appelée, permettant de nettoyer ou de réinitialiser son état interne.
+
+\subsection{Gestion des outils dans l'application}
+
+Pour utiliser les outils dans l'application, des instances des classes d'outils souhaitées sont créées et regroupées dans un objet de gestion des outils. Cet objet permet de basculer facilement entre les outils en fonction de la sélection de l'utilisateur. Par exemple, si l'utilisateur sélectionne l'outil pour dessiner un rectangle, l'outil rectangle est activé, et l'outil précédemment actif est désactivé.
+
+En comprenant et en utilisant efficacement ces outils et leur cycle de vie, nous pouvons créer une application de dessin interactive et puissante.
+
+\section{Les Activités}
+
+L'application de dessin présente une abstraction de la gestion des interactions utilisateur appelée "activités". Cette abstraction offre une structuration des opérations de dessin pouvant être effectuées au sein de l'application.
+
+\subsection{Qu'est-ce qu'une Activité ?}
+
+Une activité représente une interaction ou une opération spécifique qui peut être effectuée sur l'application de dessin. Cela peut inclure la création de formes, le tracé de chemins libres, la manipulation d'objets existants, et bien plus encore.
+
+\subsection{Cycle de vie d'une Activité}
+
+Chaque activité suit un cycle de vie défini, qui peut être grossièrement décomposé en quatre étapes principales :
+
+\begin{itemize}
+    \item \textbf{Création :} Au début de son cycle de vie, une activité est créée. C'est lors de cette étape que l'état initial de l'activité est défini.
+    \item \textbf{Initiation :} Une fois l'activité créée, elle est initiée. Cela marque le début de l'opération de dessin correspondant à l'activité.
+    \item \textbf{Mise à jour :} Pendant que l'activité est en cours, son état est constamment mis à jour en fonction des interactions de l'utilisateur.
+    \item \textbf{Achèvement ou Annulation :} Finalement, l'activité est soit achevée avec succès, marquant ainsi la fin de l'opération de dessin, soit annulée, entraînant la réinitialisation de l'état de l'activité à son état initial.
+\end{itemize}
+
+\subsection{Pourquoi des Activités ?}
+
+La notion d'activités permet de séparer la logique des opérations de dessin des outils qui les déclenchent. Chaque activité encapsule la logique d'une opération spécifique, indépendamment de l'outil qui l'a initiée. Cette séparation des responsabilités offre une plus grande modularité et flexibilité au code de l'application. De plus, cela favorise la réutilisabilité du code, car une même activité peut être réutilisée par différents outils.
+
+Par ailleurs, l'utilisation d'activités offre un mécanisme pour l'implémentation de fonctionnalités complexes telles que l'annulation et le rétablissement des opérations. En effet, chaque activité peut gérer comment elle doit être annulée ou rétablie, permettant ainsi une gestion fine de ces opérations.
+
+\section{Gestion des tâches via les gestionnaires}
+
+Une approche orientée objet a été adoptée pour la gestion des tâches et la structuration du code. Un aspect clé de cette approche est l'utilisation de gestionnaires, ou "Managers", qui sont des entités chargées de coordonner et de superviser des tâches spécifiques.
+
+\subsection{Principe de fonctionnement des gestionnaires}
+
+Les gestionnaires sont des classes conçues pour prendre en charge la logique et la coordination associées à une tâche ou un ensemble de tâches spécifiques. Chaque gestionnaire est responsable d'un aspect spécifique du système et travaille de manière autonome pour accomplir les tâches qui lui sont assignées.
+
+Dans cette conception, les gestionnaires ont accès à l'état global de l'application, ce qui leur permet d'interagir et de modifier cet état en fonction des actions qu'ils supervisent. Cette approche permet d'encapsuler la logique spécifique à un certain type de tâche dans une seule entité, facilitant ainsi la compréhension et la maintenance du code.
+
+\subsection{Application des gestionnaires dans le projet}
+
+Par exemple, un gestionnaire d'activité, ou "Activity Manager", est responsable de la gestion du cycle de vie des activités dans l'application. Il s'occupe de la création, du démarrage, de la finalisation, de l'annulation et de la mise à jour des activités. Ce gestionnaire gère toutes les interactions avec les activités, libérant ainsi le reste du système de cette responsabilité.
+
+Lorsqu'une nouvelle activité doit être démarrée, le gestionnaire d'activité interrompt tout d'abord l'activité en cours, si elle existe, avant de démarrer la nouvelle activité. Il dispose également de méthodes permettant de compléter ou d'annuler une activité en cours.
+
+\subsection{Avantages de l'utilisation des gestionnaires}
+
+L'utilisation de gestionnaires offre plusieurs avantages. Premièrement, ils permettent d'isoler la logique spécifique à une tâche ou à un ensemble de tâches dans une entité autonome, améliorant ainsi la lisibilité et la maintenabilité du code. De plus, les gestionnaires permettent de réduire le couplage entre différentes parties de l'application, chaque gestionnaire ayant une responsabilité bien définie et agissant de manière autonome.
+
+Enfin, l'utilisation de gestionnaires facilite la coordination et la communication entre différentes parties de l'application, en fournissant une interface standard pour interagir avec un certain type de tâche.
