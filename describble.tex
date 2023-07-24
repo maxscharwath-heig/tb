@@ -8,9 +8,12 @@ Le nom Describble est une combinaison de "De", un préfixe signifiant décentral
 
 Dans ce chapitre, nous examinerons les principales fonctionnalités de Describble, les défis rencontrés lors de son développement et les solutions adoptées pour y faire face. Nous explorerons également les décisions prises lors du développement de l'application.
 
-\section{Architecture générale de l'application Describble}
 
-L'architecture de l'application de tableau blanc interactif Describble est construite de manière à être modulaire et extensible. Le cœur de l'application, nommé "Whiteboard Core", contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
+\section{Le coeur de l'application Describble}
+
+\subsection{Architecture générale de l'application Describble}
+
+L'architecture de l'application de tableau blanc interactif Describble est construite de manière à être modulaire et extensible. Le coeur de l'application, nommé "Whiteboard Core", contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
 
 Cette section décrit les fonctions clés de chaque sous-module dans l'architecture de Describble :
 
@@ -30,11 +33,23 @@ Cette section décrit les fonctions clés de chaque sous-module dans l'architect
 
 La classe principale \textbf{WhiteboardApp}  agit comme le chef d'orchestre qui gère les interactions entre ces différents modules. Par exemple, elle maintient une référence à l'outil actuellement sélectionné par l'utilisateur, initie les gestionnaires d'événements pour les interactions au clavier et à la souris, et supervise l'état global de l'application.
 
-\section{Principe et gestion des calques}
+\subsection{Indépendance par rapport au framework}
+
+L'objectif principal lors de la conception de l'architecture du coeur de l'application Describble était de construire un noyau indépendant des frameworks populaires tels que React ou Vue. L'idée était de construire un coeur d'application flexible et réutilisable qui pourrait être facilement intégré à n'importe quel environnement ou framework.
+
+En séparant la logique de l'application du framework, l'application gagne en portabilité et en flexibilité. La logique de l'application peut être testée et développée indépendamment, sans être limitée par les spécificités du framework.
+
+Cette approche a également l'avantage de faciliter la maintenance et l'évolution de l'application. En effet, si le besoin de changer de framework se présente, le coeur de l'application ne nécessite pas de modifications majeures. Il suffit de créer une nouvelle interface pour le nouveau framework, tout en conservant intacte la logique métier de l'application.
+
+Cette indépendance par rapport au framework a été atteinte grâce à l'utilisation de la programmation orientée objet et à la structuration du code en modules et en classes. Chaque module ou classe est responsable d'une tâche spécifique et communique avec les autres grâce à des interfaces bien définies. Ainsi, le coeur de l'application forme un système cohérent et indépendant qui peut être facilement intégré à n'importe quel environnement ou framework.
+
+En somme, le coeur de l'application Describble est conçu pour être flexible et évolutif, tout en restant indépendant du framework utilisé. Cela permet de garantir la pérennité et la portabilité de l'application, tout en facilitant sa maintenance et son évolution.
+
+\subsection{Principe et gestion des calques}
 
 Dans l'application, les différents objets que l'utilisateur peut placer et manipuler sont représentés par des calques. Ces calques peuvent être de simples formes comme des cercles et des rectangles, ou des objets plus complexes comme des images et des chemins. Chaque type de calque a son propre ensemble de propriétés et de méthodes pour interagir avec eux.
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{\assetsdir/diagram-describble-BaseLayer.svg}
     \caption{Diagramme de l'interface de base des calques}
@@ -43,7 +58,7 @@ Dans l'application, les différents objets que l'utilisateur peut placer et mani
 
 L'interface BaseLayer est la base pour tous les types de calques. Elle comprend des propriétés communes telles que l'identifiant, le nom, le type, la visibilité, l'index z, et le style. Chaque type de calque étend cette interface pour inclure ses propriétés spécifiques.
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{\assetsdir/diagram-describble-BaseLayerUtil.svg}
     \caption{Diagramme de la classe utilitaire de base des calques}
@@ -62,13 +77,13 @@ Afin d'ajouter un nouveau type de calque à l'application, il faut suivre ces é
 
 En suivant ces étapes, on assure que le noyau de l'application est conscient du nouveau type de calque et peut l'utiliser dans le cadre de ses fonctionnalités.
 
-\section{Les outils et leur cycle de vie}
+\subsection{Les outils et leur cycle de vie}
 
 L'application de dessin met à la disposition de l'utilisateur divers outils pour interagir avec le canevas. Ces outils comprennent des fonctions pour dessiner des formes, insérer des images, sélectionner et déplacer des éléments sur le canevas.
 
 Chaque outil est programmé pour répondre de manière spécifique aux interactions de l'utilisateur. Par exemple, lorsqu'un utilisateur clique et glisse sur le canevas, un outil de dessin de forme peut commencer à dessiner une forme, tandis qu'un outil de déplacement peut commencer à déplacer un élément existant. C'est ici qu'intervient le concept du "cycle de vie de l'outil".
 
-\subsection{Le cycle de vie de l'outil}
+\subsubsection{Le cycle de vie de l'outil}
 
 Chaque outil peut passer par différentes phases ou "états" en réponse aux interactions de l'utilisateur. Ces états sont gérés par des méthodes spécifiques :
 
@@ -80,21 +95,21 @@ Chaque outil peut passer par différentes phases ou "états" en réponse aux int
 
 Ainsi, lorsqu'un outil est sélectionné pour la première fois, la méthode \textbf{onActivate} est appelée, mettant l'outil dans un état "Idle". Lorsque l'utilisateur commence une interaction, comme un clic et un glissement, l'outil peut passer à un état "Creating" ou "Dragging", selon le type d'outil. Lorsque l'interaction de l'utilisateur se termine, l'outil peut revenir à l'état "Idle" ou passer à un autre état approprié. Enfin, si un autre outil est sélectionné, la méthode \textbf{onDeactivate} est appelée, permettant de nettoyer ou de réinitialiser son état interne.
 
-\subsection{Gestion des outils dans l'application}
+\subsubsection{Gestion des outils dans l'application}
 
 Pour utiliser les outils dans l'application, des instances des classes d'outils souhaitées sont créées et regroupées dans un objet de gestion des outils. Cet objet permet de basculer facilement entre les outils en fonction de la sélection de l'utilisateur. Par exemple, si l'utilisateur sélectionne l'outil pour dessiner un rectangle, l'outil rectangle est activé, et l'outil précédemment actif est désactivé.
 
 En comprenant et en utilisant efficacement ces outils et leur cycle de vie, nous pouvons créer une application de dessin interactive et puissante.
 
-\section{Les Activités}
+\subsection{Les Activités}
 
 L'application de dessin présente une abstraction de la gestion des interactions utilisateur appelée "activités". Cette abstraction offre une structuration des opérations de dessin pouvant être effectuées au sein de l'application.
 
-\subsection{Qu'est-ce qu'une Activité ?}
+\subsubsection{Qu'est-ce qu'une Activité ?}
 
 Une activité représente une interaction ou une opération spécifique qui peut être effectuée sur l'application de dessin. Cela peut inclure la création de formes, le tracé de chemins libres, la manipulation d'objets existants, et bien plus encore.
 
-\subsection{Cycle de vie d'une Activité}
+\subsubsection{Cycle de vie d'une Activité}
 
 Chaque activité suit un cycle de vie défini, qui peut être grossièrement décomposé en quatre étapes principales :
 
@@ -105,30 +120,347 @@ Chaque activité suit un cycle de vie défini, qui peut être grossièrement dé
     \item \textbf{Achèvement ou Annulation :} Finalement, l'activité est soit achevée avec succès, marquant ainsi la fin de l'opération de dessin, soit annulée, entraînant la réinitialisation de l'état de l'activité à son état initial.
 \end{itemize}
 
-\subsection{Pourquoi des Activités ?}
+\subsubsection{Pourquoi des Activités ?}
 
 La notion d'activités permet de séparer la logique des opérations de dessin des outils qui les déclenchent. Chaque activité encapsule la logique d'une opération spécifique, indépendamment de l'outil qui l'a initiée. Cette séparation des responsabilités offre une plus grande modularité et flexibilité au code de l'application. De plus, cela favorise la réutilisabilité du code, car une même activité peut être réutilisée par différents outils.
 
 Par ailleurs, l'utilisation d'activités offre un mécanisme pour l'implémentation de fonctionnalités complexes telles que l'annulation et le rétablissement des opérations. En effet, chaque activité peut gérer comment elle doit être annulée ou rétablie, permettant ainsi une gestion fine de ces opérations.
 
-\section{Gestion des tâches via les gestionnaires}
+\subsection{Gestion des tâches via les gestionnaires}
 
 Une approche orientée objet a été adoptée pour la gestion des tâches et la structuration du code. Un aspect clé de cette approche est l'utilisation de gestionnaires, ou "Managers", qui sont des entités chargées de coordonner et de superviser des tâches spécifiques.
 
-\subsection{Principe de fonctionnement des gestionnaires}
+\subsubsection{Principe de fonctionnement des gestionnaires}
 
 Les gestionnaires sont des classes conçues pour prendre en charge la logique et la coordination associées à une tâche ou un ensemble de tâches spécifiques. Chaque gestionnaire est responsable d'un aspect spécifique du système et travaille de manière autonome pour accomplir les tâches qui lui sont assignées.
 
 Dans cette conception, les gestionnaires ont accès à l'état global de l'application, ce qui leur permet d'interagir et de modifier cet état en fonction des actions qu'ils supervisent. Cette approche permet d'encapsuler la logique spécifique à un certain type de tâche dans une seule entité, facilitant ainsi la compréhension et la maintenance du code.
 
-\subsection{Application des gestionnaires dans le projet}
+\subsubsection{Application des gestionnaires dans le projet}
 
 Par exemple, un gestionnaire d'activité, ou "Activity Manager", est responsable de la gestion du cycle de vie des activités dans l'application. Il s'occupe de la création, du démarrage, de la finalisation, de l'annulation et de la mise à jour des activités. Ce gestionnaire gère toutes les interactions avec les activités, libérant ainsi le reste du système de cette responsabilité.
 
 Lorsqu'une nouvelle activité doit être démarrée, le gestionnaire d'activité interrompt tout d'abord l'activité en cours, si elle existe, avant de démarrer la nouvelle activité. Il dispose également de méthodes permettant de compléter ou d'annuler une activité en cours.
 
-\subsection{Avantages de l'utilisation des gestionnaires}
+\subsubsection{Avantages et inconvénients de l'approche par gestionnaires}
 
-L'utilisation de gestionnaires offre plusieurs avantages. Premièrement, ils permettent d'isoler la logique spécifique à une tâche ou à un ensemble de tâches dans une entité autonome, améliorant ainsi la lisibilité et la maintenabilité du code. De plus, les gestionnaires permettent de réduire le couplage entre différentes parties de l'application, chaque gestionnaire ayant une responsabilité bien définie et agissant de manière autonome.
+Cette approche orientée gestionnaire offre de nombreux avantages :
 
-Enfin, l'utilisation de gestionnaires facilite la coordination et la communication entre différentes parties de l'application, en fournissant une interface standard pour interagir avec un certain type de tâche.
+\begin{itemize}
+    \item \textbf{Encapsulation} : Chaque gestionnaire encapsule la logique spécifique à un certain type de tâche, ce qui rend le code plus compréhensible et plus facile à maintenir.
+    \item \textbf{Cohérence} : Les gestionnaires assurent une cohérence dans la gestion des tâches en imposant un ensemble de règles et de procédures pour chaque tâche.
+    \item \textbf{Flexibilité} : Les gestionnaires offrent une grande flexibilité car ils peuvent être ajoutés, supprimés ou modifiés indépendamment les uns des autres, sans perturber le reste du système.
+\end{itemize}
+
+Cependant, cette approche présente également quelques inconvénients :
+
+\begin{itemize}
+    \item \textbf{Complexité accrue} : La création de nombreux gestionnaires peut rendre le système plus complexe et plus difficile à comprendre dans son ensemble.
+    \item \textbf{Risque de couplage fort} : Les gestionnaires ayant accès à l'état global de l'application, il existe un risque de couplage fort entre les gestionnaires et le reste du système, ce qui peut rendre le code plus difficile à réutiliser.
+    \item \textbf{Difficulté de test} : Tester les gestionnaires peut être difficile car ils sont souvent fortement dépendants de l'état global de l'application.
+\end{itemize}
+
+En dépit de ces inconvénients, l'approche par gestionnaires s'est avérée très efficace pour structurer et organiser le code de l'application Describble.
+
+\section{Création de l'interface utilisateur avec React}
+
+Dans cette section, nous allons discuter de la façon dont l'interface utilisateur de l'application Describble a été conçue en utilisant la bibliothèque React. Un point central de cette conception est l'utilisation du contexte React et du modèle Provider pour fournir un accès global à l'instance de la classe centrale `WhiteboardApp`.
+
+\subsection{Le contexte React et le modèle Provider}
+
+Dans une application React, le partage d'états globaux entre les composants peut souvent nécessiter de passer des props à travers plusieurs niveaux de l'arbre de composants, ce qui peut rendre le code difficile à maintenir et à comprendre. Pour résoudre ce problème, React propose une fonctionnalité appelée Context, qui permet de partager des valeurs globales entre plusieurs composants sans avoir à passer explicitement des props.
+
+Dans le cas de Describble, nous utilisons le contexte React pour fournir un accès global à l'instance de la classe `WhiteboardApp`, qui est le cœur de l'application.
+
+\begin{listing}[H]
+    \begin{minted}[breaklines,frame=none]{typescript}
+import React from 'react';
+import {type WhiteboardApp} from '~core/WhiteboardApp';
+
+const WhiteboardContext = React.createContext<WhiteboardApp | null>(null);
+
+export function useWhiteboard() {
+  const context = React.useContext(WhiteboardContext);
+  if (!context) {
+    throw new Error('useWhiteboard must be used within a WhiteboardProvider');
+  }
+
+  return context;
+}
+  \end{minted}
+    \caption{Création du contexte Whiteboard et de la fonction d'accès useWhiteboard}
+\end{listing}
+
+Comme on peut le voir dans le listing ci-dessus, un nouveau contexte appelé `WhiteboardContext` est créé avec une valeur initiale de `null`. Ensuite, une fonction d'accès personnalisée appelée `useWhiteboard` est définie. Cette fonction utilise le hook `useContext` de React pour accéder à la valeur du contexte `WhiteboardContext`. Si le contexte n'est pas disponible, une erreur est déclenchée, indiquant que la fonction `useWhiteboard` doit être utilisée à l'intérieur d'un `WhiteboardProvider`.
+
+\subsection{Le Provider Pattern avec le contexte React}
+
+Pour fournir la valeur du contexte `WhiteboardContext` à tous les composants de l'application, nous utilisons le modèle Provider. Dans ce modèle, un composant appelé `Provider` est utilisé pour envelopper l'arbre de composants, et il prend la valeur du contexte en prop.
+
+\begin{listing}[H]
+    \begin{minted}[breaklines,frame=none]{typescript}
+export const WhiteboardProvider = WhiteboardContext.Provider;
+  \end{minted}
+    \caption{Création du Provider pour le contexte Whiteboard}
+\end{listing}
+
+Dans le listing ci-dessus, `WhiteboardProvider` est défini comme étant le `Provider` pour le `WhiteboardContext`.
+
+\subsection{Mise en place de l'interface utilisateur avec React et le modèle Provider}
+
+En utilisant le `WhiteboardProvider` pour envelopper l'ensemble de l'application, nous pouvons fournir l'instance de `WhiteboardApp` à tous les composants de l'application.
+
+\begin{listing}[H]
+    \begin{minted}[breaklines,frame=none]{html}
+const app = new WhiteboardApp();
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <WhiteboardProvider value={app}>
+        [...]
+    </WhiteboardProvider>
+  </React.StrictMode>,
+);
+  \end{minted}
+    \caption{Enveloppement de l'application avec le Provider, donnant accès à l'instance de WhiteboardApp}
+\end{listing}
+
+Dans le listing ci-dessus, nous créons une racine pour notre application avec la méthode `ReactDOM.createRoot`, et nous rendons notre application à l'intérieur de cette racine. L'application est enveloppée avec le `WhiteboardProvider`, et l'instance de `WhiteboardApp` est passée en tant que valeur au `Provider`. Cela permet à tous les composants de l'application d'accéder à `app` en utilisant le hook `useContext` avec le `WhiteboardContext`.
+
+Ainsi, en utilisant le contexte React et le modèle Provider, nous avons pu mettre en place une architecture d'application qui permet un accès facile et centralisé à l'état global et aux fonctionnalités clés de l'application.
+
+\section{Interface utilisateur}
+
+L'interface utilisateur de l'application est organisée autour de trois zones principales : l'interface d'authentification, le tableau de bord pour la gestion des documents et la zone de dessin.
+
+Bien sûr, ajoutons des illustrations et détaillons davantage les descriptions.
+
+\section{Interface d'authentification}
+
+L'interface d'authentification de l'application comporte trois principales sous-sections : l'inscription, la connexion et la récupération du compte. Ces processus sont conçus pour être à la fois intuitifs et sécurisés, en utilisant un système d'étapes pour guider l'utilisateur à travers chaque étape.
+
+\subsection{Inscription}
+
+L'inscription est la première étape pour l'utilisateur. Elle se fait en plusieurs étapes, guidées par un système d'étapes spécialement conçu pour le processus. Les étapes sont les suivantes :
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[t]{0.40\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/figures/describble-register-1.png}
+        \caption{Première étape de la phase d'inscription: entrée du mot de passe\label{fig:register1}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.40\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/figures/describble-register-2.png}
+        \caption{Deuxième étape de la phase d'inscription: génération et notation de la phrase de récupération\label{fig:register2}}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.40\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/figures/describble-register-3.png}
+        \caption{Troisième étape de la phase d'inscription: vérification de la phrase de récupération\label{fig:register3}}
+    \end{subfigure}
+\end{figure}
+
+\begin{enumerate}
+    \item Première étape (Figure \ref{fig:register1}) : L'utilisateur est invité à entrer une paire de mots de passe qui sera utilisée pour chiffrer sa clé privée.
+    \item Deuxième étape (Figure \ref{fig:register2}) : Le système génère une liste de 12 mots que l'utilisateur est invité à noter sur un papier. L'utilisateur a la possibilité de cacher la liste de mots et de copier cette phrase dans son presse-papier.
+    \item Troisième étape (Figure \ref{fig:register3}) : Cette étape sert à vérifier que l'utilisateur a bien enregistré sa phrase. Le système retire 3 mots aléatoirement de la liste et l'utilisateur doit les compléter. Une fois cette étape réussie, le compte est créé.
+    \item Dernière étape : Une confirmation est affichée à l'utilisateur indiquant que son compte a été créé avec succès.
+\end{enumerate}
+
+\subsection{Connexion}
+
+La phase de connexion est assez simple : l'application affiche la liste de tous les comptes présents sur l'appareil, représentés par des avatars générés en fonction de la clé publique (voir section \ref{moodie}). Lorsque l'utilisateur sélectionne un compte, il est invité à entrer son mot de passe. Cette étape est conçue pour être simple et intuitive, elle a été inspiré par l'interface de connexion de Netflix.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{assets/figures/describble-login.png}
+    \caption{Interface de connexion: sélection du compte et entrée du mot de passe}
+\end{figure}
+
+En cas d'échec de la connexion, l'utilisateur est alerté et l'application lui propose de réinitialiser son compte. Si la connexion est réussie, l'utilisateur est redirigé vers son tableau de bord et une session est initiée.
+
+\subsection{Récupération du compte}
+
+La récupération du compte est un processus en deux étapes qui permet à l'utilisateur de récupérer l'accès à son compte s'il a perdu son mot de passe.
+
+\begin{itemize}
+    \item Première étape : L'utilisateur entre la phrase qu'il a précieusement notée lors de l'inscription.
+    \item Deuxième étape : L'utilisateur entre un nouveau mot de passe. Une fois ces deux étapes franchies, le compte est réinitialisé et l'utilisateur peut se reconnecter.
+\end{itemize}
+
+\subsection{Système d'étapes}
+Toutes ces étapes sont gérées par un système d'étapes conçu pour être flexible. Il est structuré autour de deux concepts principaux : les étapes et le contexte. Chaque étape est un composant indépendant avec un nom et une fonction d'affichage. Certaines étapes peuvent également être marquées comme "cachées", ce qui signifie qu'elles ne seront pas affichées à l'utilisateur mais seront toujours traitées par le système. Le contexte, quant à lui, maintient l'état global du système d'étapes. Il contient la liste des étapes, l'indice de l'étape actuelle, l'étape actuelle elle-même, ainsi que deux fonctions pour naviguer vers l'étape suivante ou précédente. Le contexte maintient également un état, qui peut être utilisé pour stocker des informations entre les différentes étapes. Cette architecture offre une expérience utilisateur fluide et sécurisée, tout en garantissant une structure claire et modulaire pour le développeur.
+
+\begin{listing}[H]
+    \begin{minted}[breaklines,frame=none]{html}
+export const Recover: React.FC = () => {
+    const steps = [
+        {name: 'recovery_phrase', component: RecoverStep},
+        {name: 'create_password', component: CreatePasswordStep},
+        {name: 'confirmation', component: ConfirmedStep},
+    ];
+
+    return (
+    <StepsProvider steps={steps} initialState={{}}>
+        <Stepper/>
+    </StepsProvider>
+    );
+};
+  \end{minted}
+    \caption{Exemple de définition des étapes dans un composant}
+\end{listing}
+
+\begin{listing}[H]
+    \begin{minted}[breaklines,frame=none]{html}
+export const CreatePasswordStep: React.FC = () => {
+    const {next, state, setState} = useSteps();
+
+    return (<>
+        <h1>{state.password}</h1>
+        <input 
+            type="password" 
+            onChange={(e) => setState({password: e.target.value})}
+        />
+        <button onClick={() => next()}>Next</button>
+    </>);
+};
+  \end{minted}
+    \caption{Exemple de définition d'une étape}
+\end{listing}
+
+
+\subsection{Gestion des documents - Dashboard}
+
+Une fois connecté, l'utilisateur accède à son tableau de bord. C'est à partir de cette interface que l'utilisateur pourra gérer tous ses documents.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/figures/describble-dashboard.png}
+    \caption{Interface du Dashboard}
+    \label{fig:dashboard}
+\end{figure}
+
+Comme on peut le voir sur la Figure \ref{fig:dashboard}, chaque document est représenté par une fiche. Cette fiche comprend plusieurs éléments :
+
+\begin{itemize}
+    \item Une vignette : C'est un aperçu dynamique du contenu du document. Le système est conçu pour générer la vignette uniquement pour la zone utile du document, ce qui optimise l'espace et les ressources nécessaires pour afficher un aperçu précis du contenu.
+    \item Un titre : Chaque document possède un titre qui est affiché sur la fiche.
+    \item L'adresse du document : L'adresse unique du document en base58 est également affichée sur la fiche.
+    \item Deux boutons : Le premier bouton permet de supprimer le document de la machine, tandis que le second ouvre une fenêtre affichant les détails et les paramètres de partage du document.
+\end{itemize}
+
+En haut à droite du tableau de bord, un bouton "Nouveau tableau blanc" permet à l'utilisateur de créer un nouveau document.
+
+\subsection{Gestion des paramètres et informations d'un document}
+
+Pour accéder aux informations et aux paramètres d'un document, l'utilisateur peut ouvrir la fenêtre de gestion du document. Cette interface affiche toutes les informations pertinentes concernant le document, comme son adresse unique, son numéro de version, ses métadonnées et sa signature. De plus, elle permet à l'utilisateur de voir le propriétaire du document ainsi que la liste des utilisateurs autorisés à y accéder.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{assets/figures/describble-share-modal.png}
+    \caption{Interface de gestion d'un document}
+    \label{fig:doc_management}
+\end{figure}
+
+Si l'utilisateur actuel est le propriétaire du document, alors des options supplémentaires de gestion sont disponibles. Il peut, par exemple, modifier le nom du document, ajouter ou supprimer des utilisateurs autorisés. Il faut noter que toutes les modifications apportées ne sont enregistrées que lors de la sauvegarde du document.
+
+\subsection{Interface de dessin - Le Canvas}
+
+L'interface principale de l'application est la zone de dessin, appelée "Canvas". C'est ici que l'utilisateur peut exprimer sa créativité et concevoir des dessins complexes.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/figures/describble-canvas.png}
+    \caption{Interface de la zone de dessin, avec un document ouvert, ses calques et ses outils}
+    \label{fig:canvas_interface}
+\end{figure}
+
+Comme illustré à la Figure \ref{fig:canvas_interface}, le Canvas est composé de plusieurs sections :
+
+\begin{itemize}
+    \item \textbf{La barre d'outils} : Située en haut de l'écran, elle permet à l'utilisateur de choisir l'outil qu'il souhaite utiliser pour dessiner. Elle indique également quel outil est actuellement sélectionné.
+    \item \textbf{Le panneau de style} : Sur la droite de l'écran, ce panneau permet à l'utilisateur de personnaliser le style de ses dessins. Il peut par exemple ajuster l'épaisseur des traits, la couleur de remplissage, ou encore le style de trait.
+    \item \textbf{Le panneau de calques} : Juste en dessous du panneau de style, il liste tous les calques présents sur le Canvas. L'utilisateur peut ainsi facilement supprimer un calque, le masquer ou le révéler, et même centrer la caméra sur un calque spécifique. Cela s'avère particulièrement utile lorsque l'utilisateur travaille sur un dessin complexe comportant de nombreux calques.
+    \item \textbf{La zone de dessin} : C'est la zone principale de l'écran, où l'utilisateur peut librement dessiner. Sa taille est infinie, offrant ainsi à l'utilisateur un espace illimité pour sa créativité.
+    \item \textbf{La barre de débogage} : Située en bas de l'écran, elle offre à l'utilisateur des informations utiles pour comprendre ce qui se passe pendant qu'il dessine.
+\end{itemize}
+
+L'ensemble de ces éléments rend l'interface de dessin à la fois puissante et flexible, tout en restant intuitive et facile à utiliser.
+
+\section{Développement du package Moodie pour la génération d'avatars\label{moodie}}
+
+Afin d'offrir une expérience utilisateur plus personnalisée dans la plateforme, une solution spécifique pour la génération d'avatars a été développée. Cette solution, nommée Moodie, est le résultat d'une refonte d'une bibliothèque existante pour mieux répondre aux besoins du projet.
+
+\subsection{Motivation pour la refonte de la bibliothèque}
+
+La bibliothèque initialement utilisée pour la génération d'avatars était boring-avatars\footnote{\url{https://github.com/boringdesigners/boring-avatars}}. Bien que cette bibliothèque offre des fonctionnalités de base pour la génération d'avatars, elle ne permettait pas le niveau de personnalisation et d'expressivité recherché. Par conséquent, il a été décidé de réécrire le code source pour mieux répondre aux exigences du projet, tout en conservant l'esthétique visuelle des avatars, qui correspondait aux attentes et de garder que les fonctionnalités nécessaires.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{\assetsdir/moodie.svg}
+    \caption{Exemple d'avatar généré par Moodie avec différentes expressions}
+\end{figure}
+
+\subsection{Caractéristiques clés du package Moodie}
+
+Moodie présente plusieurs caractéristiques distinctives :
+
+\begin{itemize}
+    \item \textbf{Génération d'avatars uniques :} Les avatars sont générés à partir de la clé publique unique de chaque utilisateur, garantissant ainsi l'unicité de chaque avatar.
+    \item \textbf{Expressivité des avatars :} Moodie propose une variété d'expressions pour chaque avatar, ce qui permet de créer des avatars dynamiques et attrayants.
+    \item \textbf{Légèreté du package :} Moodie a été conçu pour être léger et ne nécessite aucune dépendance externe, ce qui facilite son intégration dans des applications web.
+    \item \textbf{Personnalisation des couleurs :} Moodie permet une personnalisation complète de la palette de couleurs utilisée pour les avatars, offrant ainsi une grande variété de représentations possibles.
+\end{itemize}
+
+\subsection{Exemple d'intégration de Moodie}
+
+Intégrer Moodie dans une application est simple. Voici un exemple d'utilisation de Moodie dans le code de l'application :
+
+\begin{listing}[H]
+    \begin{minted}[breaklines,frame=none]{html}
+import { Moodie } from 'moodie';
+
+<Moodie
+  size={40}
+  publicKey="userPublicKey"
+  expression={{
+    eye: 'happy',
+    mouth: 'smile',
+  }}
+  colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+/>;
+  \end{minted}
+    \caption{Exemple d'intégration du package Moodie dans le code de l'application}
+\end{listing}
+
+Dans cet exemple, un avatar est généré à partir de la clé publique de l'utilisateur. L'expression de l'avatar et la palette de couleurs sont également personnalisables.
+
+En conclusion, le développement de Moodie a permis d'obtenir une solution de génération d'avatars parfaitement adaptée aux besoins du projet. De plus, pour partager cette solution avec la communauté des développeurs, le package Moodie a été publié sur la plateforme npm\footnote{\url{https://www.npmjs.com/package/moodie}}.
+
+\section{Déploiement}
+
+Une étape clé du développement de l'application a été son déploiement sur Internet, rendant l'application accessible à un large public. Deux plateformes de déploiement ont été utilisées pour cela : Vercel pour le front-end de l'application et Fly.io pour le serveur de signalement.
+
+\subsection{Déploiement du front-end avec Vercel}
+
+Vercel\footnote{\url{https://vercel.com/}} a été sélectionné comme plateforme de déploiement pour l'application front-end. En premier lieu, Vercel est optimisé pour les applications web frontales construites avec React, rendant ainsi le déploiement de l'application facile et efficace. De plus, Vercel propose une intégration directe avec GitHub. Cela signifie que chaque push vers le repository GitHub de l'application déclenche automatiquement un nouveau déploiement sur Vercel, simplifiant ainsi le processus de mise à jour de l'application en ligne.
+
+D'autres alternatives existaient pour le déploiement du front-end, telles que Netlify ou Github Pages, mais Vercel a été retenu en raison son intégration continue avec GitHub, et de sa simplicité d'utilisation.
+
+Enfin, pour rendre l'application facilement accessible sur Internet, un nom de domaine a été acquis : describble.io. Pour associer ce nom de domaine à l'application déployée sur Vercel, une configuration DNS a été nécessaire. Cette configuration a été réalisée sans difficulté grâce à l'interface conviviale de Vercel.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{assets/figures/vercel-deploy.png}
+    \caption{Capture d'écran de l'interface de Vercel montrant le déploiement de l'application Describble}
+\end{figure}
+
+\subsection{Déploiement du serveur de signalement avec Fly.io}
+
+Fly.io\footnote{\url{https://fly.io/}} a été utilisé pour déployer le serveur de signalement. Fly.io est une plateforme qui permet d'héberger des applications dans des conteneurs Docker, ce qui convenait parfaitement aux besoins du serveur de signalement.
+
+La procédure de déploiement sur Fly.io a été réalisée à l'aide de l'interface de ligne de commande (CLI) de Fly.io. Après la configuration du conteneur Docker, le déploiement a été effectué en poussant le conteneur vers Fly.io à l'aide de la CLI.

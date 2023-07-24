@@ -194,6 +194,7 @@
 \RequirePackage[fleqn]{amsmath}
 \RequirePackage[small,bf,textfont=it]{caption}
 \RequirePackage{appendix}
+\RequirePackage{subcaption}
 \RequirePackage{cellspace}
 \RequirePackage{color}
 \RequirePackage{fancyhdr}
@@ -317,9 +318,11 @@
     %   \vskip 5em%
     % \else
     %   \vskip 10em%
-    \vskip 5em%
-    \textbf{\MakeUppercase{Rendu intermédiaire}}
-    \vskip 5em%
+    
+    %\vskip 5em%
+    %\textbf{\MakeUppercase{Rendu intermédiaire}}
+    %\vskip 5em%
+    
     \fi
     Département \@department\par
     Filière \@faculty\par
