@@ -4,7 +4,15 @@ Le but initial était de créer un outil démonstrateur pour le système Condens
 
 Describble est une application de tableau blanc décentralisée qui fonctionne sur le principe du "Local-First". Elle est conçue pour permettre une collaboration en temps réel entre plusieurs utilisateurs, offrant la possibilité de créer, de partager et de modifier des documents de manière simultanée et sécurisée, sans dépendre d'un serveur centralisé.
 
-Le nom Describble est une combinaison de "De", un préfixe signifiant décentralisé, et "scribble", un terme anglais pour gribouillage. Ce nom a été choisi non seulement pour sa signification, mais aussi pour donner à l'application une identité distincte, plutôt que de la désigner simplement comme "Whiteboard". Cela a permis de donner plus d'importance au projet et de le positionner comme un projet à part entière.
+Le nom Describble est une combinaison de "De", un préfixe signifiant décentralisé, et "scribble", un terme anglais pour gribouillage.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\textwidth]{\assetsdir/describble-logo.svg}
+    \caption{Logo de l'application Describble, fait sur Figma}
+\end{figure}
+
+Ce nom a été choisi non seulement pour sa signification, mais aussi pour donner à l'application une identité distincte, plutôt que de la désigner simplement comme "Whiteboard". Cela a permis de donner plus d'importance au projet et de le positionner comme un projet à part entière.
 
 Dans ce chapitre, nous examinerons les principales fonctionnalités de Describble, les défis rencontrés lors de son développement et les solutions adoptées pour y faire face. Nous explorerons également les décisions prises lors du développement de l'application.
 
@@ -52,7 +60,7 @@ Dans l'application, les différents objets que l'utilisateur peut placer et mani
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{\assetsdir/diagram-describble-BaseLayer.svg}
-    \caption{Diagramme de l'interface de base des calques}
+    \caption{Diagramme des classes de base des calques}
     \label{fig:baseLayerDiagram}
 \end{figure}
 
@@ -60,8 +68,8 @@ L'interface BaseLayer est la base pour tous les types de calques. Elle comprend 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\textwidth]{\assetsdir/diagram-describble-BaseLayerUtil.svg}
-    \caption{Diagramme de la classe utilitaire de base des calques}
+    \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-describble-BaseLayerUtil.svg}
+    \caption{Diagramme des classes utilitaires de base des calques}
     \label{fig:baseLayerUtilDiagram}
 \end{figure}
 
@@ -229,12 +237,6 @@ Dans le listing ci-dessus, nous créons une racine pour notre application avec l
 
 Ainsi, en utilisant le contexte React et le modèle Provider, nous avons pu mettre en place une architecture d'application qui permet un accès facile et centralisé à l'état global et aux fonctionnalités clés de l'application.
 
-\section{Interface utilisateur}
-
-L'interface utilisateur de l'application est organisée autour de trois zones principales : l'interface d'authentification, le tableau de bord pour la gestion des documents et la zone de dessin.
-
-Bien sûr, ajoutons des illustrations et détaillons davantage les descriptions.
-
 \section{Interface d'authentification}
 
 L'interface d'authentification de l'application comporte trois principales sous-sections : l'inscription, la connexion et la récupération du compte. Ces processus sont conçus pour être à la fois intuitifs et sécurisés, en utilisant un système d'étapes pour guider l'utilisateur à travers chaque étape.
@@ -245,19 +247,19 @@ L'inscription est la première étape pour l'utilisateur. Elle se fait en plusie
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[t]{0.40\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{assets/figures/describble-register-1.png}
         \caption{Première étape de la phase d'inscription: entrée du mot de passe\label{fig:register1}}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[t]{0.40\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{assets/figures/describble-register-2.png}
         \caption{Deuxième étape de la phase d'inscription: génération et notation de la phrase de récupération\label{fig:register2}}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[t]{0.40\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{assets/figures/describble-register-3.png}
         \caption{Troisième étape de la phase d'inscription: vérification de la phrase de récupération\label{fig:register3}}
@@ -277,7 +279,7 @@ La phase de connexion est assez simple : l'application affiche la liste de tous 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{assets/figures/describble-login.png}
+    \includegraphics[width=0.75\textwidth]{assets/figures/describble-login.png}
     \caption{Interface de connexion: sélection du compte et entrée du mot de passe}
 \end{figure}
 
@@ -292,7 +294,7 @@ La récupération du compte est un processus en deux étapes qui permet à l'uti
     \item Deuxième étape : L'utilisateur entre un nouveau mot de passe. Une fois ces deux étapes franchies, le compte est réinitialisé et l'utilisateur peut se reconnecter.
 \end{itemize}
 
-\subsection{Système d'étapes}
+\subsubsection{Système d'étapes}
 Toutes ces étapes sont gérées par un système d'étapes conçu pour être flexible. Il est structuré autour de deux concepts principaux : les étapes et le contexte. Chaque étape est un composant indépendant avec un nom et une fonction d'affichage. Certaines étapes peuvent également être marquées comme "cachées", ce qui signifie qu'elles ne seront pas affichées à l'utilisateur mais seront toujours traitées par le système. Le contexte, quant à lui, maintient l'état global du système d'étapes. Il contient la liste des étapes, l'indice de l'étape actuelle, l'étape actuelle elle-même, ainsi que deux fonctions pour naviguer vers l'étape suivante ou précédente. Le contexte maintient également un état, qui peut être utilisé pour stocker des informations entre les différentes étapes. Cette architecture offre une expérience utilisateur fluide et sécurisée, tout en garantissant une structure claire et modulaire pour le développeur.
 
 \begin{listing}[H]
@@ -332,14 +334,13 @@ export const CreatePasswordStep: React.FC = () => {
     \caption{Exemple de définition d'une étape}
 \end{listing}
 
-
-\subsection{Gestion des documents - Dashboard}
+\section{Gestion des documents - Dashboard}
 
 Une fois connecté, l'utilisateur accède à son tableau de bord. C'est à partir de cette interface que l'utilisateur pourra gérer tous ses documents.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/figures/describble-dashboard.png}
+    \includegraphics[width=0.95\textwidth]{assets/figures/describble-dashboard.png}
     \caption{Interface du Dashboard}
     \label{fig:dashboard}
 \end{figure}
@@ -368,7 +369,7 @@ Pour accéder aux informations et aux paramètres d'un document, l'utilisateur p
 
 Si l'utilisateur actuel est le propriétaire du document, alors des options supplémentaires de gestion sont disponibles. Il peut, par exemple, modifier le nom du document, ajouter ou supprimer des utilisateurs autorisés. Il faut noter que toutes les modifications apportées ne sont enregistrées que lors de la sauvegarde du document.
 
-\subsection{Interface de dessin - Le Canvas}
+\section{Interface de dessin - Le Canvas}
 
 L'interface principale de l'application est la zone de dessin, appelée "Canvas". C'est ici que l'utilisateur peut exprimer sa créativité et concevoir des dessins complexes.
 
@@ -455,7 +456,7 @@ Enfin, pour rendre l'application facilement accessible sur Internet, un nom de d
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{assets/figures/vercel-deploy.png}
+    \includegraphics[width=1\textwidth]{assets/figures/vercel-deploy.png}
     \caption{Capture d'écran de l'interface de Vercel montrant le déploiement de l'application Describble}
 \end{figure}
 

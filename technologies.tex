@@ -154,39 +154,31 @@ Plusieurs frameworks frontend réactifs sont disponibles, tels que React, Angula
 
 \paragraph{Mise à jour et maintenance :} React est développé et maintenu par Facebook, qui l'utilise dans ses propres applications. Cela signifie que React bénéficie d'un soutien solide, de mises à jour régulières et d'une maintenance à long terme.
 
-\section{Utilisation de Tailwind CSS}
+\section{Choix du Framework CSS: Tailwind CSS et DaisyUI}
 
-Tailwind CSS\cite{InstallationTailwindCSS} est un framework CSS moderne et très populaire qui se concentre sur l'utilité, la flexibilité et la personnalisation. Il est conçu pour faciliter la création de designs responsifs et cohérents en fournissant un ensemble de classes CSS préconfigurées qui peuvent être facilement combinées pour construire rapidement des interfaces utilisateur. Dans cette section, nous discuterons des avantages et des inconvénients de l'utilisation de Tailwind CSS, ainsi que des raisons pour lesquelles il a été choisi pour ce projet.
+Pour la mise en forme de l'interface utilisateur de ce projet, le choix s'est porté sur le framework CSS Tailwind CSS, combiné avec le plugin DaisyUI. Ce choix a été motivé par une série de facteurs, parmi lesquels la facilité d'utilisation, la rapidité de développement, la personnalisation, la flexibilité et l'optimisation des performances.
 
-\subsection{Avantages}
+\subsection{Tailwind CSS}
 
-\paragraph{Utilitaires basés sur des classes}
+Tailwind CSS est un framework CSS moderne et flexible, qui se démarque par son approche basée sur des classes utilitaires. Il fournit un ensemble de classes CSS préconfigurées, qui peuvent être combinées pour construire rapidement des interfaces utilisateur responsives et cohérentes. Ce choix de conception facilite la compréhension des styles appliqués à un élément, sans avoir à naviguer entre plusieurs fichiers CSS.
 
-Tailwind CSS utilise une approche basée sur des classes utilitaires, ce qui permet de créer des styles directement dans le code HTML. Cela facilite la compréhension du style appliqué à un élément, car il n'est pas nécessaire de naviguer entre plusieurs fichiers CSS. Cette approche permet également une meilleure réutilisabilité et une maintenance plus facile des styles, car les classes utilitaires sont cohérentes et préconfigurées.
+\subsection{DaisyUI}
+
+DaisyUI est un plugin pour Tailwind CSS qui ajoute des noms de classes de composants, permettant une construction de sites web plus rapide. Grâce à DaisyUI, il est possible de styliser les éléments les plus basiques avec des milliers de noms de classes préconfigurés.
 
 \begin{listing}[H]
     \inputminted{HTML}{assets/code/tailwind-example.html}
     \caption{Code HTML d'un bouton stylisé avec Tailwind CSS\label{fig:tailwind-example}}
 \end{listing}
 
-\paragraph{Personnalisation}
+\subsection{Avantages}
 
-Tailwind CSS offre un haut degré de personnalisation grâce à son fichier de configuration. Les développeurs peuvent définir leurs propres valeurs pour les couleurs, les polices, les espacements et d'autres propriétés CSS. Cette personnalisation permet de créer des designs uniques et cohérents tout en bénéficiant de la facilité d'utilisation et de la rapidité de développement offerte par les classes utilitaires de Tailwind.
-
-\paragraph{Optimisation des performances}
-
-Tailwind CSS est livré avec des outils d'optimisation intégrés qui aident à réduire la taille du fichier CSS final. Par exemple, il utilise PurgeCSS pour supprimer automatiquement les classes CSS inutilisées du fichier de production. Cela garantit que seules les classes réellement utilisées dans le projet sont incluses dans le fichier CSS, réduisant ainsi la taille du fichier et améliorant les performances.
+L'utilisation de Tailwind CSS et DaisyUI offre un certain nombre d'avantages. Premièrement, la rapidité de développement est sensiblement améliorée, grâce aux classes utilitaires et aux noms de classes de composants préconfigurés. Deuxièmement, la personnalisation et la flexibilité sont grandement améliorées, grâce à la possibilité de définir des valeurs personnalisées pour les couleurs, les polices, les espacements et autres dans le fichier de configuration de Tailwind CSS. Enfin, les performances sont optimisées grâce aux outils d'optimisation intégrés de Tailwind CSS, qui permettent de réduire la taille du fichier CSS final.
 
 \subsection{Inconvénients}
 
-\paragraph{Courbe d'apprentissage}
+L'utilisation de Tailwind CSS et DaisyUI présente néanmoins certains inconvénients. La courbe d'apprentissage peut être plus élevée pour les développeurs qui n'ont jamais utilisé de framework CSS. De plus, l'utilisation de classes utilitaires peut rendre le code HTML plus verbeux, ce qui peut rendre le code plus difficile à lire et à maintenir.
 
-La documentation de Tailwind CSS est très complète et fournit de nombreuses ressources pour apprendre à utiliser le framework. S'il on est familiarisé avec Bootstrap, il est relativement facile de se familiariser avec Tailwind CSS. Cependant, il peut être difficile pour les développeurs qui n'ont jamais utilisé de framework CSS de comprendre comment fonctionne Tailwind CSS et comment l'utiliser pour créer des designs responsifs et cohérents. Il est donc judicieux de passer du temps à lire la documentation et à explorer les exemples fournis avant de commencer à utiliser Tailwind CSS dans un projet.
+\subsection{Conclusion}
 
-\paragraph{Verbosité}
-
-L'utilisation de classes utilitaires peut rendre le code HTML plus verbeux, car chaque élément doit inclure toutes les classes nécessaires pour appliquer le style souhaité. Cela peut rendre le code HTML plus difficile à lire et à maintenir. Cependant, ce problème peut être atténué en extrayant les styles réutilisables dans des composants ou en utilisant des directives CSS personnalisées.
-
-\subsection{Pourquoi choisir Tailwind CSS pour ce projet?}
-
-Le choix de Tailwind CSS pour ce projet s'est avéré être une décision judicieuse, car il offre un grand nombre d'avantages et de fonctionnalités qui répondent aux besoins du projet. En plus de ses avantages évidents, tels que la facilité d'utilisation et la rapidité de développement, Tailwind CSS offre également une grande flexibilité et une personnalisation poussée, ce qui permet de créer des designs uniques et cohérents. De plus, Tailwind CSS est livré avec des outils d'optimisation intégrés qui aident à réduire la taille du fichier CSS final, ce qui améliore les performances de l'application.
+Malgré ces inconvénients, l'utilisation de Tailwind CSS et DaisyUI s'est révélée être un choix judicieux pour ce projet. Les avantages qu'ils offrent en termes de rapidité de développement, de personnalisation, de flexibilité et d'optimisation des performances ont contribué à la qualité du design et de l'interface utilisateur de l'application, tout en permettant un développement rapide et efficace.

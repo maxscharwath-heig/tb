@@ -138,23 +138,48 @@ Le modèle Zéro Trust est une approche de cybersécurité basée sur l'idée de
 
 \section{Chiffrement de bout en bout}
 
-Le chiffrement de bout en bout (E2EE) est un système de communication qui garantit que seuls les utilisateurs participant à la conversation peuvent lire les messages échangés. Il a pour but de protéger la confidentialité des communications en empêchant les tiers - tels que les fournisseurs de télécommunications, les acteurs malveillants, voire même les fournisseurs de services - d'accéder aux clés de chiffrement nécessaires pour déchiffrer les messages. En conséquence, seuls l'expéditeur et les destinataires légitimes sont capables de lire ou modifier les données échangées. L'expéditeur chiffre les messages, tandis que le tiers ne dispose pas des moyens pour les déchiffrer, les stockant donc sous forme chiffrée. Les destinataires récupèrent les données chiffrées et les déchiffrent eux-mêmes, assurant ainsi la confidentialité de la communication.
+Avec l'ère numérique, il est devenu primordial de sécuriser nos communications pour les protéger des intermédiaires tels que les fournisseurs de services Internet (FSI) et les fournisseurs de services tels que Whatsapp, Telegram ou Signal, qui sont tous en position d'intercepter, d'enregistrer et même de modifier nos communications sans notre consentement ou notre connaissance.
 
-\subsection{Fonctionnement du chiffrement de bout en bout}
+Dans ce contexte, le chiffrement de bout en bout (E2EE) est essentiel. L'E2EE garantit que seuls les destinataires prévus sont capables de déchiffrer et de lire les messages. Ainsi, aucun des intermédiaires ne peut inspecter, stocker ou modifier vos messages privés.
 
-Dans sa forme la plus simple, le chiffrement de bout en bout utilise des clés de chiffrement asymétriques pour chaque utilisateur participant à une communication sécurisée. Chaque utilisateur possède une paire de clés, une publique et une privée. La clé publique est partagée librement, tandis que la clé privée reste secrète et accessible uniquement à l'utilisateur concerné.
+\subsection{Cryptographie à clé publique et cryptographie symétrique}
 
-Pour envoyer un message chiffré, un utilisateur A utilise la clé publique de l'utilisateur B pour chiffrer le message. Une fois chiffré, seul B peut déchiffrer le message avec sa clé privée. Ce processus est également appelé chiffrement asymétrique.
+Il est important de comprendre que le terme \textit{"message"} ne se réfère pas uniquement à un courrier électronique ou à un message de chat. Il peut également s'agir d'un paquet réseau, c'est-à-dire de tout ce que vous faites en ligne, de la visite de sites web à l'achat de chaussures en passant par les jeux en ligne.
 
-Illustrons ceci avec une application de messagerie chiffrée de bout en bout. Alice utilise la clé publique de Bob pour chiffrer un message. Le message chiffré est envoyé et stocké sur le serveur de messagerie. Même si le serveur est compromis ou que les données sont interceptées, le message reste illisible sans la clé privée de Bob. Bob déchiffre ensuite le message avec sa clé privée.
+Le message d'origine est appelé texte en clair, et le message chiffré est appelé texte chiffré. Pour chiffrer un message de manière à ce que seul notre cher ami Bob puisse le déchiffrer, nous avons besoin d'utiliser la cryptographie à clé publique, également appelée cryptographie asymétrique.
 
-Le partage des clés de chiffrement doit être effectué avec prudence pour éviter leur interception. Les clés doivent être échangées de manière sécurisée, en utilisant un canal de communication sûr.
+La cryptographie à clé publique est basée sur le principe des clés de chiffrement en paires :
 
-Il existe de nombreuses variantes à cette approche de base, permettant de renforcer la sécurité et de gérer des situations plus complexes. Par exemple, certaines méthodes de chiffrement de bout en bout offrent une sécurité "backward" et "forward". La sécurité backward signifie que si une clé privée est compromise, seuls les messages futurs sont en danger - les messages passés restent sécurisés. La sécurité forward garantit que si une clé privée est compromise, seuls les messages passés sont en danger - les messages futurs restent sécurisés.
+\begin{itemize}
+    \item Une clé publique est une clé qui doit être partagée avec d'autres afin qu'ils puissent l'utiliser pour chiffrer des données destinées à vous, et à vous seul.
+    \item Une clé privée est un secret qui ne doit jamais être partagé avec personne et qui vous permet de déchiffrer les données qui ont été préalablement chiffrées avec la clé publique.
+\end{itemize}
 
-De plus, dans certains systèmes, une combinaison de chiffrement asymétrique et symétrique est utilisée pour bénéficier à la fois de la sécurité du chiffrement asymétrique et de l'efficacité du chiffrement symétrique. Par exemple, un secret partagé peut être établi à l'aide de l'échange de clés Diffie-Hellman sur courbe elliptique (ECDH), puis ce secret est utilisé pour le chiffrement et le déchiffrement des messages à l'aide de l'Advanced Encryption Standard (AES).
+La réalité est que le chiffrement à clé publique est limité par la longueur des messages qu'il peut chiffrer et qu'il est douloureusement lent. C'est là qu'intervient le chiffrement hybride. Le chiffrement hybride prend le meilleur du chiffrement symétrique et du chiffrement asymétrique : les messages sont chiffrés avec le chiffrement symétrique (rapide, de toute longueur, sûr...), et seule la clé secrète symétrique éphémère (courte, de 256 bits - 32 octets la plupart du temps) est chiffrée à l'aide du chiffrement asymétrique.
 
-Ces méthodes avancées de chiffrement de bout en bout permettent de répondre à divers besoins et de s'adapter à un large éventail de situations, tout en assurant un haut niveau de sécurité des communications.
+\subsection{Échange de clés Diffie–Hellman et Sécurité Avancée}
+
+Pour garantir une sécurité optimale, la clé doit être renouvelée pour chaque nouveau message. De plus, il est recommandé d'utiliser le chiffrement authentifié avec des données associées (AEAD, pour Authenticated Encryption with Associated Data) qui nous permet de détecter si le texte chiffré a été modifié.
+
+Malgré ces mesures, la situation n'est toujours pas parfaite. Les clés RSA ont tendance à être grandes (3072 bits ou plus), et le chiffrement RSA n'est pas facile à bien faire, ce qui est une grande source d'erreurs.
+
+Pour remédier à cela, on utilise l'échange de clés Diffie–Hellman (plus couramment appelé échange de clés). Il s'agit d'une méthode pour établir un secret partagé entre deux parties par le biais d'un canal public. L'échange de clés Diffie–Hellman est beaucoup plus simple à mettre en œuvre que le chiffrement RSA.
+
+Toutefois, les secrets partagés calculés par l'échange de clés Diffie–Hellman ne peuvent pas être utilisés directement pour le chiffrement symétrique. La plupart des algorithmes AEAD attendent une clé symétrique aléatoire uniforme, ce que ne sont pas les secrets partagés. Ainsi, pour "augmenter leur entropie", nous passons la sortie de la fonction d'échange de clés dans une fonction de dérivation de clés (KDF, pour Key Derivation Function) pour générer une clé secrète partagée qui peut être utilisée pour le chiffrement symétrique.
+
+Mais qu'arrive-t-il si notre clé privée est divulguée ? Si un intermédiaire a enregistré tous nos messages et que notre clé privée fuit, un acteur malveillant serait en mesure de déchiffrer tous les messages ! Passé, présent et futur.
+
+Pour remédier à cela, nous utilisons la Sécurité Avancée (aussi connue sous le nom de Sécurité Avancée Parfaite). C'est une caractéristique des protocoles qui garantit que si une clé fuite à l'instant T, les messages envoyés avant, à T-1, T-2, T-3... ne peuvent pas être déchiffrés.
+
+\subsection{Signatures numériques}
+
+Pour mettre en œuvre la Sécurité Avancée, on pourrait simplement créer de nombreuses paires de clés, utiliser une paire de clés par message et la supprimer une fois le message reçu. Mais alors, nous perdons notre fonctionnalité selon laquelle 1 clé publique = 1 identité : nous devrions vérifier avec Bob pour chaque message que chaque clé publique est légitime et provient réellement de Bob, et non d'un attaquant MitM (Man in the Middle), ce qui est impraticable.
+
+Pour résoudre ce problème, nous utilisons des signatures. Les signatures permettent à une personne en possession d'une clé privée d'authentifier un document ou un message. En signant le message ou le document, le propriétaire de la clé privée atteste de sa validité. Ensuite, tout le monde qui a accès à la clé publique peut vérifier que la signature correspond au document.
+
+Ainsi, les signatures sont l'outil parfait pour créer une identité numérique.
+
+En résumé, le chiffrement moderne de bout en bout = Signatures + Échange de clés + AEAD
 
 \section{Conclusion}
 En conclusion, l'état de l'art dans le domaine de l'édition collaborative de
