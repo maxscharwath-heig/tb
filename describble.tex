@@ -392,6 +392,41 @@ Comme illustré à la Figure \ref{fig:canvas_interface}, le Canvas est composé 
 
 L'ensemble de ces éléments rend l'interface de dessin à la fois puissante et flexible, tout en restant intuitive et facile à utiliser.
 
+\subsection{Rendu et optimisations}
+
+Le rendu des éléments sur le Canvas est une partie cruciale de l'application de dessin. Trois options principales ont été envisagées :
+
+\begin{itemize}
+    \item Un rendu complet dans un seul élément SVG, comme dans l'application de dessin Describble.
+    \item Un élément SVG par élément, positionné avec CSS, comme dans l'application de dessin Tldraw\footnote{\url{https://tldraw.com/}}.
+    \item Un élément Canvas, avec dessin direct à l'intérieur, comme dans l'application de dessin Excalidraw\footnote{\url{https://excalidraw.com/}}.
+\end{itemize}
+
+Finalement, l'approche choisie pour Describble a été de réaliser un rendu complet dans un seul élément SVG. Cette méthode présente plusieurs avantages. Tout d'abord, elle encapsule bien la partie rendu et facilite la génération d'un aperçu (thumbnail) du dessin. Ensuite, elle permet de continuer à utiliser React pour la création du SVG, ce qui est en accord avec le reste de la stack technique de l'application.
+
+\subsubsection{Contraintes et limitations}
+
+Cependant, cette méthode présente aussi des contraintes. En effet, il n'y a pas de propriété native pour contrôler l'ordre d'affichage des calques dans le SVG, communément appelé "z-index" en CSS. Pour gérer cela, il est nécessaire de rendre les calques dans le bon ordre, ce qui peut être coûteux en termes de performance pour des dessins complexes avec de nombreux calques. C'est probablement pour cette raison que Tldraw encapsule ses calques dans des éléments HTML, pour pouvoir utiliser la propriété CSS "z-index". Cependant, cette limitation devrait être levée avec l'introduction de SVG 2.0, qui prévoit une propriété de z-index, permettant de contrôler l'ordre des calques de manière plus optimisée\footnote{\url{https://www.w3.org/TR/SVG2/changes.html}}.
+
+\subsection{Optimisation du rendu : Utilisation d'un Quadtree}
+
+Comme mentionné précédemment, le Canvas de Describble est infini, ce qui signifie qu'il peut contenir un nombre potentiellement infini de calques. Cependant, il n'est pas efficace de dessiner tous les calques à chaque fois, en particulier ceux qui sont hors de la zone visible (ou "viewport"). Pour optimiser le rendu, un Quadtree a été utilisé.
+
+Un Quadtree est une structure de données utilisée pour représenter des données spatiales 2D. Dans le contexte de Describble, chaque nœud du Quadtree représente une région du Canvas et contient une liste de calques qui se trouvent dans cette région.
+
+Au départ, le Quadtree contient un seul nœud, qui englobe tout le Canvas. Chaque fois qu'un nouveau calque est ajouté, il est ajouté au nœud du Quadtree qui correspond à sa région. Si le nombre de calques dans un nœud dépasse une certaine limite (par exemple, 4), le nœud est subdivisé en quatre sous-nœuds de taille égale, chacun représentant un quadrant de la région initiale. Les calques du nœud initial sont ensuite redistribués parmi ces nouveaux sous-nœuds en fonction de leur position.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{assets/figures/quadtree.png}
+    \caption{Exemple de Quadtree PR. (a) Une carte de points de données. Nous définissons la région comme un carré avec l'origine en haut à gauche et des côtés de longueur 128. (b) Le Quadtree PR pour les points en (a). (a) montre également la décomposition en blocs imposée par le Quadtree PR pour cette région. (Source: OpenDSA\cite{opendsaprojectPRQuadtreeData})}
+    \label{fig:quadtree}
+\end{figure}
+
+Ainsi, lors du rendu, seuls les calques des nœuds du Quadtree qui intersectent avec le viewport sont dessinés. Cela permet d'économiser des ressources en évitant de dessiner des calques qui ne seraient pas visibles de toute façon.
+
+En utilisant cette approche, le rendu du Canvas reste performant même lorsque le nombre de calques augmente. Cependant, si le nombre d'éléments dans le SVG dépasse un certain seuil (par exemple, 1000), il serait nécessaire de chercher une solution alternative, comme l'utilisation d'une balise canvas.
+
 \section{Développement du package Moodie pour la génération d'avatars\label{moodie}}
 
 Afin d'offrir une expérience utilisateur plus personnalisée dans la plateforme, une solution spécifique pour la génération d'avatars a été développée. Cette solution, nommée Moodie, est le résultat d'une refonte d'une bibliothèque existante pour mieux répondre aux besoins du projet.
@@ -462,6 +497,19 @@ Enfin, pour rendre l'application facilement accessible sur Internet, un nom de d
 
 \subsection{Déploiement du serveur de signalement avec Fly.io}
 
-Fly.io\footnote{\url{https://fly.io/}} a été utilisé pour déployer le serveur de signalement. Fly.io est une plateforme qui permet d'héberger des applications dans des conteneurs Docker, ce qui convenait parfaitement aux besoins du serveur de signalement.
+Pour le déploiement du serveur de signalement de ce projet, la plateforme Fly.io\footnote{\url{https://fly.io/}} a été choisie. Le choix de cette plateforme a été motivé par plusieurs facteurs, le plus important étant qu'elle propose un tier gratuit. Ce modèle est similaire à celui proposé par Heroku avant le retrait de son offre gratuite. De plus, Fly.io offre un support natif pour les conteneurs Docker, qui est le format d'encapsulation choisi pour le serveur de signalement.
 
-La procédure de déploiement sur Fly.io a été réalisée à l'aide de l'interface de ligne de commande (CLI) de Fly.io. Après la configuration du conteneur Docker, le déploiement a été effectué en poussant le conteneur vers Fly.io à l'aide de la CLI.
+En encapsulant l'application dans un conteneur Docker, le déploiement sur une variété de plateformes de services devient possible. En effet, le conteneur Docker peut être déployé sur n'importe quelle plateforme de service qui supporte Docker, ce qui comprend la majorité des fournisseurs de services cloud comme Amazon Web Services (AWS), Google Cloud Platform (GCP) et Microsoft Azure.
+
+Le déploiement sur Fly.io a été effectué à l'aide de son interface de ligne de commande (CLI). Le processus a consisté à pousser le conteneur Docker vers Fly.io en utilisant la CLI. Le répertoire du serveur de signalement, y compris le fichier Dockerfile, est accessible sur le dépôt GitHub du projet ici : \url{https://github.com/maxscharwath/describble/tree/main/apps/ddnet-server}.
+
+En encapsulant le serveur de signalement dans un conteneur Docker, l'application a gagné en flexibilité de déploiement. La compatibilité entre les environnements de développement et de production est également assurée.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{assets/figures/fly.io.png}
+    \caption{Le tableau de bord Fly.io pour le serveur de signalement}
+    \label{fig:flyio-dashboard}
+\end{figure}
+
+En conclusion, l'utilisation de Docker et de Fly.io pour le déploiement du serveur de signalement a permis une mise en place rapide, flexible et efficace. Cette approche offre une grande flexibilité pour les futurs déploiements, en assurant la portabilité et la reproductibilité de l'application.
