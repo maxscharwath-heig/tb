@@ -72,21 +72,21 @@ Cependant, Google Wave ne parvint pas à attirer suffisamment d'utilisateurs et 
 Bien que l'OT soit un mécanisme puissant pour la synchronisation en temps réel des documents et la résolution des conflits, il présente également certaines limitations et défis. Par exemple, les algorithmes basés sur l'OT peuvent être complexes à mettre en oeuvre et à déboguer, particulièrement lorsqu'ils doivent gérer des cas de conflits complexes et des relations de causalité. De plus, la transformation des opérations et le contrôle de la causalité peuvent avoir un impact sur les performances, surtout lorsque le nombre d'utilisateurs et d'opérations concurrentes augmente. Malgré ces défis, l'OT reste une méthode importante et largement utilisée pour la collaboration en temps réel et la synchronisation des données dans les systèmes distribués.
 
 \subsection{Conflict-Free Replicated Data Types (CRDT)}
-Les Conflict-Free Replicated Data Types (CRDT) sont des structures de données distribuées qui facilitent la collaboration en temps réel sur des données partagées sans nécessiter un serveur central. Les opérations sur les CRDT sont commutatives et idempotentes, assurant ainsi une convergence stable et une cohérence des données dans un environnement distribué.
+Les Conflict-Free Replicated Data Types sont des structures de données distribuées qui facilitent la collaboration en temps réel sur des données partagées sans nécessiter un serveur central. Les opérations sur les \Gls{CRDT} sont commutatives et idempotentes, assurant ainsi une convergence stable et une cohérence des données dans un environnement distribué.
 
-\subsubsection{Principes des CRDT}
-Les CRDT sont distribués et répliqués sur plusieurs noeuds, chaque noeud possédant une copie des données. Les noeuds peuvent modifier les données localement et les synchroniser entre eux. Chaque opération est associée à un identifiant unique pour garantir la commutativité et l'idempotence des opérations.
+\subsubsection{Principes des \Gls{CRDT}}
+Les \Gls{CRDT} sont distribués et répliqués sur plusieurs noeuds, chaque noeud possédant une copie des données. Les noeuds peuvent modifier les données localement et les synchroniser entre eux. Chaque opération est associée à un identifiant unique pour garantir la commutativité et l'idempotence des opérations.
 
-\subsubsection{Exemple d'application des CRDT : Logoot}
-Pour illustrer le fonctionnement des CRDT, considérons le cas de Logoot, un type de CRDT conçu pour la collaboration en temps réel sur des documents textuels. Dans l'algorithme Logoot, chaque caractère dans le document est associé à un identifiant unique, qui est une paire d'éléments notée sous la forme `(x, y)`. Le premier élément `x` correspond à la position du caractère dans le document, tandis que le second élément `y` est un identifiant unique généré lors de l'insertion du caractère.
+\subsubsection{Exemple d'application des \Gls{CRDT} : Logoot}
+Pour illustrer le fonctionnement des \Gls{CRDT}, considérons le cas de Logoot, un type de \Gls{CRDT} conçu pour la collaboration en temps réel sur des documents textuels. Dans l'algorithme Logoot, chaque caractère dans le document est associé à un identifiant unique, qui est une paire d'éléments notée sous la forme `(x, y)`. Le premier élément `x` correspond à la position du caractère dans le document, tandis que le second élément `y` est un identifiant unique généré lors de l'insertion du caractère.
 
 Prenons l'exemple de deux utilisateurs, Alice et Bob, collaborant sur un document texte initialisé avec le mot "chat".
 
 \paragraph{Scénario}
 Alice et Bob travaillent sur un texte initial "chat". Alice veut former "chou" en ajoutant "ou" après "ch", pendant que Bob veut former "chef" en ajoutant "ef" après "ch".
 
-\paragraph{Logoot CRDT}
-Nous illustrons ci-dessous comment Alice et Bob peuvent collaborer sur le document texte en utilisant Logoot CRDT :
+\paragraph{Logoot \Gls{CRDT}}
+Nous illustrons ci-dessous comment Alice et Bob peuvent collaborer sur le document texte en utilisant Logoot \Gls{CRDT} :
 
 Le document initial est :
 
@@ -124,14 +124,14 @@ Le texte de Bob devient :
 \paragraph{Intégration des opérations}
 Les opérations d'insertion sont ensuite échangées. Alice intègre l'insertion de Bob, et Bob intègre l'insertion d'Alice. Le résultat est identique pour Alice et Bob, malgré un ordre différent d'opérations. Les CRDT assurent convergence et cohérence sans transformation opérationnelle.
 
-\subsubsection{Applications des CRDT}
-Les CRDT inspirent de nombreux algorithmes et systèmes de collaboration en temps réel, tels que WOOT, Treedoc, RGA, Logoot, LSEQ, Automerge et Yjs.
+\subsubsection{Applications des \Gls{CRDT}}
+Les \Gls{CRDT} inspirent de nombreux algorithmes et systèmes de collaboration en temps réel, tels que WOOT, Treedoc, RGA, Logoot, LSEQ, Automerge et Yjs.
 
-\paragraph{Automerge\cite{hardenbergAutomerge2023}: } Automerge est une bibliothèque JavaScript pour développer des applications collaboratives en temps réel, comme des éditeurs de texte et des tableaux Kanban. Elle utilise des CRDT pour synchroniser les données entre les instances de l'application, en maintenant la cohérence et en résolvant les conflits.
+\paragraph{Automerge\cite{hardenbergAutomerge2023}: } Automerge est une bibliothèque JavaScript pour développer des applications collaboratives en temps réel, comme des éditeurs de texte et des tableaux Kanban. Elle utilise des \Gls{CRDT} pour synchroniser les données entre les instances de l'application, en maintenant la cohérence et en résolvant les conflits.
 
-\paragraph{Yjs\cite{nicolaescuYjsFrameworkRealTime2015}: } Yjs est une bibliothèque JavaScript de collaboration en temps réel qui utilise aussi les CRDT pour la synchronisation des données. Yjs supporte diverses structures de données et fonctionnalités, dont la collaboration sur des documents texte, des tableaux et des graphes.
+\paragraph{Yjs\cite{nicolaescuYjsFrameworkRealTime2015}: } Yjs est une bibliothèque JavaScript de collaboration en temps réel qui utilise aussi les \Gls{CRDT} pour la synchronisation des données. Yjs supporte diverses structures de données et fonctionnalités, dont la collaboration sur des documents texte, des tableaux et des graphes.
 
-En résumé, les CRDT sont une approche puissante pour la collaboration en temps réel. Elles résolvent les problèmes de synchronisation et de cohérence des données sans recourir à la transformation opérationnelle. Cependant, elles ne sont pas adaptées à tous les types de données et structures de données, et leur mise en oeuvre peut être complexe.
+En résumé, les \Gls{CRDT} sont une approche puissante pour la collaboration en temps réel. Elles résolvent les problèmes de synchronisation et de cohérence des données sans recourir à la transformation opérationnelle. Cependant, elles ne sont pas adaptées à tous les types de données et structures de données, et leur mise en oeuvre peut être complexe.
 
 \section{Zéro Trust}
 Le modèle Zéro Trust est une approche de cybersécurité basée sur l'idée de ne faire confiance à aucune entité, interne ou externe, dans un système informatique. On vérifie constamment les identités et les autorisations avant d'accorder l'accès aux ressources. Cette méthode réduit les risques de failles de sécurité et protège les données sensibles contre les accès non autorisés.
@@ -163,7 +163,7 @@ Pour garantir une sécurité optimale, la clé doit être renouvelée pour chaqu
 
 Malgré ces mesures, la situation n'est toujours pas parfaite. Les clés RSA ont tendance à être grandes (3072 bits ou plus), et le chiffrement RSA n'est pas facile à bien faire, ce qui est une grande source d'erreurs.
 
-Pour remédier à cela, on utilise l'échange de clés Diffie–Hellman (plus couramment appelé échange de clés). Il s'agit d'une méthode pour établir un secret partagé entre deux parties par le biais d'un canal public. L'échange de clés Diffie–Hellman est beaucoup plus simple à mettre en œuvre que le chiffrement RSA.
+Pour remédier à cela, on utilise l'échange de clés Diffie–Hellman (plus couramment appelé échange de clés). Il s'agit d'une méthode pour établir un secret partagé entre deux parties par le biais d'un canal public. L'échange de clés Diffie–Hellman est beaucoup plus simple à mettre en oeuvre que le chiffrement RSA.
 
 Toutefois, les secrets partagés calculés par l'échange de clés Diffie–Hellman ne peuvent pas être utilisés directement pour le chiffrement symétrique. La plupart des algorithmes AEAD attendent une clé symétrique aléatoire uniforme, ce que ne sont pas les secrets partagés. Ainsi, pour "augmenter leur entropie", nous passons la sortie de la fonction d'échange de clés dans une fonction de dérivation de clés (KDF, pour Key Derivation Function) pour générer une clé secrète partagée qui peut être utilisée pour le chiffrement symétrique.
 
@@ -173,7 +173,7 @@ Pour remédier à cela, nous utilisons la Sécurité Avancée (aussi connue sous
 
 \subsection{Signatures numériques}
 
-Pour mettre en œuvre la Sécurité Avancée, on pourrait simplement créer de nombreuses paires de clés, utiliser une paire de clés par message et la supprimer une fois le message reçu. Mais alors, nous perdons notre fonctionnalité selon laquelle 1 clé publique = 1 identité : nous devrions vérifier avec Bob pour chaque message que chaque clé publique est légitime et provient réellement de Bob, et non d'un attaquant MitM (Man in the Middle), ce qui est impraticable.
+Pour mettre en oeuvre la Sécurité Avancée, on pourrait simplement créer de nombreuses paires de clés, utiliser une paire de clés par message et la supprimer une fois le message reçu. Mais alors, nous perdons notre fonctionnalité selon laquelle 1 clé publique = 1 identité : nous devrions vérifier avec Bob pour chaque message que chaque clé publique est légitime et provient réellement de Bob, et non d'un attaquant \Gls{MitM} (Man in the Middle), ce qui est impraticable.
 
 Pour résoudre ce problème, nous utilisons des signatures. Les signatures permettent à une personne en possession d'une clé privée d'authentifier un document ou un message. En signant le message ou le document, le propriétaire de la clé privée atteste de sa validité. Ensuite, tout le monde qui a accès à la clé publique peut vérifier que la signature correspond au document.
 

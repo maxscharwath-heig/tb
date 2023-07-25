@@ -1,34 +1,34 @@
-Suite à une réorientation majeure du projet et à la révision du cahier des charges, le démonstrateur initial de tableau blanc a évolué pour devenir une application autonome et sophistiquée, nommée Describble.
+Suite à une réorientation majeure du projet et à la révision du cahier des charges, le démonstrateur initial de tableau blanc a évolué pour devenir une application autonome et sophistiquée, nommée \Gls{Describble}.
 
 Le but initial était de créer un outil démonstrateur pour le système Condensation. Cependant, en raison de contraintes imprévues et de l'absence de la bibliothèque Condensation, le projet a dû prendre une nouvelle direction.
 
-Describble est une application de tableau blanc décentralisée qui fonctionne sur le principe du "Local-First". Elle est conçue pour permettre une collaboration en temps réel entre plusieurs utilisateurs, offrant la possibilité de créer, de partager et de modifier des documents de manière simultanée et sécurisée, sans dépendre d'un serveur centralisé.
+\Gls{Describble} est une application de tableau blanc décentralisée qui fonctionne sur le principe du "Local-First". Elle est conçue pour permettre une collaboration en temps réel entre plusieurs utilisateurs, offrant la possibilité de créer, de partager et de modifier des documents de manière simultanée et sécurisée, sans dépendre d'un serveur centralisé.
 
-Le nom Describble est une combinaison de "De", un préfixe signifiant décentralisé, et "scribble", un terme anglais pour gribouillage.
+Le nom \Gls{Describble} est une combinaison de "De", un préfixe signifiant décentralisé, et "scribble", un terme anglais pour gribouillage.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.75\textwidth]{\assetsdir/describble-logo.svg}
-    \caption{Logo de l'application Describble, fait sur Figma}
+    \caption{Logo de l'application \Gls{Describble}, fait sur Figma}
 \end{figure}
 
 Ce nom a été choisi non seulement pour sa signification, mais aussi pour donner à l'application une identité distincte, plutôt que de la désigner simplement comme "Whiteboard". Cela a permis de donner plus d'importance au projet et de le positionner comme un projet à part entière.
 
-Dans ce chapitre, nous examinerons les principales fonctionnalités de Describble, les défis rencontrés lors de son développement et les solutions adoptées pour y faire face. Nous explorerons également les décisions prises lors du développement de l'application.
+Dans ce chapitre, nous examinerons les principales fonctionnalités de \Gls{Describble}, les défis rencontrés lors de son développement et les solutions adoptées pour y faire face. Nous explorerons également les décisions prises lors du développement de l'application.
 
 
-\section{Le coeur de l'application Describble}
+\section{Le coeur de l'application \Gls{Describble}}
 
-\subsection{Architecture générale de l'application Describble}
+\subsection{Architecture générale de l'application \Gls{Describble}}
 
-L'architecture de l'application de tableau blanc interactif Describble est construite de manière à être modulaire et extensible. Le coeur de l'application, nommé "Whiteboard Core", contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
+L'architecture de l'application de tableau blanc interactif \Gls{Describble} est construite de manière à être modulaire et extensible. Le coeur de l'application, nommé "Whiteboard Core", contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
 
-Cette section décrit les fonctions clés de chaque sous-module dans l'architecture de Describble :
+Cette section décrit les fonctions clés de chaque sous-module dans l'architecture de \Gls{Describble} :
 
 \begin{itemize}
     \item \textbf{Activities}: Ce module est responsable de la gestion des interactions complexes au sein de l'application, y compris la logique de manipulation et de dessin sur le tableau blanc.
 
-    \item \textbf{Layers}: Ce module gère les différentes types d'objets qui peuvent être placés et manipulés sur le tableau blanc. Chaque objet sur le tableau est considéré comme un calque.
+    \item \textbf{Layers}: Ce module gère les différents types d'objets qui peuvent être placés et manipulés sur le tableau blanc. Chaque objet sur le tableau est considéré comme un calque.
 
     \item \textbf{Managers}: Ce module contient des classes de gestion qui sont responsables de la manipulation de différents aspects de l'application, y compris la gestion de l'état de l'application et la manipulation des documents.
 
@@ -36,14 +36,14 @@ Cette section décrit les fonctions clés de chaque sous-module dans l'architect
 
     \item \textbf{State}: Ce module contient la classe `StateManager` qui est responsable de la gestion de l'état de l'application, y compris la manipulation de l'état et la persistance de l'état entre les sessions.
 
-    \item \textbf{Tools}: Ce module contient des classes d'outils et la logique associée pour divers outils utilisés dans l'application Describble.
+    \item \textbf{Tools}: Ce module contient des classes d'outils et la logique associée pour divers outils utilisés dans l'application \Gls{Describble}.
 \end{itemize}
 
 La classe principale \textbf{WhiteboardApp}  agit comme le chef d'orchestre qui gère les interactions entre ces différents modules. Par exemple, elle maintient une référence à l'outil actuellement sélectionné par l'utilisateur, initie les gestionnaires d'événements pour les interactions au clavier et à la souris, et supervise l'état global de l'application.
 
 \subsection{Indépendance par rapport au framework}
 
-L'objectif principal lors de la conception de l'architecture du coeur de l'application Describble était de construire un noyau indépendant des frameworks populaires tels que React ou Vue. L'idée était de construire un coeur d'application flexible et réutilisable qui pourrait être facilement intégré à n'importe quel environnement ou framework.
+L'objectif principal lors de la conception de l'architecture du coeur de l'application \Gls{Describble} était de construire un noyau indépendant des frameworks populaires tels que React ou Vue. L'idée était de construire un coeur d'application flexible et réutilisable qui pourrait être facilement intégré à n'importe quel environnement ou framework.
 
 En séparant la logique de l'application du framework, l'application gagne en portabilité et en flexibilité. La logique de l'application peut être testée et développée indépendamment, sans être limitée par les spécificités du framework.
 
@@ -51,7 +51,7 @@ Cette approche a également l'avantage de faciliter la maintenance et l'évoluti
 
 Cette indépendance par rapport au framework a été atteinte grâce à l'utilisation de la programmation orientée objet et à la structuration du code en modules et en classes. Chaque module ou classe est responsable d'une tâche spécifique et communique avec les autres grâce à des interfaces bien définies. Ainsi, le coeur de l'application forme un système cohérent et indépendant qui peut être facilement intégré à n'importe quel environnement ou framework.
 
-En somme, le coeur de l'application Describble est conçu pour être flexible et évolutif, tout en restant indépendant du framework utilisé. Cela permet de garantir la pérennité et la portabilité de l'application, tout en facilitant sa maintenance et son évolution.
+En somme, le coeur de l'application \Gls{Describble} est conçu pour être flexible et évolutif, tout en restant indépendant du framework utilisé. Cela permet de garantir la pérennité et la portabilité de l'application, tout en facilitant sa maintenance et son évolution.
 
 \subsection{Principe et gestion des calques}
 
@@ -168,17 +168,17 @@ Cependant, cette approche présente également quelques inconvénients :
     \item \textbf{Difficulté de test} : Tester les gestionnaires peut être difficile car ils sont souvent fortement dépendants de l'état global de l'application.
 \end{itemize}
 
-En dépit de ces inconvénients, l'approche par gestionnaires s'est avérée très efficace pour structurer et organiser le code de l'application Describble.
+En dépit de ces inconvénients, l'approche par gestionnaires s'est avérée très efficace pour structurer et organiser le code de l'application \Gls{Describble}.
 
 \section{Création de l'interface utilisateur avec React}
 
-Dans cette section, nous allons discuter de la façon dont l'interface utilisateur de l'application Describble a été conçue en utilisant la bibliothèque React. Un point central de cette conception est l'utilisation du contexte React et du modèle Provider pour fournir un accès global à l'instance de la classe centrale `WhiteboardApp`.
+Dans cette section, nous allons discuter de la façon dont l'interface utilisateur de l'application \Gls{Describble} a été conçue en utilisant la bibliothèque React. Un point central de cette conception est l'utilisation du contexte React et du modèle Provider pour fournir un accès global à l'instance de la classe centrale `WhiteboardApp`.
 
 \subsection{Le contexte React et le modèle Provider}
 
 Dans une application React, le partage d'états globaux entre les composants peut souvent nécessiter de passer des props à travers plusieurs niveaux de l'arbre de composants, ce qui peut rendre le code difficile à maintenir et à comprendre. Pour résoudre ce problème, React propose une fonctionnalité appelée Context, qui permet de partager des valeurs globales entre plusieurs composants sans avoir à passer explicitement des props.
 
-Dans le cas de Describble, nous utilisons le contexte React pour fournir un accès global à l'instance de la classe `WhiteboardApp`, qui est le cœur de l'application.
+Dans le cas de \Gls{Describble}, nous utilisons le contexte React pour fournir un accès global à l'instance de la classe `WhiteboardApp`, qui est le coeur de l'application.
 
 \begin{listing}[H]
     \begin{minted}[breaklines,frame=none]{typescript}
@@ -275,7 +275,7 @@ L'inscription est la première étape pour l'utilisateur. Elle se fait en plusie
 
 \subsection{Connexion}
 
-La phase de connexion est assez simple : l'application affiche la liste de tous les comptes présents sur l'appareil, représentés par des avatars générés en fonction de la clé publique (voir section \ref{moodie}). Lorsque l'utilisateur sélectionne un compte, il est invité à entrer son mot de passe. Cette étape est conçue pour être simple et intuitive, elle a été inspiré par l'interface de connexion de Netflix.
+La phase de connexion est assez simple : l'application affiche la liste de tous les comptes présents sur l'appareil, représentés par des avatars générés en fonction de la clé publique (voir section \ref{moodie}). Lorsque l'utilisateur sélectionne un compte, il est invité à entrer son mot de passe. Cette étape est conçue pour être simple et intuitive, elle a été inspirée par l'interface de connexion de Netflix.
 
 \begin{figure}[H]
     \centering
@@ -295,7 +295,7 @@ La récupération du compte est un processus en deux étapes qui permet à l'uti
 \end{itemize}
 
 \subsubsection{Système d'étapes}
-Toutes ces étapes sont gérées par un système d'étapes conçu pour être flexible. Il est structuré autour de deux concepts principaux : les étapes et le contexte. Chaque étape est un composant indépendant avec un nom et une fonction d'affichage. Certaines étapes peuvent également être marquées comme "cachées", ce qui signifie qu'elles ne seront pas affichées à l'utilisateur mais seront toujours traitées par le système. Le contexte, quant à lui, maintient l'état global du système d'étapes. Il contient la liste des étapes, l'indice de l'étape actuelle, l'étape actuelle elle-même, ainsi que deux fonctions pour naviguer vers l'étape suivante ou précédente. Le contexte maintient également un état, qui peut être utilisé pour stocker des informations entre les différentes étapes. Cette architecture offre une expérience utilisateur fluide et sécurisée, tout en garantissant une structure claire et modulaire pour le développeur.
+Toutes ces étapes sont gérées par un système d'étapes conçu pour être flexible. Il est structuré autour de deux concepts principaux : les étapes et le contexte. Chaque étape est un composant indépendant avec un nom et une fonction d'affichage. Certaines étapes peuvent également être marquées comme "cachées", ce qui signifie qu'elles ne seront pas affichées à l'utilisateur, mais seront toujours traitées par le système. Le contexte, quant à lui, maintient l'état global du système d'étapes. Il contient la liste des étapes, l'indice de l'étape actuelle, l'étape actuelle elle-même, ainsi que deux fonctions pour naviguer vers l'étape suivante ou précédente. Le contexte maintient également un état, qui peut être utilisé pour stocker des informations entre les différentes étapes. Cette architecture offre une expérience utilisateur fluide et sécurisée, tout en garantissant une structure claire et modulaire pour le développeur.
 
 \begin{listing}[H]
     \begin{minted}[breaklines,frame=none]{html}
@@ -397,12 +397,12 @@ L'ensemble de ces éléments rend l'interface de dessin à la fois puissante et 
 Le rendu des éléments sur le Canvas est une partie cruciale de l'application de dessin. Trois options principales ont été envisagées :
 
 \begin{itemize}
-    \item Un rendu complet dans un seul élément SVG, comme dans l'application de dessin Describble.
+    \item Un rendu complet dans un seul élément SVG, comme dans l'application de dessin \Gls{Describble}.
     \item Un élément SVG par élément, positionné avec CSS, comme dans l'application de dessin Tldraw\footnote{\url{https://tldraw.com/}}.
     \item Un élément Canvas, avec dessin direct à l'intérieur, comme dans l'application de dessin Excalidraw\footnote{\url{https://excalidraw.com/}}.
 \end{itemize}
 
-Finalement, l'approche choisie pour Describble a été de réaliser un rendu complet dans un seul élément SVG. Cette méthode présente plusieurs avantages. Tout d'abord, elle encapsule bien la partie rendu et facilite la génération d'un aperçu (thumbnail) du dessin. Ensuite, elle permet de continuer à utiliser React pour la création du SVG, ce qui est en accord avec le reste de la stack technique de l'application.
+Finalement, l'approche choisie pour \Gls{Describble} a été de réaliser un rendu complet dans un seul élément SVG. Cette méthode présente plusieurs avantages. Tout d'abord, elle encapsule bien la partie rendu et facilite la génération d'un aperçu (thumbnail) du dessin. Ensuite, elle permet de continuer à utiliser React pour la création du SVG, ce qui est en accord avec le reste de la stack technique de l'application.
 
 \subsubsection{Contraintes et limitations}
 
@@ -410,20 +410,20 @@ Cependant, cette méthode présente aussi des contraintes. En effet, il n'y a pa
 
 \subsection{Optimisation du rendu : Utilisation d'un Quadtree}
 
-Comme mentionné précédemment, le Canvas de Describble est infini, ce qui signifie qu'il peut contenir un nombre potentiellement infini de calques. Cependant, il n'est pas efficace de dessiner tous les calques à chaque fois, en particulier ceux qui sont hors de la zone visible (ou "viewport"). Pour optimiser le rendu, un Quadtree a été utilisé.
+Comme mentionné précédemment, le Canvas de \Gls{Describble} est infini, ce qui signifie qu'il peut contenir un nombre potentiellement infini de calques. Cependant, il n'est pas efficace de dessiner tous les calques à chaque fois, en particulier ceux qui sont hors de la zone visible (ou "viewport"). Pour optimiser le rendu, un Quadtree a été utilisé.
 
-Un Quadtree est une structure de données utilisée pour représenter des données spatiales 2D. Dans le contexte de Describble, chaque nœud du Quadtree représente une région du Canvas et contient une liste de calques qui se trouvent dans cette région.
+Un Quadtree est une structure de données utilisée pour représenter des données spatiales 2D. Dans le contexte de \Gls{Describble}, chaque noeud du Quadtree représente une région du Canvas et contient une liste de calques qui se trouvent dans cette région.
 
-Au départ, le Quadtree contient un seul nœud, qui englobe tout le Canvas. Chaque fois qu'un nouveau calque est ajouté, il est ajouté au nœud du Quadtree qui correspond à sa région. Si le nombre de calques dans un nœud dépasse une certaine limite (par exemple, 4), le nœud est subdivisé en quatre sous-nœuds de taille égale, chacun représentant un quadrant de la région initiale. Les calques du nœud initial sont ensuite redistribués parmi ces nouveaux sous-nœuds en fonction de leur position.
+Au départ, le Quadtree contient un seul noeud, qui englobe tout le Canvas. Chaque fois qu'un nouveau calque est ajouté, il est ajouté au noeud du Quadtree qui correspond à sa région. Si le nombre de calques dans un noeud dépasse une certaine limite (par exemple, 4), le noeud est subdivisé en quatre sous-noeuds de taille égale, chacun représentant un quadrant de la région initiale. Les calques du noeud initial sont ensuite redistribués parmi ces nouveaux sous-noeuds en fonction de leur position.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{assets/figures/quadtree.png}
-    \caption{Exemple de Quadtree PR. (a) Une carte de points de données. Nous définissons la région comme un carré avec l'origine en haut à gauche et des côtés de longueur 128. (b) Le Quadtree PR pour les points en (a). (a) montre également la décomposition en blocs imposée par le Quadtree PR pour cette région. (Source: OpenDSA\cite{opendsaprojectPRQuadtreeData})}
+    \caption{Exemple de Quadtree. (a) Une carte de points de données. Nous définissons la région comme un carré avec l'origine en haut à gauche et des côtés de longueur 128. (b) Le Quadtree pour les points en (a). (a) montre également la décomposition en blocs imposée par le Quadtree pour cette région. (Source: OpenDSA\cite{opendsaprojectPRQuadtreeData})}
     \label{fig:quadtree}
 \end{figure}
 
-Ainsi, lors du rendu, seuls les calques des nœuds du Quadtree qui intersectent avec le viewport sont dessinés. Cela permet d'économiser des ressources en évitant de dessiner des calques qui ne seraient pas visibles de toute façon.
+Ainsi, lors du rendu, seuls les calques des noeuds du Quadtree qui intersectent avec le viewport sont dessinés. Cela permet d'économiser des ressources en évitant de dessiner des calques qui ne seraient pas visibles de toute façon.
 
 En utilisant cette approche, le rendu du Canvas reste performant même lorsque le nombre de calques augmente. Cependant, si le nombre d'éléments dans le SVG dépasse un certain seuil (par exemple, 1000), il serait nécessaire de chercher une solution alternative, comme l'utilisation d'une balise canvas.
 
@@ -487,12 +487,12 @@ Vercel\footnote{\url{https://vercel.com/}} a été sélectionné comme plateform
 
 D'autres alternatives existaient pour le déploiement du front-end, telles que Netlify ou Github Pages, mais Vercel a été retenu en raison son intégration continue avec GitHub, et de sa simplicité d'utilisation.
 
-Enfin, pour rendre l'application facilement accessible sur Internet, un nom de domaine a été acquis : describble.io. Pour associer ce nom de domaine à l'application déployée sur Vercel, une configuration DNS a été nécessaire. Cette configuration a été réalisée sans difficulté grâce à l'interface conviviale de Vercel.
+Enfin, pour rendre l'application facilement accessible sur Internet, un nom de domaine a été acquis : describble.io. Pour associer ce nom de domaine à l'application déployée sur Vercel, une configuration \Gls{DNS} a été nécessaire. Cette configuration a été réalisée sans difficulté grâce à la documentation de Vercel.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{assets/figures/vercel-deploy.png}
-    \caption{Capture d'écran de l'interface de Vercel montrant le déploiement de l'application Describble}
+    \caption{Capture d'écran de l'interface de Vercel montrant le déploiement de l'application \Gls{Describble}}
 \end{figure}
 
 \subsection{Déploiement du serveur de signalement avec Fly.io}
