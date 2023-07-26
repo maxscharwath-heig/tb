@@ -1,6 +1,6 @@
 Au commencement du projet, un ensemble majeur de fonctionnalités - notamment la synchronisation, la résolution de conflits à l'aide de types de données \Gls{CRDT}, la gestion des clés cryptographiques et l'implémentation réseau - devait être réalisé par une entreprise externe. Cependant, pour diverses raisons, ce partenariat n'a pas abouti. Ceci a conduit à une réorientation majeure du projet : l'ensemble de ces fonctionnalités a dû être conçu et mis en oeuvre en interne.
 
-C'est ainsi que le Decentralized Document Network (DDnet) a vu le jour. \Gls{DDnet} est un système de gestion de documents décentralisé axé sur le principe du "Local-First". Il permet de partager et de synchroniser des documents en temps réel entre plusieurs utilisateurs, le tout de manière sécurisée et chiffrée de bout en bout.
+C'est ainsi que le Decentralized Document Network (DDnet) a vu le jour. \Gls{DDnet} est un système de gestion de documents décentralisé axé sur le principe du Local-First. Il permet de partager et de synchroniser des documents en temps réel entre plusieurs utilisateurs, le tout de manière sécurisée et chiffrée de bout en bout.
 
 \section{Authentification et Gestion des Clés}
 
@@ -8,7 +8,7 @@ Le système conçu lors de ce projet identifie chaque utilisateur par sa clé pu
 
 La réimplémentation du module npm \textit{bip39} a été nécessaire en raison de son incompatibilité avec les navigateurs, étant initialement conçu pour Node.js. Les fonctions et objets spécifiques à Node.js ont été substitués par leurs équivalents navigateur pour assurer la compatibilité. La taille du package a été significativement réduite, de 331 Ko à 57 Ko, grâce à cette réimplémentation, la rendant ainsi plus appropriée pour une utilisation navigateur. Le module réimplémenté est disponible sur npm sous le nom \textit{@describble/srp} (Secret Recovery Phrase)\footnote{\url{https://www.npmjs.com/package/@describble/srp}}.
 
-Conformément au paradigme "Local-First", les clés privées sont stockées localement dans le navigateur de l'utilisateur. Cependant, le stockage en clair de ces clés serait problématique pour des raisons de sécurité. Par conséquent, les clés privées sont chiffrées à l'aide d'un mot de passe utilisateur. Ce mot de passe est d'abord dérivé via la fonction de dérivation \Gls{PBKDF2}\footnote{\url{https://en.wikipedia.org/wiki/PBKDF2}} avant d'être utilisé pour le chiffrement. Un sel aléatoire et un nombre d'itérations fixé à 10000 sont utilisés pour renforcer la sécurité de la dérivation. La clé dérivée est ensuite utilisée avec l'algorithme AES-GCM pour chiffrer la clé privée. Il convient de noter que le mot de passe n'est jamais stocké en clair ni transmis sur le réseau, il est seulement utilisé pour la dérivation de la clé de chiffrement.
+Conformément au paradigme Local-First, les clés privées sont stockées localement dans le navigateur de l'utilisateur. Cependant, le stockage en clair de ces clés serait problématique pour des raisons de sécurité. Par conséquent, les clés privées sont chiffrées à l'aide d'un mot de passe utilisateur. Ce mot de passe est d'abord dérivé via la fonction de dérivation \Gls{PBKDF2}\footnote{\url{https://en.wikipedia.org/wiki/PBKDF2}} avant d'être utilisé pour le chiffrement. Un sel aléatoire et un nombre d'itérations fixé à 10000 sont utilisés pour renforcer la sécurité de la dérivation. La clé dérivée est ensuite utilisée avec l'algorithme AES-GCM pour chiffrer la clé privée. Il convient de noter que le mot de passe n'est jamais stocké en clair ni transmis sur le réseau, il est seulement utilisé pour la dérivation de la clé de chiffrement.
 
 J'ai également anticipé que plusieurs utilisateurs pourraient partager le même navigateur. Ainsi, pour préserver la confidentialité des données de chaque utilisateur, il est nécessaire de chiffrer les données spécifiques à chaque utilisateur. Cette mesure garantit que chaque utilisateur peut utiliser le même navigateur sans avoir accès aux données des autres.
 
@@ -35,18 +35,18 @@ Le mécanisme de défi-réponse est une méthode pour prouver une identité en d
 Le processus d'authentification suit les étapes suivantes :
 
 \begin{enumerate}
-  \item Le serveur envoie un défi aléatoire au client.
-  \item Le client reçoit le défi et crée une signature de réponse en utilisant sa clé privée.
-  \item Le client renvoie la réponse signée au serveur.
-  \item Le serveur vérifie la réponse en utilisant la clé publique du client.
-  \item Si la vérification est réussie, le serveur reconnait le client comme authentifié. Sinon, il ferme la connexion.
+    \item Le serveur envoie un défi aléatoire au client.
+    \item Le client reçoit le défi et crée une signature de réponse en utilisant sa clé privée.
+    \item Le client renvoie la réponse signée au serveur.
+    \item Le serveur vérifie la réponse en utilisant la clé publique du client.
+    \item Si la vérification est réussie, le serveur reconnait le client comme authentifié. Sinon, il ferme la connexion.
 \end{enumerate}
 
 \begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-auth.svg} % half of the text width
-  \end{center}
-  \caption[Mécanisme de Défi-Réponse]{Le diagramme représente le processus du mécanisme de défi-réponse utilisé pour l'authentification.}
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-auth.svg} % half of the text width
+    \end{center}
+    \caption[Mécanisme de Défi-Réponse]{Le diagramme représente le processus du mécanisme de défi-réponse utilisé pour l'authentification.}
 \end{figure}
 
 \subsection{Gestion des connexions : Le Registre}
@@ -54,17 +54,17 @@ Le processus d'authentification suit les étapes suivantes :
 Le serveur de signalisation joue un rôle crucial dans le routage des messages entre les clients en maintenant un registre des clients et de leurs connexions actives. Ce registre est structuré comme un système de double registre imbriqué :
 
 \begin{itemize}
-  \item Le premier niveau du registre stocke les clés publiques des clients, chaque clé publique représentant un client unique.
-  \item Le second niveau, imbriqué dans le premier, stocke les connexions associées à chaque clé publique. Chaque connexion est identifiée par un ID de client unique, qui est généré de manière aléatoire lors de l'établissement de la connexion.
+    \item Le premier niveau du registre stocke les clés publiques des clients, chaque clé publique représentant un client unique.
+    \item Le second niveau, imbriqué dans le premier, stocke les connexions associées à chaque clé publique. Chaque connexion est identifiée par un ID de client unique, qui est généré de manière aléatoire lors de l'établissement de la connexion.
 \end{itemize}
 
 Ce système de registre imbriqué offre un moyen efficace et organisé de stocker et de gérer les connexions. Il permet de facilement identifier et retracer toutes les connexions associées à un client spécifique, rendant ainsi le routage des messages plus efficace.
 
 \begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-registry.svg}
-  \end{center}
-  \caption[Registre et Connexions]{Le registre du serveur illustre les clés publiques des clients et leurs connexions associées.}
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-registry.svg}
+    \end{center}
+    \caption[Registre et Connexions]{Le registre du serveur illustre les clés publiques des clients et leurs connexions associées.}
 \end{figure}
 
 En outre, le registre est également responsable de la gestion du cycle de vie des connexions. Lorsqu'une nouvelle connexion est établie, elle est automatiquement ajoutée au registre. De même, lorsque la connexion est fermée, le registre supprime cette connexion. Cela garantit que le registre reste toujours à jour, reflétant l'état actuel des connexions dans le réseau.
@@ -76,7 +76,7 @@ Ainsi, le registre facilite non seulement le routage des messages, mais contribu
 La structure du message a été conçue en privilégiant la flexibilité et la sécurité. Dans cette perspective, chaque message comporte plusieurs champs qui lui permettent d'être adressé correctement, tout en maintenant l'intégrité des informations transmises.
 
 \begin{listing}[H]
-  \begin{minted}[breaklines,frame=none]{typescript}
+    \begin{minted}[breaklines,frame=none]{typescript}
 type Message<TData> = {
   from: {
     publicKey: Uint8Array; // clé publique de l'expéditeur
@@ -89,13 +89,13 @@ type Message<TData> = {
   data: TData; // données contenues dans le message
 };
 \end{minted}
-  \caption{Type Typescript de la structure d'un Message}
+    \caption{Type Typescript de la structure d'un Message}
 \end{listing}
 
 \begin{itemize}
-  \item Le champ \texttt{from} identifie l'expéditeur du message. Il comprend la clé publique de l'expéditeur, qui est unique pour chaque utilisateur, et l'ID du client de l'expéditeur, qui est unique pour chaque instance d'un utilisateur (par exemple, différentes fenêtres de navigateur ou différents appareils). Cela permet de retracer l'origine de chaque message.
-  \item Le champ \texttt{to} est facultatif et identifie le destinataire du message. Si ce champ est spécifié, cela signifie que le message est privé et destiné à un utilisateur spécifique, déterminé par sa clé publique. En outre, si un ID de client est spécifié, le message est destiné à une instance spécifique de cet utilisateur. Si le champ \texttt{to} est omis, le message est considéré comme public et peut être reçu par n'importe quel utilisateur du réseau. Cette flexibilité permet une grande variété de types de communication, allant des messages directs à la diffusion publique.
-  \item Le champ \texttt{data} contient les véritables données transportées par le message. Ces données sont génériques et peuvent être de n'importe quel type, permettant ainsi aux utilisateurs de transmettre une variété d'informations et d'instructions à travers le réseau.
+    \item Le champ \texttt{from} identifie l'expéditeur du message. Il comprend la clé publique de l'expéditeur, qui est unique pour chaque utilisateur, et l'ID du client de l'expéditeur, qui est unique pour chaque instance d'un utilisateur (par exemple, différentes fenêtres de navigateur ou différents appareils). Cela permet de retracer l'origine de chaque message.
+    \item Le champ \texttt{to} est facultatif et identifie le destinataire du message. Si ce champ est spécifié, cela signifie que le message est privé et destiné à un utilisateur spécifique, déterminé par sa clé publique. En outre, si un ID de client est spécifié, le message est destiné à une instance spécifique de cet utilisateur. Si le champ \texttt{to} est omis, le message est considéré comme public et peut être reçu par n'importe quel utilisateur du réseau. Cette flexibilité permet une grande variété de types de communication, allant des messages directs à la diffusion publique.
+    \item Le champ \texttt{data} contient les véritables données transportées par le message. Ces données sont génériques et peuvent être de n'importe quel type, permettant ainsi aux utilisateurs de transmettre une variété d'informations et d'instructions à travers le réseau.
 \end{itemize}
 
 \subsection{Transmission des messages}
@@ -103,9 +103,9 @@ type Message<TData> = {
 Les messages dans ce système peuvent être transmis de trois manières différentes en fonction du destinataire cible :
 
 \begin{itemize}
-  \item \textbf{Broadcast} : Un message est diffusé à tous les utilisateurs du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est omis.
-  \item \textbf{Multicast} : Un message est envoyé à un utilisateur spécifique du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié, mais que le champ `clientId` est omis.
-  \item \textbf{Unicast} : Un message est envoyé à une session spécifique d'un utilisateur dans le réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié et que le champ `clientId` est spécifié.
+    \item \textbf{Broadcast} : Un message est diffusé à tous les utilisateurs du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est omis.
+    \item \textbf{Multicast} : Un message est envoyé à un utilisateur spécifique du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié, mais que le champ `clientId` est omis.
+    \item \textbf{Unicast} : Un message est envoyé à une session spécifique d'un utilisateur dans le réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié et que le champ `clientId` est spécifié.
 \end{itemize}
 
 La sécurité est une préoccupation majeure dans la transmission des messages dans ce système. Chaque message est signé numériquement par l'expéditeur, ce qui permet au serveur de vérifier son intégrité à la réception. Si le serveur détecte que le message a été altéré pendant la transmission, il le supprime immédiatement et arrête sa propagation.
@@ -115,10 +115,10 @@ La signature numérique garantit non seulement que le message provient bien de l
 Voici un diagramme représentant la logique de routage :
 
 \begin{figure}[H]
-  \begin{center}
-    \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-routing.svg}
-  \end{center}
-  \caption[Logique de Routage des Messages]{Schéma illustrant la logique de routage des messages dans le système.}
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{\assetsdir/diagram-ddnet-routing.svg}
+    \end{center}
+    \caption[Logique de Routage des Messages]{Schéma illustrant la logique de routage des messages dans le système.}
 \end{figure}
 
 
@@ -127,10 +127,10 @@ Voici un diagramme représentant la logique de routage :
 Le système chiffre automatiquement les messages si la clé publique du destinataire est spécifiée. Il implémente un protocole de transmission sécurisé, qui utilise la cryptographie pour maintenir la confidentialité et l'intégrité des messages. Les opérations cryptographiques spécifiques utilisées incluent :
 
 \begin{itemize}
-  \item \textbf{Diffie-Hellman sur courbes elliptiques (\Gls{ECDH})} : Un protocole d'échange de clés qui permet à deux parties d'établir un secret partagé sur un canal non sécurisé. Ce secret partagé est généré en utilisant la clé privée de l'expéditeur et la clé publique du destinataire.
-  \item \textbf{Fonction de dérivation de clés basée sur un mot de passe 2 (\Gls{PBKDF2})} : Une fonction de dérivation de clés utilisée pour dériver une clé AES à partir du secret partagé obtenu lors de l'échange \Gls{ECDH}. Elle ajoute un sel pour la randomisation, offrant une résistance contre les attaques par dictionnaire.
-  \item \textbf{Advanced Encryption Standard - Galois/Counter Mode (AES-GCM)} : Cet algorithme de chiffrement symétrique utilise la clé \Gls{AES} dérivée pour chiffrer le message, garantissant ainsi que seul le destinataire prévu peut le déchiffrer et le lire. L'AES-GCM assure à la fois la confidentialité et l'intégrité des données.
-  \item \textbf{Algorithme de signature numérique sur courbes elliptiques (Gls{ECDSA}) avec la courbe secp256k1} : Après que le message a été chiffré, il est signé en utilisant la clé privée de l'expéditeur. La signature permet de vérifier l'authenticité de l'expéditeur et confirme que le message n'a pas été altéré pendant la transmission.
+    \item \textbf{Diffie-Hellman sur courbes elliptiques (\Gls{ECDH})} : Un protocole d'échange de clés qui permet à deux parties d'établir un secret partagé sur un canal non sécurisé. Ce secret partagé est généré en utilisant la clé privée de l'expéditeur et la clé publique du destinataire.
+    \item \textbf{Fonction de dérivation de clés basée sur un mot de passe 2 (\Gls{PBKDF2})} : Une fonction de dérivation de clés utilisée pour dériver une clé AES à partir du secret partagé obtenu lors de l'échange \Gls{ECDH}. Elle ajoute un sel pour la randomisation, offrant une résistance contre les attaques par dictionnaire.
+    \item \textbf{Advanced Encryption Standard - Galois/Counter Mode (AES-GCM)} : Cet algorithme de chiffrement symétrique utilise la clé \Gls{AES} dérivée pour chiffrer le message, garantissant ainsi que seul le destinataire prévu peut le déchiffrer et le lire. L'AES-GCM assure à la fois la confidentialité et l'intégrité des données.
+    \item \textbf{Algorithme de signature numérique sur courbes elliptiques (Gls{ECDSA}) avec la courbe secp256k1} : Après que le message a été chiffré, il est signé en utilisant la clé privée de l'expéditeur. La signature permet de vérifier l'authenticité de l'expéditeur et confirme que le message n'a pas été altéré pendant la transmission.
 \end{itemize}
 
 Ce protocole assure une communication sécurisée et confidentielle, où seuls les destinataires prévus peuvent déchiffrer et lire le message.
@@ -146,27 +146,27 @@ Ces métadonnées incluent des éléments tels que l'identifiant unique (ID) du 
 \setlength{\extrarowheight}{2pt}
 
 \begin{table}[h]
-  \begin{center}
-    \caption{Structure de l'en-tête du document.}
-    \begin{tabularx}{\textwidth}{|c|c|X|}
-      \hline
-      \rowcolor{gray!20}
-      \textbf{Propriété} & \textbf{Type}         & \textbf{Description}                                                                                 \\
-      \hline
-      id                 & \texttt{Uint8Array}   & Identifiant unique pour le document, généré en utilisant UUID v4 sous sa forme binaire sur 128 bits. \\
-      \hline
-      owner              & \texttt{Uint8Array}   & Clé publique du propriétaire du document.                                                            \\
-      \hline
-      allowedClients     & \texttt{Uint8Array[]} & Liste des identifiants de clients autorisés à accéder au document.                                   \\
-      \hline
-      metadata           & \texttt{any}          & Métadonnées supplémentaires.                                                                         \\
-      \hline
-      version            & \texttt{number}       & Version actuelle de l'en-tête.                                                                       \\
-      \hline
-      signature          & \texttt{Uint8Array}   & Signature de l'en-tête, signée par le propriétaire.                                                  \\
-      \hline
-    \end{tabularx}
-  \end{center}
+    \begin{center}
+        \caption{Structure de l'en-tête du document.}
+        \begin{tabularx}{\textwidth}{|c|c|X|}
+            \hline
+            \rowcolor{gray!20}
+            \textbf{Propriété} & \textbf{Type}         & \textbf{Description}                                                                                 \\
+            \hline
+            id                 & \texttt{Uint8Array}   & Identifiant unique pour le document, généré en utilisant UUID v4 sous sa forme binaire sur 128 bits. \\
+            \hline
+            owner              & \texttt{Uint8Array}   & Clé publique du propriétaire du document.                                                            \\
+            \hline
+            allowedClients     & \texttt{Uint8Array[]} & Liste des identifiants de clients autorisés à accéder au document.                                   \\
+            \hline
+            metadata           & \texttt{any}          & Métadonnées supplémentaires.                                                                         \\
+            \hline
+            version            & \texttt{number}       & Version actuelle de l'en-tête.                                                                       \\
+            \hline
+            signature          & \texttt{Uint8Array}   & Signature de l'en-tête, signée par le propriétaire.                                                  \\
+            \hline
+        \end{tabularx}
+    \end{center}
 \end{table}
 
 
@@ -191,7 +191,7 @@ C'est finalement Automerge qui a été choisi. Cette librairie \Gls{CRDT} offre 
 Automerge se distingue techniquement par sa gestion des modifications. En effet, bien qu'Automerge reste complètement immuable, il utilise un système de proxy pour détecter les modifications. Cela est illustré dans l'exemple de code suivant :
 
 \begin{listing}[H]
-  \begin{minted}[breaklines,frame=none]{typescript}
+    \begin{minted}[breaklines,frame=none]{typescript}
 type DocData = {
 pets: Array<{name: string, type: string}>
 }
@@ -215,7 +215,7 @@ pets = [
 ]
 */
 \end{minted}
-  \caption{Exemple de manipulation d'un document Automerge}
+    \caption{Exemple de manipulation d'un document Automerge}
 \end{listing}
 
 Automerge utilise une fonction change où les modifications sont appliquées directement au document. Le document agit en tant que proxy pour détecter et enregistrer les modifications, tout en restant immuable. Les fonctions change renvoient une nouvelle instance du document avec les modifications intégrées, ce qui permet de conserver l'immuabilité du document tout en facilitant sa manipulation.
@@ -223,20 +223,20 @@ Automerge utilise une fonction change où les modifications sont appliquées dir
 Un autre point important à noter est la fusion des documents avec Automerge. En fait, il est possible de fusionner deux documents ensemble, ce qui permet de garder les données à jour et cohérentes sur différents appareils ou sessions. Par exemple :
 
 \begin{listing}[H]
-  \begin{minted}[breaklines,frame=none]{typescript}
+    \begin{minted}[breaklines,frame=none]{typescript}
 let doc2 = Automerge.init<DocData>()
 doc2 = Automerge.merge(doc2, doc1)
   \end{minted}
-  \caption{Exemple de fusion de deux documents Automerge}
+    \caption{Exemple de fusion de deux documents Automerge}
 \end{listing}
 
 En ce qui concerne la persistance des données, Automerge fournit un mécanisme de sauvegarde au format binaire\cite{BinaryDocumentFormat}. Ce format est compact et optimisé pour le stockage, comme le montre l'exemple suivant :
 \begin{listing}[H]
-  \begin{minted}[breaklines,frame=none]{typescript}
+    \begin{minted}[breaklines,frame=none]{typescript}
 let binary = Automerge.save(doc1)
 let doc2 = Automerge.load(binary)
   \end{minted}
-  \caption{Exemple de sauvegarde et chargement d'un document Automerge}
+    \caption{Exemple de sauvegarde et chargement d'un document Automerge}
 \end{listing}
 
 Pour plus d'informations, consultez la documentation d'Automerge\footnote{\url{https://automerge.org}}.
@@ -249,10 +249,10 @@ La sécurité des documents repose sur plusieurs mécanismes intégrés à leur 
 Pour obtenir cette adresse unique, la fonction de hachage SHA-256 est appliquée à la concaténation de l'identifiant unique du document et de la clé publique du propriétaire. Soit $id$ l'identifiant unique du document et $owner$ la clé publique du propriétaire, alors l'adresse du document est calculée comme suit :
 
 \begin{equation}
-  \text{Adresse du Document} = \text{SHA-256}(id | owner)
+    \text{Adresse du Document} = \text{SHA-256}(id | owner)
 \end{equation}
 
-La concaténation de $id$ et $owner$ est notée par "$|$". L'objectif de cette opération est double. D'abord, elle garantit l'unicité de l'adresse du document. De plus, elle permet de lier de manière intrinsèque l'adresse du document à la clé publique du propriétaire. Si une adresse ne correspond pas à la clé publique du propriétaire lors de la vérification, cela signifie que l'adresse a été altérée.
+La concaténation de $id$ et $owner$ est notée par \guillemotleft $|$\guillemotright. L'objectif de cette opération est double. D'abord, elle garantit l'unicité de l'adresse du document. De plus, elle permet de lier de manière intrinsèque l'adresse du document à la clé publique du propriétaire. Si une adresse ne correspond pas à la clé publique du propriétaire lors de la vérification, cela signifie que l'adresse a été altérée.
 
 \subsection{Contrôle d'accès au document}
 
@@ -290,14 +290,14 @@ La persistance des données dans \Gls{DDnet} distingue les headers des documents
 
 \subsection{Chargement des Documents}
 
-La procédure de chargement des documents dans \Gls{DDnet} est méticuleusement conçue pour être robuste et capable de s'adapter aux éventuels problèmes rencontrés pendant le processus de sauvegarde. Pour y parvenir, la procédure adopte une approche incrémentielle, qui se révèle particulièrement utile lorsque des segments de données, également appelés "chunks", sont corrompus ou inutilisables. Le processus de chargement suit plusieurs étapes distinctes:
+La procédure de chargement des documents dans \Gls{DDnet} est méticuleusement conçue pour être robuste et capable de s'adapter aux éventuels problèmes rencontrés pendant le processus de sauvegarde. Pour y parvenir, la procédure adopte une approche incrémentielle, qui se révèle particulièrement utile lorsque des segments de données, également appelés \guillemotleft chunks\guillemotright, sont corrompus ou inutilisables. Le processus de chargement suit plusieurs étapes distinctes:
 
 \begin{enumerate}
-  \item \textbf{Chargement Initial:} Dans un premier temps, \Gls{DDnet} tente de charger l'intégralité du document. Pour ce faire, le système récupère à la fois les données binaires et les chunks correspondants de l'identifiant du document à partir du système de stockage.
-  \item \textbf{Échec du Chargement Initial:} Si le chargement complet du document échoue pour une raison quelconque, par exemple à cause d'un chunk corrompu, le système déclenche automatiquement une procédure de récupération.
-  \item \textbf{Procédure de Récupération:} Cette procédure consiste à tenter de charger le document en éliminant progressivement un chunk à la fois à partir de la fin du document. Après chaque suppression de chunk, le système tente à nouveau de charger le document.
-  \item \textbf{Sauvegarde Révisée:} Si le chargement du document réussit après avoir omis certains chunks, \Gls{DDnet} enregistre alors une nouvelle version du document sans les chunks omis, garantissant ainsi l'intégrité du document pour les futurs chargements.
-  \item \textbf{Échec Total du Chargement:} Si, après avoir omis tous les chunks, le document ne peut toujours pas être chargé, alors \Gls{DDnet} génère une erreur. Cela peut indiquer un problème plus profond avec le document ou le système de stockage.
+    \item \textbf{Chargement Initial:} Dans un premier temps, \Gls{DDnet} tente de charger l'intégralité du document. Pour ce faire, le système récupère à la fois les données binaires et les chunks correspondants de l'identifiant du document à partir du système de stockage.
+    \item \textbf{Échec du Chargement Initial:} Si le chargement complet du document échoue pour une raison quelconque, par exemple à cause d'un chunk corrompu, le système déclenche automatiquement une procédure de récupération.
+    \item \textbf{Procédure de Récupération:} Cette procédure consiste à tenter de charger le document en éliminant progressivement un chunk à la fois à partir de la fin du document. Après chaque suppression de chunk, le système tente à nouveau de charger le document.
+    \item \textbf{Sauvegarde Révisée:} Si le chargement du document réussit après avoir omis certains chunks, \Gls{DDnet} enregistre alors une nouvelle version du document sans les chunks omis, garantissant ainsi l'intégrité du document pour les futurs chargements.
+    \item \textbf{Échec Total du Chargement:} Si, après avoir omis tous les chunks, le document ne peut toujours pas être chargé, alors \Gls{DDnet} génère une erreur. Cela peut indiquer un problème plus profond avec le document ou le système de stockage.
 \end{enumerate}
 
 Cette approche assure la robustesse du système en garantissant l'intégrité des documents, même en cas de problèmes survenant pendant le processus de sauvegarde. Elle veille à ce que chaque document reste fonctionnel et accessible, même en présence de segments de données défectueux ou inutilisables. Cette stratégie contribue à la résilience globale de \Gls{DDnet}, en permettant une récupération efficace des documents et en évitant la perte de données. Ainsi, les utilisateurs peuvent travailler en toute confiance, en sachant que la validité et l'accessibilité de leurs documents sont garanties, quelle que soit la situation.
@@ -338,3 +338,29 @@ Il est important de noter que les informations de présence sont éphémères : 
 
 \subsection{Utilité du module de présence}
 La flexibilité du module de présence lui permet d'implémenter une gamme de fonctionnalités collaboratives. Par exemple, il peut être utilisé pour afficher la position des curseurs des autres utilisateurs, permettant ainsi une conscience partagée de l'activité au sein du document. De même, un système de chat en temps réel peut être mis en place, où les messages sont considérés comme des informations de présence, assurant une communication en temps réel entre les utilisateurs.
+
+\section{Tests et Benchmarking}
+
+Le développement du système a nécessité un processus de test intégré pour garantir sa fiabilité et ses performances. Ce processus a compris des tests unitaires, des tests d'intégration et des benchmarks.
+
+\subsection{Tests unitaires}
+
+Pour assurer la fiabilité des différentes fonctionnalités du système, des tests unitaires ont été mis en place. Chaque composant a été testé individuellement pour détecter les éventuelles erreurs.
+
+Vitest, un outil de test qui utilise la même syntaxe que Jest mais est compatible avec Vite, a été utilisé pour ces tests unitaires. Il permet d'exécuter les tests dans un environnement Chromium, assurant un contexte de test réaliste. Les tests ont été effectués à la fois dans l'environnement Node.js et dans le navigateur pour assurer une large compatibilité.
+
+Il est important de mentionner que certaines parties du code ne sont pas encore couvertes par ces tests unitaires.
+
+\subsection{Tests d'intégration}
+
+Un scénario a été mis en place pour tester l'interaction entre les différentes composantes du système. Ce scénario visait à refléter le plus fidèlement possible l'utilisation réelle de la librairie. Il a servi à tester l'ensemble du système dans des conditions d'utilisation réalistes, et a permis de définir une utilisation de haut niveau de la librairie.
+
+Ces tests ont été réalisés aussi bien dans l'environnement Node.js que dans le navigateur, afin de garantir la compatibilité du système avec ces deux environnements.
+
+\subsection{Benchmarking}
+
+L'optimisation des performances a été une priorité tout au long du développement du système. Afin d'assurer la rapidité et l'efficacité du système, des benchmarks ont été utilisés pour mesurer les performances de certaines fonctionnalités et composants.
+
+Vitest a également été utilisé pour ces benchmarks, grâce à sa fonctionnalité de benchmarking intégrée. Cette fonctionnalité permet de mesurer le temps d'exécution de chaque fonctionnalité, facilitant l'identification des éventuels goulets d'étranglement.
+
+Ces benchmarks ont été particulièrement utiles lors de la réimplémentation de certaines bibliothèques, en permettant de comparer les performances de l'ancienne et de la nouvelle implémentation.

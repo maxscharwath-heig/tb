@@ -1,6 +1,6 @@
 L'évolution d'un projet comme celui-ci peut prendre de nombreuses directions. Ajouter de nouvelles fonctionnalités, restructurer l'architecture pour améliorer l'efficacité, ou encore intégrer de nouvelles technologies pour résoudre les problèmes existants et explorer de nouvelles possibilités sont toutes des options viables. Voici quelques perspectives envisageables pour ce projet.
 
-\section{Gestion des problèmes liés à \Gls{WebRTC}}
+\section{Gestion des problèmes liés à WebRTC}
 
 L'utilisation de \Gls{WebRTC} pour la communication en temps réel entre les utilisateurs est un élément clé de ce projet. Cependant, certains navigateurs ou réseaux peuvent bloquer cette technologie, rendant ainsi la fonctionnalité en temps réel non opérationnelle.
 
@@ -25,7 +25,7 @@ Une amélioration significative pourrait résider dans la mise en place d'un vé
 
 Cependant, un réseau maillé complet peut rapidement devenir complexe et difficile à gérer à mesure que le nombre de noeuds augmente. Par conséquent, une solution plus viable pourrait être d'organiser le réseau en clusters interconnectés, chaque cluster étant un petit réseau maillé en lui-même. Cela permettrait de conserver les avantages de la décentralisation et de la résilience offerts par un réseau maillé, tout en évitant la complexité qui pourrait survenir lors de l'ajout de nombreux noeuds.
 
-Un tel réseau pourrait être construit en utilisant différentes technologies pour différents types de noeuds. Par exemple, \Gls{WebRTC}il pourrait être utilisé pour les noeuds basés sur les navigateurs, \Gls{WebSocket}pour les noeuds serveur, et \Gls{TCP}pour des connexions directes. Des ponts pourraient être utilisés pour connecter les différents types de noeuds, renforçant ainsi la robustesse du réseau.
+Un tel réseau pourrait être construit en utilisant différentes technologies pour différents types de noeuds. Par exemple, \Gls{WebRTC} il pourrait être utilisé pour les noeuds basés sur les navigateurs, \Gls{WebSocket} pour les noeuds serveur, et \Gls{TCP} pour des connexions directes. Des ponts pourraient être utilisés pour connecter les différents types de noeuds, renforçant ainsi la robustesse du réseau.
 
 Pour mettre en oeuvre cette architecture réseau, le système actuel prévoit déjà le routage des données. Ainsi, il ne serait pas nécessaire de repenser entièrement l'architecture, mais plutôt de fusionner le client avec le serveur de signalisation, permettant à tous les clients d'agir également comme des routeurs.
 
@@ -33,7 +33,7 @@ Pour mettre en oeuvre cette architecture réseau, le système actuel prévoit d�
 
 Actuellement, le partage d'accès aux contenus nécessite de connaître la clé publique des utilisateurs. Cela peut être déroutant, surtout pour les personnes qui ne sont pas familières avec ces concepts.
 
-Une perspective d'amélioration pourrait être de simplifier ce processus de partage. Une solution pourrait être de mettre en place un système de «partage magique», où un lien unique serait généré pour chaque utilisateur. En cliquant sur ce lien, l'utilisateur serait automatiquement ajouté au système et aurait accès au contenu partagé. Cette amélioration rendrait le partage de contenu plus convivial et accessible à un public plus large.
+Une perspective d'amélioration pourrait être de simplifier ce processus de partage. Une solution pourrait être de mettre en place un système de \guillemotleft partage magique\guillemotright, où un lien unique serait généré pour chaque utilisateur. En cliquant sur ce lien, l'utilisateur serait automatiquement ajouté au système et aurait accès au contenu partagé. Cette amélioration rendrait le partage de contenu plus convivial et accessible à un public plus large.
 
 Intégrer un tel système nécessiterait une refonte de l'interface utilisateur et du processus de partage des données, mais cela pourrait grandement améliorer l'expérience utilisateur en rendant le partage de contenu plus facile et intuitif.
 

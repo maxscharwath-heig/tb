@@ -6,7 +6,7 @@ FROM nowox/latex:3.0
 # RUN groupadd --gid $USER_GID $USERNAME
 # RUN echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
 # RUn chmod 0440 /etc/sudoers.d/$USERNAME
-
+RUN pip install jsx-lexer
 # Bind bashrc
 # ADD .bashrc /root/.bashrc
 # ADD .bashrc /home/${USERNAME}/.bashrc

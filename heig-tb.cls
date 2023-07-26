@@ -190,7 +190,6 @@
 }
 \ProcessOptions
 
-
 \RequirePackage[fleqn]{amsmath}
 \RequirePackage[small,bf,textfont=it]{caption}
 \RequirePackage{appendix}

@@ -80,10 +80,10 @@ Les \Gls{CRDT} sont distribués et répliqués sur plusieurs noeuds, chaque noeu
 \subsubsection{Exemple d'application des \Gls{CRDT} : Logoot}
 Pour illustrer le fonctionnement des \Gls{CRDT}, considérons le cas de Logoot, un type de \Gls{CRDT} conçu pour la collaboration en temps réel sur des documents textuels. Dans l'algorithme Logoot, chaque caractère dans le document est associé à un identifiant unique, qui est une paire d'éléments notée sous la forme `(x, y)`. Le premier élément `x` correspond à la position du caractère dans le document, tandis que le second élément `y` est un identifiant unique généré lors de l'insertion du caractère.
 
-Prenons l'exemple de deux utilisateurs, Alice et Bob, collaborant sur un document texte initialisé avec le mot "chat".
+Prenons l'exemple de deux utilisateurs, Alice et Bob, collaborant sur un document texte initialisé avec le mot \guillemotleft chat\guillemotright.
 
 \paragraph{Scénario}
-Alice et Bob travaillent sur un texte initial "chat". Alice veut former "chou" en ajoutant "ou" après "ch", pendant que Bob veut former "chef" en ajoutant "ef" après "ch".
+Alice et Bob travaillent sur un texte initial \guillemotleft chat\guillemotright. Alice veut former \guillemotleft chou\guillemotright en ajoutant \guillemotleft ou\guillemotright après \guillemotleft ch\guillemotright, pendant que Bob veut former \guillemotleft chef\guillemotright en ajoutant \guillemotleft ef\guillemotright après \guillemotleft ch\guillemotright.
 
 \paragraph{Logoot \Gls{CRDT}}
 Nous illustrons ci-dessous comment Alice et Bob peuvent collaborer sur le document texte en utilisant Logoot \Gls{CRDT} :
@@ -97,7 +97,7 @@ Le document initial est :
 Ici, chaque caractère du document est suivi d'une paire d'éléments `(x, y)`, où `x` est la position du caractère dans le document et `y` est un identifiant unique généré lors de l'insertion du caractère.
 
 \paragraph{Opérations d'insertion}
-Alice insère "ou" après "ch" et génère de nouvelles positions :
+Alice insère \guillemotleft ou\guillemotright après \guillemotleft ch\guillemotright et génère de nouvelles positions :
 
 \begin{equation}
     o(2, 1), \ u(2, 2)
@@ -109,7 +109,7 @@ Le texte d'Alice devient :
     c(1), \ h(2), \ o(2, 1), \ u(2, 2), \ a(3), \ t(4) \quad \text{(chouat)}
 \end{equation}
 
-Bob insère "ef" après "ch" et génère aussi de nouvelles positions :
+Bob insère \guillemotleft ef\guillemotright après \guillemotleft ch\guillemotright et génère aussi de nouvelles positions :
 
 \begin{equation}
     e(2, 3), f(2, 4)
@@ -144,7 +144,7 @@ Dans ce contexte, le chiffrement de bout en bout (E2EE) est essentiel. L'E2EE ga
 
 \subsection{Cryptographie à clé publique et cryptographie symétrique}
 
-Il est important de comprendre que le terme \textit{"message"} ne se réfère pas uniquement à un courrier électronique ou à un message de chat. Il peut également s'agir d'un paquet réseau, c'est-à-dire de tout ce que vous faites en ligne, de la visite de sites web à l'achat de chaussures en passant par les jeux en ligne.
+Il est important de comprendre que le terme \textit{message} ne se réfère pas uniquement à un courrier électronique ou à un message de chat. Il peut également s'agir d'un paquet réseau, c'est-à-dire de tout ce que vous faites en ligne, de la visite de sites web à l'achat de chaussures en passant par les jeux en ligne.
 
 Le message d'origine est appelé texte en clair, et le message chiffré est appelé texte chiffré. Pour chiffrer un message de manière à ce que seul notre cher ami Bob puisse le déchiffrer, nous avons besoin d'utiliser la cryptographie à clé publique, également appelée cryptographie asymétrique.
 
@@ -165,7 +165,7 @@ Malgré ces mesures, la situation n'est toujours pas parfaite. Les clés RSA ont
 
 Pour remédier à cela, on utilise l'échange de clés Diffie–Hellman (plus couramment appelé échange de clés). Il s'agit d'une méthode pour établir un secret partagé entre deux parties par le biais d'un canal public. L'échange de clés Diffie–Hellman est beaucoup plus simple à mettre en oeuvre que le chiffrement RSA.
 
-Toutefois, les secrets partagés calculés par l'échange de clés Diffie–Hellman ne peuvent pas être utilisés directement pour le chiffrement symétrique. La plupart des algorithmes AEAD attendent une clé symétrique aléatoire uniforme, ce que ne sont pas les secrets partagés. Ainsi, pour "augmenter leur entropie", nous passons la sortie de la fonction d'échange de clés dans une fonction de dérivation de clés (KDF, pour Key Derivation Function) pour générer une clé secrète partagée qui peut être utilisée pour le chiffrement symétrique.
+Toutefois, les secrets partagés calculés par l'échange de clés Diffie–Hellman ne peuvent pas être utilisés directement pour le chiffrement symétrique. La plupart des algorithmes AEAD attendent une clé symétrique aléatoire uniforme, ce que ne sont pas les secrets partagés. Ainsi, pour augmenter leur entropie, nous passons la sortie de la fonction d'échange de clés dans une fonction de dérivation de clés (KDF, pour Key Derivation Function) pour générer une clé secrète partagée qui peut être utilisée pour le chiffrement symétrique.
 
 Mais qu'arrive-t-il si notre clé privée est divulguée ? Si un intermédiaire a enregistré tous nos messages et que notre clé privée fuit, un acteur malveillant serait en mesure de déchiffrer tous les messages ! Passé, présent et futur.
 

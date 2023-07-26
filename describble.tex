@@ -2,9 +2,9 @@ Suite à une réorientation majeure du projet et à la révision du cahier des c
 
 Le but initial était de créer un outil démonstrateur pour le système Condensation. Cependant, en raison de contraintes imprévues et de l'absence de la bibliothèque Condensation, le projet a dû prendre une nouvelle direction.
 
-\Gls{Describble} est une application de tableau blanc décentralisée qui fonctionne sur le principe du "Local-First". Elle est conçue pour permettre une collaboration en temps réel entre plusieurs utilisateurs, offrant la possibilité de créer, de partager et de modifier des documents de manière simultanée et sécurisée, sans dépendre d'un serveur centralisé.
+\Gls{Describble} est une application de tableau blanc décentralisée qui fonctionne sur le principe du \guillemotleft Local-First\guillemotright. Elle est conçue pour permettre une collaboration en temps réel entre plusieurs utilisateurs, offrant la possibilité de créer, de partager et de modifier des documents de manière simultanée et sécurisée, sans dépendre d'un serveur centralisé.
 
-Le nom \Gls{Describble} est une combinaison de "De", un préfixe signifiant décentralisé, et "scribble", un terme anglais pour gribouillage.
+Le nom \Gls{Describble} est une combinaison de \guillemotleft De\guillemotright, un préfixe signifiant décentralisé, et \guillemotleft scribble\guillemotright, un terme anglais pour gribouillage.
 
 \begin{figure}[h]
     \centering
@@ -12,16 +12,16 @@ Le nom \Gls{Describble} est une combinaison de "De", un préfixe signifiant déc
     \caption{Logo de l'application \Gls{Describble}, fait sur Figma}
 \end{figure}
 
-Ce nom a été choisi non seulement pour sa signification, mais aussi pour donner à l'application une identité distincte, plutôt que de la désigner simplement comme "Whiteboard". Cela a permis de donner plus d'importance au projet et de le positionner comme un projet à part entière.
+Ce nom a été choisi non seulement pour sa signification, mais aussi pour donner à l'application une identité distincte, plutôt que de la désigner simplement comme \guillemotleft Whiteboard\guillemotright. Cela a permis de donner plus d'importance au projet et de le positionner comme un projet à part entière.
 
 Dans ce chapitre, nous examinerons les principales fonctionnalités de \Gls{Describble}, les défis rencontrés lors de son développement et les solutions adoptées pour y faire face. Nous explorerons également les décisions prises lors du développement de l'application.
 
 
-\section{Le coeur de l'application \Gls{Describble}}
+\section{Le coeur de l'application Describble}
 
-\subsection{Architecture générale de l'application \Gls{Describble}}
+\subsection{Architecture générale de l'application Describble}
 
-L'architecture de l'application de tableau blanc interactif \Gls{Describble} est construite de manière à être modulaire et extensible. Le coeur de l'application, nommé "Whiteboard Core", contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
+L'architecture de l'application de tableau blanc interactif \Gls{Describble} est construite de manière à être modulaire et extensible. Le coeur de l'application, nommé \guillemotleft Whiteboard Core\guillemotright, contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
 
 Cette section décrit les fonctions clés de chaque sous-module dans l'architecture de \Gls{Describble} :
 
@@ -89,11 +89,11 @@ En suivant ces étapes, on assure que le noyau de l'application est conscient du
 
 L'application de dessin met à la disposition de l'utilisateur divers outils pour interagir avec le canevas. Ces outils comprennent des fonctions pour dessiner des formes, insérer des images, sélectionner et déplacer des éléments sur le canevas.
 
-Chaque outil est programmé pour répondre de manière spécifique aux interactions de l'utilisateur. Par exemple, lorsqu'un utilisateur clique et glisse sur le canevas, un outil de dessin de forme peut commencer à dessiner une forme, tandis qu'un outil de déplacement peut commencer à déplacer un élément existant. C'est ici qu'intervient le concept du "cycle de vie de l'outil".
+Chaque outil est programmé pour répondre de manière spécifique aux interactions de l'utilisateur. Par exemple, lorsqu'un utilisateur clique et glisse sur le canevas, un outil de dessin de forme peut commencer à dessiner une forme, tandis qu'un outil de déplacement peut commencer à déplacer un élément existant. C'est ici qu'intervient le concept du \guillemotleft cycle de vie de l'outil\guillemotright.
 
 \subsubsection{Le cycle de vie de l'outil}
 
-Chaque outil peut passer par différentes phases ou "états" en réponse aux interactions de l'utilisateur. Ces états sont gérés par des méthodes spécifiques :
+Chaque outil peut passer par différentes phases ou \guillemotleft états\guillemotright en réponse aux interactions de l'utilisateur. Ces états sont gérés par des méthodes spécifiques :
 
 \begin{itemize}
     \item \textbf{onActivate} : Cette méthode est appelée lorsque l'outil devient actif. Elle permet d'établir les configurations nécessaires pour l'outil.
@@ -101,7 +101,7 @@ Chaque outil peut passer par différentes phases ou "états" en réponse aux int
     \item \textbf{onAbort} : Cette méthode est appelée lorsque l'outil doit être interrompu, généralement en réponse à l'utilisateur qui appuie sur la touche Échap. Elle doit gérer le nettoyage nécessaire et ramener l'outil à son état initial.
 \end{itemize}
 
-Ainsi, lorsqu'un outil est sélectionné pour la première fois, la méthode \textbf{onActivate} est appelée, mettant l'outil dans un état "Idle". Lorsque l'utilisateur commence une interaction, comme un clic et un glissement, l'outil peut passer à un état "Creating" ou "Dragging", selon le type d'outil. Lorsque l'interaction de l'utilisateur se termine, l'outil peut revenir à l'état "Idle" ou passer à un autre état approprié. Enfin, si un autre outil est sélectionné, la méthode \textbf{onDeactivate} est appelée, permettant de nettoyer ou de réinitialiser son état interne.
+Ainsi, lorsqu'un outil est sélectionné pour la première fois, la méthode \textbf{onActivate} est appelée, mettant l'outil dans un état \guillemotleft Idle\guillemotright. Lorsque l'utilisateur commence une interaction, comme un clic et un glissement, l'outil peut passer à un état \guillemotleft Creating\guillemotright ou \guillemotleft Dragging\guillemotright, selon le type d'outil. Lorsque l'interaction de l'utilisateur se termine, l'outil peut revenir à l'état \guillemotleft Idle\guillemotright ou passer à un autre état approprié. Enfin, si un autre outil est sélectionné, la méthode \textbf{onDeactivate} est appelée, permettant de nettoyer ou de réinitialiser son état interne.
 
 \subsubsection{Gestion des outils dans l'application}
 
@@ -111,7 +111,7 @@ En comprenant et en utilisant efficacement ces outils et leur cycle de vie, nous
 
 \subsection{Les Activités}
 
-L'application de dessin présente une abstraction de la gestion des interactions utilisateur appelée "activités". Cette abstraction offre une structuration des opérations de dessin pouvant être effectuées au sein de l'application.
+L'application de dessin présente une abstraction de la gestion des interactions utilisateur appelée \guillemotleft activités\guillemotright. Cette abstraction offre une structuration des opérations de dessin pouvant être effectuées au sein de l'application.
 
 \subsubsection{Qu'est-ce qu'une Activité ?}
 
@@ -136,7 +136,7 @@ Par ailleurs, l'utilisation d'activités offre un mécanisme pour l'implémentat
 
 \subsection{Gestion des tâches via les gestionnaires}
 
-Une approche orientée objet a été adoptée pour la gestion des tâches et la structuration du code. Un aspect clé de cette approche est l'utilisation de gestionnaires, ou "Managers", qui sont des entités chargées de coordonner et de superviser des tâches spécifiques.
+Une approche orientée objet a été adoptée pour la gestion des tâches et la structuration du code. Un aspect clé de cette approche est l'utilisation de gestionnaires, ou \guillemotleft Managers\guillemotright, qui sont des entités chargées de coordonner et de superviser des tâches spécifiques.
 
 \subsubsection{Principe de fonctionnement des gestionnaires}
 
@@ -146,7 +146,7 @@ Dans cette conception, les gestionnaires ont accès à l'état global de l'appli
 
 \subsubsection{Application des gestionnaires dans le projet}
 
-Par exemple, un gestionnaire d'activité, ou "Activity Manager", est responsable de la gestion du cycle de vie des activités dans l'application. Il s'occupe de la création, du démarrage, de la finalisation, de l'annulation et de la mise à jour des activités. Ce gestionnaire gère toutes les interactions avec les activités, libérant ainsi le reste du système de cette responsabilité.
+Par exemple, un gestionnaire d'activité, ou \guillemotleft Activity Manager\guillemotright, est responsable de la gestion du cycle de vie des activités dans l'application. Il s'occupe de la création, du démarrage, de la finalisation, de l'annulation et de la mise à jour des activités. Ce gestionnaire gère toutes les interactions avec les activités, libérant ainsi le reste du système de cette responsabilité.
 
 Lorsqu'une nouvelle activité doit être démarrée, le gestionnaire d'activité interrompt tout d'abord l'activité en cours, si elle existe, avant de démarrer la nouvelle activité. Il dispose également de méthodes permettant de compléter ou d'annuler une activité en cours.
 
@@ -219,7 +219,7 @@ Dans le listing ci-dessus, `WhiteboardProvider` est défini comme étant le `Pro
 En utilisant le `WhiteboardProvider` pour envelopper l'ensemble de l'application, nous pouvons fournir l'instance de `WhiteboardApp` à tous les composants de l'application.
 
 \begin{listing}[H]
-    \begin{minted}[breaklines,frame=none]{html}
+    \begin{minted}[breaklines,frame=none]{jsx}
 const app = new WhiteboardApp();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -295,10 +295,10 @@ La récupération du compte est un processus en deux étapes qui permet à l'uti
 \end{itemize}
 
 \subsubsection{Système d'étapes}
-Toutes ces étapes sont gérées par un système d'étapes conçu pour être flexible. Il est structuré autour de deux concepts principaux : les étapes et le contexte. Chaque étape est un composant indépendant avec un nom et une fonction d'affichage. Certaines étapes peuvent également être marquées comme "cachées", ce qui signifie qu'elles ne seront pas affichées à l'utilisateur, mais seront toujours traitées par le système. Le contexte, quant à lui, maintient l'état global du système d'étapes. Il contient la liste des étapes, l'indice de l'étape actuelle, l'étape actuelle elle-même, ainsi que deux fonctions pour naviguer vers l'étape suivante ou précédente. Le contexte maintient également un état, qui peut être utilisé pour stocker des informations entre les différentes étapes. Cette architecture offre une expérience utilisateur fluide et sécurisée, tout en garantissant une structure claire et modulaire pour le développeur.
+Toutes ces étapes sont gérées par un système d'étapes conçu pour être flexible. Il est structuré autour de deux concepts principaux : les étapes et le contexte. Chaque étape est un composant indépendant avec un nom et une fonction d'affichage. Certaines étapes peuvent également être marquées comme \guillemotleft cachées\guillemotright, ce qui signifie qu'elles ne seront pas affichées à l'utilisateur, mais seront toujours traitées par le système. Le contexte, quant à lui, maintient l'état global du système d'étapes. Il contient la liste des étapes, l'indice de l'étape actuelle, l'étape actuelle elle-même, ainsi que deux fonctions pour naviguer vers l'étape suivante ou précédente. Le contexte maintient également un état, qui peut être utilisé pour stocker des informations entre les différentes étapes. Cette architecture offre une expérience utilisateur fluide et sécurisée, tout en garantissant une structure claire et modulaire pour le développeur.
 
 \begin{listing}[H]
-    \begin{minted}[breaklines,frame=none]{html}
+    \begin{minted}[breaklines,frame=none]{jsx}
 export const Recover: React.FC = () => {
     const steps = [
         {name: 'recovery_phrase', component: RecoverStep},
@@ -317,7 +317,7 @@ export const Recover: React.FC = () => {
 \end{listing}
 
 \begin{listing}[H]
-    \begin{minted}[breaklines,frame=none]{html}
+    \begin{minted}[breaklines,frame=none]{jsx}
 export const CreatePasswordStep: React.FC = () => {
     const {next, state, setState} = useSteps();
 
@@ -354,7 +354,7 @@ Comme on peut le voir sur la Figure \ref{fig:dashboard}, chaque document est rep
     \item Deux boutons : Le premier bouton permet de supprimer le document de la machine, tandis que le second ouvre une fenêtre affichant les détails et les paramètres de partage du document.
 \end{itemize}
 
-En haut à droite du tableau de bord, un bouton "Nouveau tableau blanc" permet à l'utilisateur de créer un nouveau document.
+En haut à droite du tableau de bord, un bouton \guillemotleft Nouveau tableau blanc\guillemotright permet à l'utilisateur de créer un nouveau document.
 
 \subsection{Gestion des paramètres et informations d'un document}
 
@@ -371,7 +371,7 @@ Si l'utilisateur actuel est le propriétaire du document, alors des options supp
 
 \section{Interface de dessin - Le Canvas}
 
-L'interface principale de l'application est la zone de dessin, appelée "Canvas". C'est ici que l'utilisateur peut exprimer sa créativité et concevoir des dessins complexes.
+L'interface principale de l'application est la zone de dessin, appelée \guillemotleft Canvas\guillemotright. C'est ici que l'utilisateur peut exprimer sa créativité et concevoir des dessins complexes.
 
 \begin{figure}[H]
     \centering
@@ -392,29 +392,29 @@ Comme illustré à la Figure \ref{fig:canvas_interface}, le Canvas est composé 
 
 L'ensemble de ces éléments rend l'interface de dessin à la fois puissante et flexible, tout en restant intuitive et facile à utiliser.
 
-\subsection{Rendu et optimisations}
+\section{Rendu et optimisations}
 
-Le rendu des éléments sur le Canvas est une partie cruciale de l'application de dessin. Trois options principales ont été envisagées :
+Le rendu des éléments sur la zone de dessin est une partie cruciale de l'application. Trois options principales ont été envisagées :
 
 \begin{itemize}
-    \item Un rendu complet dans un seul élément SVG, comme dans l'application de dessin \Gls{Describble}.
+    \item Un rendu complet dans un seul élément SVG.
     \item Un élément SVG par élément, positionné avec CSS, comme dans l'application de dessin Tldraw\footnote{\url{https://tldraw.com/}}.
-    \item Un élément Canvas, avec dessin direct à l'intérieur, comme dans l'application de dessin Excalidraw\footnote{\url{https://excalidraw.com/}}.
+    \item Un élément Canvas HTML, avec dessin direct à l'intérieur, comme dans l'application de dessin Excalidraw\footnote{\url{https://excalidraw.com/}}.
 \end{itemize}
 
-Finalement, l'approche choisie pour \Gls{Describble} a été de réaliser un rendu complet dans un seul élément SVG. Cette méthode présente plusieurs avantages. Tout d'abord, elle encapsule bien la partie rendu et facilite la génération d'un aperçu (thumbnail) du dessin. Ensuite, elle permet de continuer à utiliser React pour la création du SVG, ce qui est en accord avec le reste de la stack technique de l'application.
+Finalement, l'approche choisie pour \Gls{Describble} a été de réaliser un rendu complet dans un seul élément SVG. Cette méthode présente plusieurs avantages. Tout d'abord, elle encapsule bien la partie rendu et facilite la génération d'un aperçu (thumbnail) du dessin. Ensuite, elle permet de continuer à utiliser React pour la création du SVG, ce qui est en accord avec le reste de la stack technique de l'application. Mais surtout d'essayer de se différencier de Tldraw et Excalidraw, qui utilisent respectivement les deux autres approches.
 
 \subsubsection{Contraintes et limitations}
 
-Cependant, cette méthode présente aussi des contraintes. En effet, il n'y a pas de propriété native pour contrôler l'ordre d'affichage des calques dans le SVG, communément appelé "z-index" en CSS. Pour gérer cela, il est nécessaire de rendre les calques dans le bon ordre, ce qui peut être coûteux en termes de performance pour des dessins complexes avec de nombreux calques. C'est probablement pour cette raison que Tldraw encapsule ses calques dans des éléments HTML, pour pouvoir utiliser la propriété CSS "z-index". Cependant, cette limitation devrait être levée avec l'introduction de SVG 2.0, qui prévoit une propriété de z-index, permettant de contrôler l'ordre des calques de manière plus optimisée\footnote{\url{https://www.w3.org/TR/SVG2/changes.html}}.
+Cependant, cette méthode présente aussi des contraintes. En effet, il n'y a pas de propriété native pour contrôler l'ordre d'affichage des calques dans le SVG, communément appelé \guillemotleft z-index\guillemotright en CSS. Pour gérer cela, il est nécessaire de rendre les calques dans le bon ordre, ce qui peut être coûteux en termes de performance pour des dessins complexes avec de nombreux calques. C'est probablement pour cette raison que Tldraw encapsule ses calques dans des éléments HTML, pour pouvoir utiliser la propriété CSS \guillemotleft z-index\guillemotright. Cependant, cette limitation devrait être levée avec l'introduction de SVG 2.0, qui prévoit une propriété de z-index, permettant de contrôler l'ordre des calques de manière plus optimisée\footnote{\url{https://www.w3.org/TR/SVG2/changes.html}}.
 
 \subsection{Optimisation du rendu : Utilisation d'un Quadtree}
 
-Comme mentionné précédemment, le Canvas de \Gls{Describble} est infini, ce qui signifie qu'il peut contenir un nombre potentiellement infini de calques. Cependant, il n'est pas efficace de dessiner tous les calques à chaque fois, en particulier ceux qui sont hors de la zone visible (ou "viewport"). Pour optimiser le rendu, un Quadtree a été utilisé.
+Comme mentionné précédemment, la zone de dessin de \Gls{Describble} est infinie, ce qui signifie qu'elle peut contenir un nombre potentiellement infini de calques. Cependant, il n'est pas efficace de dessiner tous les calques à chaque fois, en particulier ceux qui sont hors de la zone visible (ou \guillemotleft viewport\guillemotright). Pour optimiser le rendu, un Quadtree a été utilisé.
 
-Un Quadtree est une structure de données utilisée pour représenter des données spatiales 2D. Dans le contexte de \Gls{Describble}, chaque noeud du Quadtree représente une région du Canvas et contient une liste de calques qui se trouvent dans cette région.
+Un Quadtree est une structure de données utilisée pour représenter des données spatiales 2D. Dans le contexte de \Gls{Describble}, chaque noeud du Quadtree représente une région de la zone de dessin et contient une liste de calques qui se trouvent dans cette région.
 
-Au départ, le Quadtree contient un seul noeud, qui englobe tout le Canvas. Chaque fois qu'un nouveau calque est ajouté, il est ajouté au noeud du Quadtree qui correspond à sa région. Si le nombre de calques dans un noeud dépasse une certaine limite (par exemple, 4), le noeud est subdivisé en quatre sous-noeuds de taille égale, chacun représentant un quadrant de la région initiale. Les calques du noeud initial sont ensuite redistribués parmi ces nouveaux sous-noeuds en fonction de leur position.
+Au départ, le Quadtree contient un seul noeud, qui englobe toute la zone de dessin. Chaque fois qu'un nouveau calque est ajouté, il est ajouté au noeud du Quadtree qui correspond à sa région. Si le nombre de calques dans un noeud dépasse une certaine limite (par exemple, 4), le noeud est subdivisé en quatre sous-noeuds de taille égale, chacun représentant un quadrant de la région initiale. Les calques du noeud initial sont ensuite redistribués parmi ces nouveaux sous-noeuds en fonction de leur position.
 
 \begin{figure}[H]
     \centering
@@ -425,7 +425,7 @@ Au départ, le Quadtree contient un seul noeud, qui englobe tout le Canvas. Chaq
 
 Ainsi, lors du rendu, seuls les calques des noeuds du Quadtree qui intersectent avec le viewport sont dessinés. Cela permet d'économiser des ressources en évitant de dessiner des calques qui ne seraient pas visibles de toute façon.
 
-En utilisant cette approche, le rendu du Canvas reste performant même lorsque le nombre de calques augmente. Cependant, si le nombre d'éléments dans le SVG dépasse un certain seuil (par exemple, 1000), il serait nécessaire de chercher une solution alternative, comme l'utilisation d'une balise canvas.
+En utilisant cette approche, le rendu de la zone de dessin reste performant même lorsque le nombre de calques augmente. Cependant, si le nombre d'éléments dans le SVG dépasse un certain seuil (par exemple, 1000), il serait nécessaire de chercher une solution alternative, comme l'utilisation d'une balise Canvas HTML.
 
 \section{Développement du package Moodie pour la génération d'avatars\label{moodie}}
 
@@ -457,7 +457,7 @@ Moodie présente plusieurs caractéristiques distinctives :
 Intégrer Moodie dans une application est simple. Voici un exemple d'utilisation de Moodie dans le code de l'application :
 
 \begin{listing}[H]
-    \begin{minted}[breaklines,frame=none]{html}
+    \begin{minted}[breaklines,frame=none]{jsx}
 import { Moodie } from 'moodie';
 
 <Moodie
