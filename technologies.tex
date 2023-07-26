@@ -31,7 +31,7 @@ Malgré ses avantages, l'utilisation d'un monorepo peut également présenter qu
 \paragraph{Complexité de la configuration :} La configuration d'un monorepo peut être plus complexe que celle d'un polyrepo, notamment en ce qui concerne la gestion des dépendances, la configuration des outils de développement et l'automatisation des tests et des déploiements.
 \paragraph{Séparation des responsabilités :} Dans un monorepo, il peut être plus difficile de maintenir une séparation claire des responsabilités entre les différentes parties du projet, et de contrôler l'accès et les autorisations des développeurs.
 
-\section{L'utilisation de TurboRepo dans notre projet}
+\section{L'utilisation de TurboRepo dans le projet}
 
 \begin{wrapfigure}{l}{0.25\textwidth}
     \centering
@@ -40,10 +40,10 @@ Malgré ses avantages, l'utilisation d'un monorepo peut également présenter qu
     \label{fig:turborepo}
 \end{wrapfigure}
 
-TurboRepo\cite{Turborepo} est un système de construction hautement performant pour les projets JavaScript. Il est spécifiquement conçu pour optimiser et accélérer les processus de construction dans un contexte de monorepos.
+TurboRepo\cite{Turborepo} est un système de build hautement performant pour les projets JavaScript. Il est spécifiquement conçu pour optimiser et accélérer les processus de build dans un contexte de monorepos.
 
 \begin{itemize}
-    \item Construction incrémentale rapide;
+    \item Build incrémentale rapide;
     \item Mise en cache des calculs locaux;
     \item Mise en cache des calculs distribués;
     \item Orchestration des tâches locales;
@@ -55,32 +55,32 @@ L'un des principaux avantages de TurboRepo est sa capacité à minimiser les tem
 
 \section{Gestionnaires de paquets et pnpm}
 
-Un gestionnaire de paquets est un outil qui permet d'automatiser l'installation, la mise à niveau, la configuration et la désinstallation de paquets logiciels. Dans le contexte des projets Node.js, un gestionnaire de paquets gère les dépendances et les bibliothèques requises par le projet. Les gestionnaires de paquets aident à simplifier et à organiser le développement en fournissant un moyen structuré et centralisé de gérer les dépendances, ce qui améliore la maintenabilité et la reproductibilité des projets.
+Un gestionnaire de paquets est un outil qui permet d'automatiser l'installation, la mise à niveau, la configuration et la désinstallation de paquets logiciels. Dans le contexte des projets \gls{Node.js}, un gestionnaire de paquets gère les dépendances et les bibliothèques requises par le projet. Les gestionnaires de paquets aident à simplifier et à organiser le développement en fournissant un moyen structuré et centralisé de gérer les dépendances, ce qui améliore la maintenabilité et la reproductibilité des projets.
 
-Les gestionnaires de paquets les plus couramment utilisés dans l'écosystème JavaScript et Node.js sont npm (Node Package Manager) et yarn. Ces outils permettent aux développeurs d'installer et de gérer les bibliothèques et les modules dont leurs projets ont besoin, en téléchargeant les paquets à partir d'un registre en ligne, généralement le registre npm\cite{Npm}.
+Les gestionnaires de paquets les plus couramment utilisés dans l'écosystème JavaScript et \gls{Node.js} sont \gls{npm} (Node Package Manager), yarn et \gls{pnpm}. Ces outils permettent aux développeurs d'installer et de gérer les bibliothèques et les modules dont leurs projets ont besoin, en téléchargeant les paquets à partir d'un registre en ligne, généralement le registre \gls{npm}\cite{Npm}.
 
 \subsection{La gestion des paquets avec pnpm}
 
-pnpm\cite{MotivationPnpm} est un gestionnaire de paquets alternatif pour Node.js qui est compatible avec le registre npm. Il se distingue par son approche de stockage des paquets, qui utilise des liens durs et des liens symboliques pour créer un stockage partagé des paquets. Cela permet d'économiser de l'espace disque et de réduire les temps d'installation des paquets.
+pnpm\cite{MotivationPnpm} est un gestionnaire de paquets alternatif pour \gls{Node.js} qui est compatible avec le registre \gls{npm}. Il se distingue par son approche de stockage des paquets, qui utilise des liens durs et des liens symboliques pour créer un stockage partagé des paquets. Cela permet d'économiser de l'espace disque et de réduire les temps d'installation des paquets.
 
 \subsection{Pourquoi choisir pnpm ?}
 
-Il existe plusieurs raisons pour lesquelles vous pourriez choisir pnpm plutôt que d'autres gestionnaires de paquets comme npm ou yarn :
+Il existe plusieurs raisons pour lesquelles vous pourriez choisir \gls{pnpm} plutôt que d'autres gestionnaires de paquets comme \gls{npm} ou yarn :
 
-\paragraph{Efficacité du stockage :} Comme mentionné précédemment, pnpm utilise des liens durs et des liens symboliques pour créer un stockage partagé des paquets. Cela signifie que chaque version d'un paquet n'est stockée qu'une seule fois sur le disque, même si elle est utilisée par plusieurs projets. Cela permet de réduire considérablement l'espace disque utilisé par les dépendances du projet.
-\paragraph{Performances d'installation :} Grâce à son approche de stockage des paquets, pnpm peut réduire les temps d'installation en évitant de télécharger et d'extraire les mêmes paquets plusieurs fois. Les paquets sont simplement liés au projet, ce qui est beaucoup plus rapide que de les installer à partir du registre npm.
-\paragraph{Garantie d'isolation :} pnpm garantit que les dépendances d'un projet sont strictement isolées des autres projets, ce qui évite les problèmes causés par les dépendances partagées ou les dépendances non déclarées. Cela permet de détecter et de corriger les erreurs de configuration des dépendances plus tôt dans le processus de développement.
-\paragraph{Compatibilité :} pnpm est compatible avec le registre npm et les fichiers package.json standard, ce qui signifie qu'il peut être utilisé comme un remplacement direct pour npm ou yarn sans nécessiter de modifications importantes dans la configuration du projet.
+\paragraph{Efficacité du stockage :} Comme mentionné précédemment, \gls{pnpm} utilise des liens durs et des liens symboliques pour créer un stockage partagé des paquets. Cela signifie que chaque version d'un paquet n'est stockée qu'une seule fois sur le disque, même si elle est utilisée par plusieurs projets. Cela permet de réduire considérablement l'espace disque utilisé par les dépendances du projet.
+\paragraph{Performances d'installation :} Grâce à son approche de stockage des paquets, \gls{pnpm} peut réduire les temps d'installation en évitant de télécharger et d'extraire les mêmes paquets plusieurs fois. Les paquets sont simplement liés au projet, ce qui est beaucoup plus rapide que de les installer à partir du registre npm.
+\paragraph{Garantie d'isolation :} \gls{pnpm} garantit que les dépendances d'un projet sont strictement isolées des autres projets, ce qui évite les problèmes causés par les dépendances partagées ou les dépendances non déclarées. Cela permet de détecter et de corriger les erreurs de configuration des dépendances plus tôt dans le processus de développement.
+\paragraph{Compatibilité :} \gls{pnpm} est compatible avec le registre \gls{npm} et les fichiers package.json standard, ce qui signifie qu'il peut être utilisé comme un remplacement direct pour \gls{npm} ou yarn sans nécessiter de modifications importantes dans la configuration du projet.
 
-En somme, pnpm est une alternative intéressante aux gestionnaires de paquets traditionnels comme npm ou yarn. Il offre des avantages en termes d'efficacité du stockage, de performances d'installation et d'isolation des dépendances, tout en restant compatible avec l'écosystème npm existant. L'utilisation de pnpm dans un grand projet peut entraîner des gains significatifs en matière d'espace disque et de temps d'installation, ainsi qu'une meilleure gestion et détection des problèmes liés aux dépendances. Le choix de pnpm a été motivé par ces avantages et sa rapidité d'utilisation, ce qui permet d'accélérer la productivité.
+En somme, \gls{pnpm} est une alternative intéressante aux gestionnaires de paquets traditionnels comme \gls{npm} ou yarn. Il offre des avantages en termes d'efficacité du stockage, de performances d'installation et d'isolation des dépendances, tout en restant compatible avec l'écosystème \gls{npm} existant. L'utilisation de \gls{pnpm} dans un grand projet peut entraîner des gains significatifs en matière d'espace disque et de temps d'installation, ainsi qu'une meilleure gestion et détection des problèmes liés aux dépendances. Le choix de \gls{pnpm} a été motivé par ces avantages et sa rapidité d'utilisation, ce qui permet d'accélérer la productivité.
 
 \subsection{L'intégration de pnpm avec TurboRepo}
 
-Comme mentionné précédemment, pnpm peut être utilisé en conjonction avec TurboRepo pour améliorer encore les performances et la gestion des dépendances dans un projet monorepo. TurboRepo se concentre sur l'exécution efficace des tâches de build et de test, tandis que pnpm gère l'installation et la gestion des paquets.
+Comme mentionné précédemment, \gls{pnpm} peut être utilisé en conjonction avec TurboRepo pour améliorer encore les performances et la gestion des dépendances dans un projet monorepo. TurboRepo se concentre sur l'exécution efficace des tâches de build et de test, tandis que \gls{pnpm} gère l'installation et la gestion des paquets.
 
-L'intégration de pnpm avec TurboRepo permet de tirer parti des avantages de chacun de ces outils pour créer une expérience de développement plus fluide et performante. TurboRepo peut utiliser les caches de build générés par pnpm pour éviter les tâches de build inutiles et accélérer les pipelines de build. En même temps, pnpm peut tirer parti de la structure monorepo et de la gestion des dépendances centralisée offerte par TurboRepo pour optimiser l'installation et la gestion des paquets.
+L'intégration de \gls{pnpm} avec TurboRepo permet de tirer parti des avantages de chacun de ces outils pour créer une expérience de développement plus fluide et performante. TurboRepo peut utiliser les caches de build générés par \gls{pnpm} pour éviter les tâches de build inutiles et accélérer les pipelines de build. En même temps, \gls{pnpm} peut tirer parti de la structure monorepo et de la gestion des dépendances centralisée offerte par TurboRepo pour optimiser l'installation et la gestion des paquets.
 
-En conclusion, l'utilisation de pnpm en combinaison avec TurboRepo dans un grand projet peut offrir une solution robuste et performante pour la gestion des dépendances et l'exécution des tâches de build. Les avantages de ces outils peuvent contribuer à améliorer la productivité et la maintenabilité du projet, tout en offrant une expérience de développement plus fluide et plus rapide.
+En conclusion, l'utilisation de \gls{pnpm} en combinaison avec TurboRepo dans un grand projet peut offrir une solution robuste et performante pour la gestion des dépendances et l'exécution des tâches de build. Les avantages de ces outils peuvent contribuer à améliorer la productivité et la maintenabilité du projet, tout en offrant une expérience de développement plus fluide et plus rapide.
 
 
 \section{L'utilisation de TypeScript dans un projet}
@@ -101,11 +101,11 @@ Le typage statique présente plusieurs avantages pour les grands projets :
 
 Comme TypeScript est un sur-ensemble de JavaScript, il est compatible avec tout le code JavaScript existant. Cela signifie que les développeurs peuvent migrer progressivement leur codebase vers TypeScript en ajoutant des types aux parties les plus critiques du code, sans avoir à réécrire l'ensemble de l'application.
 
-Cette compatibilité permet également d'utiliser toutes les bibliothèques et frameworks JavaScript existants, tels que React, Angular et Vue.js, ainsi que les packages npm.
+Cette compatibilité permet également d'utiliser toutes les bibliothèques et frameworks JavaScript existants, tels que React, Angular et Vue.js, ainsi que les paquets npm.
 
 \subsection{L'adoption des fonctionnalités modernes de JavaScript par TypeScript}
 
-TypeScript supporte toutes les fonctionnalités modernes de JavaScript, telles que les classes, les modules, les décorateurs, les fonctions fléchées et les promesses. Il ajoute également des fonctionnalités supplémentaires, telles que les interfaces, les types génériques et les espaces de noms.
+TypeScript supporte toutes les fonctionnalités modernes de JavaScript, telles que les classes, les modules, les décorateurs, les fonctions fléchées et les promesses. Il ajoute également des fonctionnalités supplémentaires, telles que les interfaces, les types génériques et les enums.
 
 Cela permet aux développeurs d'utiliser les dernières fonctionnalités de JavaScript tout en bénéficiant des avantages du typage statique.
 
@@ -115,7 +115,6 @@ Dans les grands projets, la complexité du code et la taille de l'équipe de dé
 
 Les avantages de TypeScript en termes de scalabilité et de maintenabilité incluent :
 
-\paragraph{Modularité :} TypeScript supporte les modules et les espaces de noms, ce qui permet de diviser le code en unités logiques et de faciliter la réutilisation des composants. Les modules TypeScript peuvent également être intégrés avec les systèmes de modules existants, tels que CommonJS et ES6.
 \paragraph{Interfaces :} Les interfaces TypeScript permettent de définir des contrats entre les composants du code, garantissant que ces composants respectent les attentes en termes de types et de comportement. Les interfaces sont particulièrement utiles pour définir des API claires et cohérentes entre les différentes parties du code.
 \paragraph{Types génériques :} Les types génériques permettent de créer des composants réutilisables qui peuvent fonctionner avec différents types de données, sans sacrifier la sécurité du typage. Les types génériques sont couramment utilisés pour définir des structures de données, des fonctions et des classes qui sont indépendantes du type de données qu'elles manipulent.
 \paragraph{Refactoring :} Les outils de développement modernes peuvent tirer parti des informations de type fournies par TypeScript pour faciliter le refactoring du code. Cela permet de modifier la structure du code sans affecter son comportement, ce qui est essentiel pour la maintenabilité à long terme des grands projets.
@@ -124,13 +123,13 @@ Les avantages de TypeScript en termes de scalabilité et de maintenabilité incl
 
 TypeScript bénéficie d'une communauté active et en pleine croissance, qui contribue à son développement et à sa popularité. De nombreuses bibliothèques et frameworks JavaScript populaires, tels que React, Angular et Vue.js, supportent TypeScript nativement ou via des fichiers de déclaration de type, ce qui facilite son adoption.
 
-De plus, la majorité des packages npm fournissent des fichiers de déclaration de type pour TypeScript, soit directement dans le package, soit via le dépôt DefinitelyTyped. Cela permet aux développeurs de bénéficier du typage statique lorsqu'ils utilisent des bibliothèques et des frameworks tiers.
+De plus, la majorité des paquets \gls{npm} fournissent des fichiers de déclaration de type pour TypeScript, soit directement dans le paquet, soit via le dépôt DefinitelyTyped. Cela permet aux développeurs de bénéficier du typage statique lorsqu'ils utilisent des bibliothèques et des frameworks tiers.
 
 \section{Frameworks frontend réactifs}
 
 \subsection{Qu'est-ce qu'un framework frontend réactif ?}
 
-Un framework frontend réactif est une bibliothèque ou un ensemble d'outils permettant de créer des applications Web modernes avec une interface utilisateur dynamique et réactive. Ces frameworks facilitent la manipulation du \Gls{DOM} (Document Object Model), la gestion des états, la communication avec les API backend et l'intégration d'autres fonctionnalités avancées. En outre, ils favorisent la modularité et la réutilisabilité du code en permettant aux développeurs de créer des composants réutilisables et indépendants.
+Un framework frontend réactif est une bibliothèque ou un ensemble d'outils permettant de créer des applications Web modernes avec une interface utilisateur dynamique et réactive. Ces frameworks facilitent la manipulation du \gls{DOM} (Document Object Model), la gestion des états, la communication avec les API backend et l'intégration d'autres fonctionnalités avancées. En outre, ils favorisent la modularité et la réutilisabilité du code en permettant aux développeurs de créer des composants réutilisables et indépendants.
 
 \subsection{Pourquoi les frameworks frontend réactifs sont-ils utiles ?}
 
@@ -139,32 +138,27 @@ Les frameworks frontend réactifs offrent plusieurs avantages pour le développe
 \paragraph{Réactivité :} Ils permettent de créer des interfaces utilisateur dynamiques et réactives qui s'adaptent automatiquement aux modifications de l'état de l'application ou aux interactions de l'utilisateur.
 \paragraph{Modularité et réutilisabilité :} Les frameworks réactifs encouragent la création de composants modulaires et réutilisables, ce qui facilite la maintenance et l'évolution du code, ainsi que la collaboration entre les développeurs.
 \paragraph{Productivité :} Ils fournissent des outils et des abstractions pour simplifier le développement et réduire la quantité de code à écrire, ce qui améliore la productivité des développeurs.
-\paragraph{Performances :} Les frameworks réactifs optimisent les performances en minimisant les mises à jour du \Gls{DOM} et en utilisant des techniques avancées, telles que la détection de changements, le rendu différé et la mise en cache intelligente.
+\paragraph{Performances :} Les frameworks réactifs optimisent les performances en minimisant les mises à jour du \gls{DOM} et en utilisant des techniques avancées, telles que la détection de changements, le rendu différé et la mise en cache intelligente.
 
-\subsection{Pourquoi choisir React par rapport aux alternatives ?}
+\subsection{Pourquoi privilégier React face aux alternatives ?}
 
-Plusieurs frameworks frontend réactifs sont disponibles, tels que React, Angular et Vue.js. Nous avons choisi React\cite{QuickStartReact} pour ce projet en raison de sa popularité, de sa large compatibilité avec les bibliothèques existantes et de son approche flexible et modulaire. Voici quelques raisons qui ont motivé notre choix :
+Divers frameworks frontend réactifs existent, tels que React, Angular et Vue.js. L'option de React\cite{QuickStartReact} s'est imposée pour ce projet en raison de sa popularité, de sa large compatibilité avec les bibliothèques existantes et de son approche flexible et modulaire. Voici quelques motivations derrière ce choix :
 
 \paragraph{Popularité :} React est l'un des frameworks frontend les plus populaires et largement utilisés, avec une grande communauté de développeurs et une vaste documentation. Cette popularité signifie que de nombreux problèmes et défis courants ont déjà été résolus par d'autres développeurs, et il existe de nombreuses ressources pour apprendre et se familiariser avec le framework.
 \paragraph{Compatibilité avec les bibliothèques :} Grâce à sa popularité, React est compatible avec un grand nombre de bibliothèques et de plugins existants, ce qui facilite l'intégration de fonctionnalités supplémentaires dans notre projet sans avoir à réinventer la roue.
-\paragraph{Approche flexible et modulaire :} React se concentre sur la création de composants réutilisables et indépendants, ce qui facilite la modularité et la réutilisabilité du code. Cette approche flexible permet de créer des applications à l'architecture claire et maintenable, tout en facilitant la collaboration entre les développeurs.
-\paragraph{Performances :} React utilise un algorithme de réconciliation efficace et un \Gls{DOM} virtuel pour minimiser les mises à jour du \Gls{DOM} réel, ce qui améliore les performances de l'application. De plus, React prend en charge des fonctionnalités telles que le découpage de code et le chargement différé pour optimiser davantage les performances.
-
-\paragraph{Ecosystème :} L'écosystème de React est riche et diversifié, offrant un grand nombre de bibliothèques, d'outils et de solutions pour résoudre divers problèmes de développement. Cela permet aux développeurs de se concentrer sur la logique métier de l'application plutôt que sur les détails techniques.
-
-\paragraph{Mise à jour et maintenance :} React est développé et maintenu par Facebook, qui l'utilise dans ses propres applications. Cela signifie que React bénéficie d'un soutien solide, de mises à jour régulières et d'une maintenance à long terme.
+\paragraph{Mise à jour et maintenance :} React est développé et maintenu par Meta Platforms, qui l'utilise dans ses propres applications. Cela signifie que React bénéficie d'un soutien solide, de mises à jour régulières et d'une maintenance à long terme.
 
 \section{Choix du Framework CSS: Tailwind CSS et DaisyUI}
 
-Pour la mise en forme de l'interface utilisateur de ce projet, le choix s'est porté sur le framework CSS Tailwind CSS, combiné avec le plugin DaisyUI. Ce choix a été motivé par une série de facteurs, parmi lesquels la facilité d'utilisation, la rapidité de développement, la personnalisation, la flexibilité et l'optimisation des performances.
+Pour la stylisation de l'interface utilisateur de ce projet, le choix a été fait d'utiliser le framework Tailwind CSS en combinaison avec le plugin DaisyUI. Ce choix a été guidé par plusieurs facteurs clés, tels que la flexibilité, l'efficacité, la facilité de personnalisation, et l'optimisation des performances.
 
 \subsection{Tailwind CSS}
 
-Tailwind CSS est un framework CSS moderne et flexible, qui se démarque par son approche basée sur des classes utilitaires. Il fournit un ensemble de classes CSS préconfigurées, qui peuvent être combinées pour construire rapidement des interfaces utilisateur responsives et cohérentes. Ce choix de conception facilite la compréhension des styles appliqués à un élément, sans avoir à naviguer entre plusieurs fichiers CSS.
+Tailwind CSS est un framework CSS moderne qui se distingue par son approche basée sur des classes utilitaires. Il offre une large gamme de classes CSS prédéfinies, qui peuvent être assemblées pour créer des interfaces utilisateur homogènes et réactives. Cette méthode facilite la lecture et la compréhension des styles appliqués à un élément, sans avoir à jongler entre plusieurs fichiers CSS.
 
 \subsection{DaisyUI}
 
-DaisyUI est un plugin pour Tailwind CSS qui ajoute des noms de classes de composants, permettant une construction de sites web plus rapide. Grâce à DaisyUI, il est possible de styliser les éléments les plus basiques avec des milliers de noms de classes préconfigurés.
+DaisyUI est un plugin pour Tailwind CSS qui introduit des noms de classes de composants, accélérant ainsi la construction de sites web. Avec DaisyUI, il est possible de styliser les éléments les plus fondamentaux avec une grande variété de noms de classes prédéfinis.
 
 \begin{listing}[H]
     \inputminted{HTML}{assets/code/tailwind-example.html}
@@ -173,12 +167,12 @@ DaisyUI est un plugin pour Tailwind CSS qui ajoute des noms de classes de compos
 
 \subsection{Avantages}
 
-L'utilisation de Tailwind CSS et DaisyUI offre un certain nombre d'avantages. Premièrement, la rapidité de développement est sensiblement améliorée, grâce aux classes utilitaires et aux noms de classes de composants préconfigurés. Deuxièmement, la personnalisation et la flexibilité sont grandement améliorées, grâce à la possibilité de définir des valeurs personnalisées pour les couleurs, les polices, les espacements et autres dans le fichier de configuration de Tailwind CSS. Enfin, les performances sont optimisées grâce aux outils d'optimisation intégrés de Tailwind CSS, qui permettent de réduire la taille du fichier CSS final.
+L'utilisation de Tailwind CSS et DaisyUI offre de nombreux avantages. Tout d'abord, ces outils permettent un développement plus rapide grâce à l'utilisation de classes utilitaires et de noms de classes de composants prédéfinis. De plus, ils offrent une grande flexibilité et facilité de personnalisation, en permettant de définir des valeurs personnalisées pour des éléments tels que les couleurs, les polices, les espacements, etc. directement dans le fichier de configuration de Tailwind CSS. Enfin, ils contribuent à l'optimisation des performances grâce aux outils d'optimisation intégrés de Tailwind CSS, qui réduisent la taille du fichier CSS final. Un autre avantage notable est le support pour ces outils dans des environnements de développement intégrés (IDE) populaires tels que Visual Studio Code et JetBrains, qui offrent des fonctionnalités telles que l'autocomplétion et la visualisation des couleurs.
 
 \subsection{Inconvénients}
 
-L'utilisation de Tailwind CSS et DaisyUI présente néanmoins certains inconvénients. La courbe d'apprentissage peut être plus élevée pour les développeurs qui n'ont jamais utilisé de framework CSS. De plus, l'utilisation de classes utilitaires peut rendre le code HTML plus verbeux, ce qui peut rendre le code plus difficile à lire et à maintenir.
+Cependant, l'utilisation de Tailwind CSS peut présenter certains défis. Par exemple, pour les développeurs qui ne sont pas habitués aux frameworks CSS basés sur les classes utilitaires, l'approche de Tailwind CSS peut nécessiter un certain temps d'adaptation. De plus, l'utilisation intensive de classes utilitaires peut rendre le code HTML plus dense, ce qui peut potentiellement le rendre plus difficile à lire et à gérer.
 
 \subsection{Conclusion}
 
-Malgré ces inconvénients, l'utilisation de Tailwind CSS et DaisyUI s'est révélée être un choix judicieux pour ce projet. Les avantages qu'ils offrent en termes de rapidité de développement, de personnalisation, de flexibilité et d'optimisation des performances ont contribué à la qualité du design et de l'interface utilisateur de l'application, tout en permettant un développement rapide et efficace.
+Malgré ces défis potentiels, l'utilisation de Tailwind CSS et DaisyUI s'est avérée être un choix judicieux pour ce projet. Leur flexibilité, leur efficacité, la facilité de personnalisation qu'ils offrent, ainsi que leur contribution à l'optimisation des performances ont été des atouts majeurs pour le développement de l'interface utilisateur. En assurant une qualité de conception et un rythme de développement efficace, ces outils ont grandement contribué à la réussite de ce projet.

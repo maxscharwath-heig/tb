@@ -1,29 +1,29 @@
-Suite à une réorientation majeure du projet et à la révision du cahier des charges, le démonstrateur initial de tableau blanc a évolué pour devenir une application autonome et sophistiquée, nommée \Gls{Describble}.
+Suite à une réorientation majeure du projet et à la révision du cahier des charges, le démonstrateur initial de tableau blanc a évolué pour devenir une application autonome et sophistiquée, nommée \gls{Describble}.
 
 Le but initial était de créer un outil démonstrateur pour le système Condensation. Cependant, en raison de contraintes imprévues et de l'absence de la bibliothèque Condensation, le projet a dû prendre une nouvelle direction.
 
-\Gls{Describble} est une application de tableau blanc décentralisée qui fonctionne sur le principe du \guillemotleft Local-First\guillemotright. Elle est conçue pour permettre une collaboration en temps réel entre plusieurs utilisateurs, offrant la possibilité de créer, de partager et de modifier des documents de manière simultanée et sécurisée, sans dépendre d'un serveur centralisé.
+\gls{Describble} est une application de tableau blanc décentralisée qui fonctionne sur le principe du \guillemotleft Local-First\guillemotright. Elle est conçue pour permettre une collaboration en temps réel entre plusieurs utilisateurs, offrant la possibilité de créer, de partager et de modifier des documents de manière simultanée et sécurisée, sans dépendre d'un serveur centralisé.
 
-Le nom \Gls{Describble} est une combinaison de \guillemotleft De\guillemotright, un préfixe signifiant décentralisé, et \guillemotleft scribble\guillemotright, un terme anglais pour gribouillage.
+Le nom \gls{Describble} est une combinaison de \guillemotleft De\guillemotright, un préfixe signifiant décentralisé, et \guillemotleft scribble\guillemotright, un terme anglais pour gribouillage.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.75\textwidth]{\assetsdir/describble-logo.svg}
-    \caption{Logo de l'application \Gls{Describble}, fait sur Figma}
+    \caption{Logo de l'application \gls{Describble}, fait sur Figma}
 \end{figure}
 
 Ce nom a été choisi non seulement pour sa signification, mais aussi pour donner à l'application une identité distincte, plutôt que de la désigner simplement comme \guillemotleft Whiteboard\guillemotright. Cela a permis de donner plus d'importance au projet et de le positionner comme un projet à part entière.
 
-Dans ce chapitre, nous examinerons les principales fonctionnalités de \Gls{Describble}, les défis rencontrés lors de son développement et les solutions adoptées pour y faire face. Nous explorerons également les décisions prises lors du développement de l'application.
+Dans ce chapitre, nous examinerons les principales fonctionnalités de \gls{Describble}, les défis rencontrés lors de son développement et les solutions adoptées pour y faire face. Nous explorerons également les décisions prises lors du développement de l'application.
 
 
-\section{Le coeur de l'application Describble}
+\section{Le c\oe{}ur de l'application Describble}
 
 \subsection{Architecture générale de l'application Describble}
 
-L'architecture de l'application de tableau blanc interactif \Gls{Describble} est construite de manière à être modulaire et extensible. Le coeur de l'application, nommé \guillemotleft Whiteboard Core\guillemotright, contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
+L'architecture de l'application de tableau blanc interactif \gls{Describble} est construite de manière à être modulaire et extensible. Le c\oe{}ur de l'application, contient les blocs de construction essentiels qui rendent l'application fonctionnelle.
 
-Cette section décrit les fonctions clés de chaque sous-module dans l'architecture de \Gls{Describble} :
+Cette section décrit les fonctions clés de chaque sous-module dans l'architecture de \gls{Describble} :
 
 \begin{itemize}
     \item \textbf{Activities}: Ce module est responsable de la gestion des interactions complexes au sein de l'application, y compris la logique de manipulation et de dessin sur le tableau blanc.
@@ -34,28 +34,28 @@ Cette section décrit les fonctions clés de chaque sous-module dans l'architect
 
     \item \textbf{Selectors}: Ce module contient des fonctions de sélection qui facilitent l'extraction de parties spécifiques de l'état de l'application.
 
-    \item \textbf{State}: Ce module contient la classe `StateManager` qui est responsable de la gestion de l'état de l'application, y compris la manipulation de l'état et la persistance de l'état entre les sessions.
+    \item \textbf{State}: Ce module contient la classe \guillemotleft StateManager\guillemotright qui est responsable de la gestion de l'état de l'application, y compris la manipulation de l'état et la persistance de l'état entre les sessions.
 
-    \item \textbf{Tools}: Ce module contient des classes d'outils et la logique associée pour divers outils utilisés dans l'application \Gls{Describble}.
+    \item \textbf{Tools}: Ce module contient des classes d'outils et la logique associée pour divers outils utilisés dans l'application \gls{Describble}.
 \end{itemize}
 
 La classe principale \textbf{WhiteboardApp}  agit comme le chef d'orchestre qui gère les interactions entre ces différents modules. Par exemple, elle maintient une référence à l'outil actuellement sélectionné par l'utilisateur, initie les gestionnaires d'événements pour les interactions au clavier et à la souris, et supervise l'état global de l'application.
 
 \subsection{Indépendance par rapport au framework}
 
-L'objectif principal lors de la conception de l'architecture du coeur de l'application \Gls{Describble} était de construire un noyau indépendant des frameworks populaires tels que React ou Vue. L'idée était de construire un coeur d'application flexible et réutilisable qui pourrait être facilement intégré à n'importe quel environnement ou framework.
+L'objectif principal lors de la conception de l'architecture du c\oe{}ur de l'application \gls{Describble} était de construire un noyau indépendant des frameworks populaires tels que React ou Vue. L'idée était de construire un c\oe{}ur d'application flexible et réutilisable qui pourrait être facilement intégré à n'importe quel environnement ou framework.
 
 En séparant la logique de l'application du framework, l'application gagne en portabilité et en flexibilité. La logique de l'application peut être testée et développée indépendamment, sans être limitée par les spécificités du framework.
 
-Cette approche a également l'avantage de faciliter la maintenance et l'évolution de l'application. En effet, si le besoin de changer de framework se présente, le coeur de l'application ne nécessite pas de modifications majeures. Il suffit de créer une nouvelle interface pour le nouveau framework, tout en conservant intacte la logique métier de l'application.
+Cette approche a également l'avantage de faciliter la maintenance et l'évolution de l'application. En effet, si le besoin de changer de framework se présente, le c\oe{}ur de l'application ne nécessite pas de modifications majeures. Il suffit de créer une nouvelle interface pour le nouveau framework, tout en conservant intacte la logique métier de l'application.
 
-Cette indépendance par rapport au framework a été atteinte grâce à l'utilisation de la programmation orientée objet et à la structuration du code en modules et en classes. Chaque module ou classe est responsable d'une tâche spécifique et communique avec les autres grâce à des interfaces bien définies. Ainsi, le coeur de l'application forme un système cohérent et indépendant qui peut être facilement intégré à n'importe quel environnement ou framework.
+Cette indépendance par rapport au framework a été atteinte grâce à l'utilisation de la programmation orientée objet et à la structuration du code en modules et en classes. Chaque module ou classe est responsable d'une tâche spécifique et communique avec les autres grâce à des interfaces bien définies. Ainsi, le c\oe{}ur de l'application forme un système cohérent et indépendant qui peut être facilement intégré à n'importe quel environnement ou framework.
 
-En somme, le coeur de l'application \Gls{Describble} est conçu pour être flexible et évolutif, tout en restant indépendant du framework utilisé. Cela permet de garantir la pérennité et la portabilité de l'application, tout en facilitant sa maintenance et son évolution.
+En somme, le c\oe{}ur de l'application \gls{Describble} est conçu pour être flexible et évolutif, tout en restant indépendant du framework utilisé. Cela permet de garantir la pérennité et la portabilité de l'application, tout en facilitant sa maintenance et son évolution.
 
 \subsection{Principe et gestion des calques}
 
-Dans l'application, les différents objets que l'utilisateur peut placer et manipuler sont représentés par des calques. Ces calques peuvent être de simples formes comme des cercles et des rectangles, ou des objets plus complexes comme des images et des chemins. Chaque type de calque a son propre ensemble de propriétés et de méthodes pour interagir avec eux.
+Dans l'application, les différents objets que l'utilisateur peut placer et manipuler sont représentés par des calques. Ces calques peuvent être de simples formes comme des cercles et des rectangles, ou des objets plus complexes comme des images et des tracés. Chaque type de calque a son propre ensemble de propriétés et de méthodes pour interagir avec eux.
 
 \begin{figure}[h]
     \centering
@@ -64,7 +64,7 @@ Dans l'application, les différents objets que l'utilisateur peut placer et mani
     \label{fig:baseLayerDiagram}
 \end{figure}
 
-L'interface BaseLayer est la base pour tous les types de calques. Elle comprend des propriétés communes telles que l'identifiant, le nom, le type, la visibilité, l'index z, et le style. Chaque type de calque étend cette interface pour inclure ses propriétés spécifiques.
+La classe abstraite BaseLayer est la base pour tous les types de calques. Elle comprend des propriétés communes telles que l'identifiant, le nom, le type, la visibilité, l'index z, et le style. Chaque type de calque étend cette classe pour inclure ses propriétés spécifiques.
 
 \begin{figure}[h]
     \centering
@@ -87,9 +87,9 @@ En suivant ces étapes, on assure que le noyau de l'application est conscient du
 
 \subsection{Les outils et leur cycle de vie}
 
-L'application de dessin met à la disposition de l'utilisateur divers outils pour interagir avec le canevas. Ces outils comprennent des fonctions pour dessiner des formes, insérer des images, sélectionner et déplacer des éléments sur le canevas.
+L'application de dessin met à la disposition de l'utilisateur divers outils pour interagir avec le canvas. Ces outils comprennent des fonctions pour dessiner des formes, insérer des images, sélectionner et déplacer des éléments sur le canvas.
 
-Chaque outil est programmé pour répondre de manière spécifique aux interactions de l'utilisateur. Par exemple, lorsqu'un utilisateur clique et glisse sur le canevas, un outil de dessin de forme peut commencer à dessiner une forme, tandis qu'un outil de déplacement peut commencer à déplacer un élément existant. C'est ici qu'intervient le concept du \guillemotleft cycle de vie de l'outil\guillemotright.
+Chaque outil est programmé pour répondre de manière spécifique aux interactions de l'utilisateur. Par exemple, lorsqu'un utilisateur clique et glisse sur le canvas, un outil de dessin de forme peut commencer à dessiner une forme, tandis qu'un outil de déplacement peut commencer à déplacer un élément existant. C'est ici qu'intervient le concept du \guillemotleft cycle de vie de l'outil\guillemotright.
 
 \subsubsection{Le cycle de vie de l'outil}
 
@@ -168,17 +168,17 @@ Cependant, cette approche présente également quelques inconvénients :
     \item \textbf{Difficulté de test} : Tester les gestionnaires peut être difficile car ils sont souvent fortement dépendants de l'état global de l'application.
 \end{itemize}
 
-En dépit de ces inconvénients, l'approche par gestionnaires s'est avérée très efficace pour structurer et organiser le code de l'application \Gls{Describble}.
+En dépit de ces inconvénients, l'approche par gestionnaires s'est avérée très efficace pour structurer et organiser le code de l'application \gls{Describble}.
 
 \section{Création de l'interface utilisateur avec React}
 
-Dans cette section, nous allons discuter de la façon dont l'interface utilisateur de l'application \Gls{Describble} a été conçue en utilisant la bibliothèque React. Un point central de cette conception est l'utilisation du contexte React et du modèle Provider pour fournir un accès global à l'instance de la classe centrale `WhiteboardApp`.
+Dans cette section, nous allons discuter de la façon dont l'interface utilisateur de l'application \gls{Describble} a été conçue en utilisant la bibliothèque React. Un point central de cette conception est l'utilisation du contexte React et du modèle Provider pour fournir un accès global à l'instance de la classe centrale \guillemotleft WhiteboardApp\guillemotright.
 
 \subsection{Le contexte React et le modèle Provider}
 
 Dans une application React, le partage d'états globaux entre les composants peut souvent nécessiter de passer des props à travers plusieurs niveaux de l'arbre de composants, ce qui peut rendre le code difficile à maintenir et à comprendre. Pour résoudre ce problème, React propose une fonctionnalité appelée Context, qui permet de partager des valeurs globales entre plusieurs composants sans avoir à passer explicitement des props.
 
-Dans le cas de \Gls{Describble}, nous utilisons le contexte React pour fournir un accès global à l'instance de la classe `WhiteboardApp`, qui est le coeur de l'application.
+Dans le cas de \gls{Describble}, le contexte React est employé pour assurer un accès global à l'instance de la classe \guillemotleft WhiteboardApp\guillemotright, qui constitue le c\oe{}ur de l'application.
 
 \begin{listing}[H]
     \begin{minted}[breaklines,frame=none]{typescript}
@@ -199,11 +199,11 @@ export function useWhiteboard() {
     \caption{Création du contexte Whiteboard et de la fonction d'accès useWhiteboard}
 \end{listing}
 
-Comme on peut le voir dans le listing ci-dessus, un nouveau contexte appelé `WhiteboardContext` est créé avec une valeur initiale de `null`. Ensuite, une fonction d'accès personnalisée appelée `useWhiteboard` est définie. Cette fonction utilise le hook `useContext` de React pour accéder à la valeur du contexte `WhiteboardContext`. Si le contexte n'est pas disponible, une erreur est déclenchée, indiquant que la fonction `useWhiteboard` doit être utilisée à l'intérieur d'un `WhiteboardProvider`.
+Comme on peut le voir dans le listing ci-dessus, un nouveau contexte appelé \guillemotleft WhiteboardContext\guillemotright est créé avec une valeur initiale de \guillemotleft null\guillemotright. Ensuite, une fonction d'accès personnalisée appelée \guillemotleft useWhiteboard\guillemotright est définie. Cette fonction utilise le hook \guillemotleft useContext\guillemotright de React pour accéder à la valeur du contexte \guillemotleft WhiteboardContext\guillemotright. Si le contexte n'est pas disponible, une erreur est déclenchée, indiquant que la fonction \guillemotleft useWhiteboard\guillemotright doit être utilisée à l'intérieur d'un \guillemotleft WhiteboardProvider\guillemotright.
 
 \subsection{Le Provider Pattern avec le contexte React}
 
-Pour fournir la valeur du contexte `WhiteboardContext` à tous les composants de l'application, nous utilisons le modèle Provider. Dans ce modèle, un composant appelé `Provider` est utilisé pour envelopper l'arbre de composants, et il prend la valeur du contexte en prop.
+Afin de rendre accessible la valeur du contexte \guillemotleft WhiteboardContext\guillemotright à l'ensemble des composants de l'application, le modèle Provider est mis en \oe{}uvre. Selon ce modèle, un composant nommé \guillemotleft Provider\guillemotright sert à englober la structure hiérarchique des composants, et il reçoit la valeur du contexte en tant que prop.
 
 \begin{listing}[H]
     \begin{minted}[breaklines,frame=none]{typescript}
@@ -212,11 +212,11 @@ export const WhiteboardProvider = WhiteboardContext.Provider;
     \caption{Création du Provider pour le contexte Whiteboard}
 \end{listing}
 
-Dans le listing ci-dessus, `WhiteboardProvider` est défini comme étant le `Provider` pour le `WhiteboardContext`.
+Dans le listing ci-dessus, \guillemotleft WhiteboardProvider\guillemotright est défini comme étant le \guillemotleft Provider\guillemotright pour le \guillemotleft WhiteboardContext\guillemotright.
 
 \subsection{Mise en place de l'interface utilisateur avec React et le modèle Provider}
 
-En utilisant le `WhiteboardProvider` pour envelopper l'ensemble de l'application, nous pouvons fournir l'instance de `WhiteboardApp` à tous les composants de l'application.
+L'emploi du \guillemotleft WhiteboardProvider\guillemotright pour envelopper l'intégralité de l'application permet de rendre l'instance de \guillemotleft WhiteboardApp\guillemotright accessible à l'ensemble des composants de l'application.
 
 \begin{listing}[H]
     \begin{minted}[breaklines,frame=none]{jsx}
@@ -233,9 +233,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     \caption{Enveloppement de l'application avec le Provider, donnant accès à l'instance de WhiteboardApp}
 \end{listing}
 
-Dans le listing ci-dessus, nous créons une racine pour notre application avec la méthode `ReactDOM.createRoot`, et nous rendons notre application à l'intérieur de cette racine. L'application est enveloppée avec le `WhiteboardProvider`, et l'instance de `WhiteboardApp` est passée en tant que valeur au `Provider`. Cela permet à tous les composants de l'application d'accéder à `app` en utilisant le hook `useContext` avec le `WhiteboardContext`.
+Dans le listing ci-dessus, l'application est enveloppée avec le \guillemotleft WhiteboardProvider\guillemotright, et l'instance de \guillemotleft WhiteboardApp\guillemotright est transmise comme valeur au \guillemotleft Provider\guillemotright. Cela autorise tous les composants de l'application à accéder à \guillemotleft app\guillemotright en utilisant le hook \guillemotleft useWhiteboard\guillemotright.
 
-Ainsi, en utilisant le contexte React et le modèle Provider, nous avons pu mettre en place une architecture d'application qui permet un accès facile et centralisé à l'état global et aux fonctionnalités clés de l'application.
+Ainsi, grâce à l'usage du contexte React et du modèle Provider, il a été possible d'établir une architecture d'application qui favorise un accès facile et centralisé à l'état global et aux fonctionnalités clés de l'application.
 
 \section{Interface d'authentification}
 
@@ -295,7 +295,7 @@ La récupération du compte est un processus en deux étapes qui permet à l'uti
 \end{itemize}
 
 \subsubsection{Système d'étapes}
-Toutes ces étapes sont gérées par un système d'étapes conçu pour être flexible. Il est structuré autour de deux concepts principaux : les étapes et le contexte. Chaque étape est un composant indépendant avec un nom et une fonction d'affichage. Certaines étapes peuvent également être marquées comme \guillemotleft cachées\guillemotright, ce qui signifie qu'elles ne seront pas affichées à l'utilisateur, mais seront toujours traitées par le système. Le contexte, quant à lui, maintient l'état global du système d'étapes. Il contient la liste des étapes, l'indice de l'étape actuelle, l'étape actuelle elle-même, ainsi que deux fonctions pour naviguer vers l'étape suivante ou précédente. Le contexte maintient également un état, qui peut être utilisé pour stocker des informations entre les différentes étapes. Cette architecture offre une expérience utilisateur fluide et sécurisée, tout en garantissant une structure claire et modulaire pour le développeur.
+Toutes ces étapes sont gérées par un système d'étapes conçu pour être flexible. Il est structuré autour de deux concepts principaux : les étapes et le contexte. Chaque étape est un composant indépendant avec un nom et une fonction d'affichage. Le contexte, quant à lui, maintient l'état global du système d'étapes. Il contient la liste des étapes, l'indice de l'étape actuelle, l'étape actuelle elle-même, ainsi que deux fonctions pour naviguer vers l'étape suivante ou précédente. Le contexte maintient également un état, qui peut être utilisé pour stocker des informations entre les différentes étapes. Cette architecture offre une expérience utilisateur fluide et sécurisée, tout en garantissant une structure claire et modulaire pour le développeur.
 
 \begin{listing}[H]
     \begin{minted}[breaklines,frame=none]{jsx}
@@ -402,7 +402,7 @@ Le rendu des éléments sur la zone de dessin est une partie cruciale de l'appli
     \item Un élément Canvas HTML, avec dessin direct à l'intérieur, comme dans l'application de dessin Excalidraw\footnote{\url{https://excalidraw.com/}}.
 \end{itemize}
 
-Finalement, l'approche choisie pour \Gls{Describble} a été de réaliser un rendu complet dans un seul élément SVG. Cette méthode présente plusieurs avantages. Tout d'abord, elle encapsule bien la partie rendu et facilite la génération d'un aperçu (thumbnail) du dessin. Ensuite, elle permet de continuer à utiliser React pour la création du SVG, ce qui est en accord avec le reste de la stack technique de l'application. Mais surtout d'essayer de se différencier de Tldraw et Excalidraw, qui utilisent respectivement les deux autres approches.
+Finalement, l'approche choisie pour \gls{Describble} a été de réaliser un rendu complet dans un seul élément SVG. Cette méthode présente plusieurs avantages. Tout d'abord, elle encapsule bien la partie rendu et facilite la génération d'un aperçu (thumbnail) du dessin. Ensuite, elle permet de continuer à utiliser React pour la création du SVG, ce qui est en accord avec le reste de la stack technique de l'application. Mais surtout d'essayer de se différencier de Tldraw et Excalidraw, qui utilisent respectivement les deux autres approches.
 
 \subsubsection{Contraintes et limitations}
 
@@ -410,16 +410,16 @@ Cependant, cette méthode présente aussi des contraintes. En effet, il n'y a pa
 
 \subsection{Optimisation du rendu : Utilisation d'un Quadtree}
 
-Comme mentionné précédemment, la zone de dessin de \Gls{Describble} est infinie, ce qui signifie qu'elle peut contenir un nombre potentiellement infini de calques. Cependant, il n'est pas efficace de dessiner tous les calques à chaque fois, en particulier ceux qui sont hors de la zone visible (ou \guillemotleft viewport\guillemotright). Pour optimiser le rendu, un Quadtree a été utilisé.
+Comme mentionné précédemment, la zone de dessin de \gls{Describble} est infinie, ce qui signifie qu'elle peut contenir un nombre potentiellement infini de calques. Cependant, il n'est pas efficace de dessiner tous les calques à chaque fois, en particulier ceux qui sont hors de la zone visible (ou \guillemotleft viewport\guillemotright). Pour optimiser le rendu, un Quadtree a été utilisé.
 
-Un Quadtree est une structure de données utilisée pour représenter des données spatiales 2D. Dans le contexte de \Gls{Describble}, chaque noeud du Quadtree représente une région de la zone de dessin et contient une liste de calques qui se trouvent dans cette région.
+Un Quadtree est une structure de données utilisée pour représenter des données spatiales 2D. Dans le contexte de \gls{Describble}, chaque n\oe{}ud du Quadtree représente une région de la zone de dessin et contient une liste de calques qui se trouvent dans cette région.
 
-Au départ, le Quadtree contient un seul noeud, qui englobe toute la zone de dessin. Chaque fois qu'un nouveau calque est ajouté, il est ajouté au noeud du Quadtree qui correspond à sa région. Si le nombre de calques dans un noeud dépasse une certaine limite (par exemple, 4), le noeud est subdivisé en quatre sous-noeuds de taille égale, chacun représentant un quadrant de la région initiale. Les calques du noeud initial sont ensuite redistribués parmi ces nouveaux sous-noeuds en fonction de leur position.
+Au départ, le Quadtree contient un seul noeud, qui englobe toute la zone de dessin. Chaque fois qu'un nouveau calque est ajouté, il est ajouté au n\oe{}ud du Quadtree qui correspond à sa région. Si le nombre de calques dans un n\oe{}ud dépasse une certaine limite (par exemple, 4), le n\oe{}ud est subdivisé en quatre sous-n\oe{}uds de taille égale, chacun représentant un quadrant de la région initiale. Les calques du n\oe{}ud initial sont ensuite redistribués parmi ces nouveaux sous-n\oe{}uds en fonction de leur position.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{assets/figures/quadtree.png}
-    \caption{Exemple de Quadtree. (a) Une carte de points de données. Nous définissons la région comme un carré avec l'origine en haut à gauche et des côtés de longueur 128. (b) Le Quadtree pour les points en (a). (a) montre également la décomposition en blocs imposée par le Quadtree pour cette région. (Source: OpenDSA\cite{opendsaprojectPRQuadtreeData})}
+    \caption{Illustration d'un Quadtree. (a) Un diagramme de points de données. La région est définie comme un carré avec l'origine en haut à gauche et des côtés de longueur 128. (b) Le Quadtree correspondant aux points en (a). (a) montre aussi la décomposition en blocs imposée par le Quadtree pour cette région. (Source: OpenDSA\cite{opendsaprojectPRQuadtreeData})}
     \label{fig:quadtree}
 \end{figure}
 
@@ -427,9 +427,11 @@ Ainsi, lors du rendu, seuls les calques des noeuds du Quadtree qui intersectent 
 
 En utilisant cette approche, le rendu de la zone de dessin reste performant même lorsque le nombre de calques augmente. Cependant, si le nombre d'éléments dans le SVG dépasse un certain seuil (par exemple, 1000), il serait nécessaire de chercher une solution alternative, comme l'utilisation d'une balise Canvas HTML.
 
-\section{Développement du package Moodie pour la génération d'avatars\label{moodie}}
+\section{Développement du paquet Moodie pour la génération d'avatars\label{moodie}}
 
-Afin d'offrir une expérience utilisateur plus personnalisée dans la plateforme, une solution spécifique pour la génération d'avatars a été développée. Cette solution, nommée Moodie, est le résultat d'une refonte d'une bibliothèque existante pour mieux répondre aux besoins du projet.
+Afin de renforcer l'expérience utilisateur au sein de la plateforme, une solution spécifique pour la génération d'avatars a été mise en \oe{}uvre. Cette solution, nommée \guillemotleft Moodie\guillemotright, est le fruit d'une refonte d'une bibliothèque existante pour répondre de manière plus ciblée aux besoins du projet.
+
+Le nom \guillemotleft Moodie\guillemotright se veut être une petite déclinaison mignonne du mot \guillemotleft Mood\guillemotright, signifiant \guillemotleft humeur\guillemotright en anglais. Bien que le mot \guillemotleft Moodie\guillemotright puisse évoquer l'idée de \guillemotleft mauvaise humeur\guillemotright en anglais, ce n'était pas le but recherché. Le choix de ce nom était davantage guidé par l'idée de représenter la diversité des expressions ou des \guillemotleft humeurs\guillemotright que peuvent afficher les avatars générés.
 
 \subsection{Motivation pour la refonte de la bibliothèque}
 
@@ -441,14 +443,14 @@ La bibliothèque initialement utilisée pour la génération d'avatars était bo
     \caption{Exemple d'avatar généré par Moodie avec différentes expressions}
 \end{figure}
 
-\subsection{Caractéristiques clés du package Moodie}
+\subsection{Caractéristiques clés du paquet Moodie}
 
 Moodie présente plusieurs caractéristiques distinctives :
 
 \begin{itemize}
     \item \textbf{Génération d'avatars uniques :} Les avatars sont générés à partir de la clé publique unique de chaque utilisateur, garantissant ainsi l'unicité de chaque avatar.
     \item \textbf{Expressivité des avatars :} Moodie propose une variété d'expressions pour chaque avatar, ce qui permet de créer des avatars dynamiques et attrayants.
-    \item \textbf{Légèreté du package :} Moodie a été conçu pour être léger et ne nécessite aucune dépendance externe, ce qui facilite son intégration dans des applications web.
+    \item \textbf{Légèreté du paquet :} Moodie a été conçu pour être léger et ne nécessite aucune dépendance externe, ce qui facilite son intégration dans des applications web.
     \item \textbf{Personnalisation des couleurs :} Moodie permet une personnalisation complète de la palette de couleurs utilisée pour les avatars, offrant ainsi une grande variété de représentations possibles.
 \end{itemize}
 
@@ -470,12 +472,12 @@ import { Moodie } from 'moodie';
   colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
 />;
   \end{minted}
-    \caption{Exemple d'intégration du package Moodie dans le code de l'application}
+    \caption{Exemple d'intégration du paquet Moodie dans le code de l'application}
 \end{listing}
 
 Dans cet exemple, un avatar est généré à partir de la clé publique de l'utilisateur. L'expression de l'avatar et la palette de couleurs sont également personnalisables.
 
-En conclusion, le développement de Moodie a permis d'obtenir une solution de génération d'avatars parfaitement adaptée aux besoins du projet. De plus, pour partager cette solution avec la communauté des développeurs, le package Moodie a été publié sur la plateforme npm\footnote{\url{https://www.npmjs.com/package/moodie}}.
+En conclusion, le développement de Moodie a permis d'obtenir une solution de génération d'avatars parfaitement adaptée aux besoins du projet. De plus, pour partager cette solution avec la communauté des développeurs, le package Moodie a été publié sur la plateforme \gls{npm}\footnote{\url{https://www.npmjs.com/package/moodie}}.
 
 \section{Déploiement}
 
@@ -483,16 +485,16 @@ Une étape clé du développement de l'application a été son déploiement sur 
 
 \subsection{Déploiement du front-end avec Vercel}
 
-Vercel\footnote{\url{https://vercel.com/}} a été sélectionné comme plateforme de déploiement pour l'application front-end. En premier lieu, Vercel est optimisé pour les applications web frontales construites avec React, rendant ainsi le déploiement de l'application facile et efficace. De plus, Vercel propose une intégration directe avec GitHub. Cela signifie que chaque push vers le repository GitHub de l'application déclenche automatiquement un nouveau déploiement sur Vercel, simplifiant ainsi le processus de mise à jour de l'application en ligne.
+Vercel\footnote{\url{https://vercel.com/}} a été sélectionné comme plateforme de déploiement pour l'application front-end. En premier lieu, Vercel est optimisé pour les applications web front-end React, rendant ainsi le déploiement de l'application facile et efficace. De plus, Vercel propose une intégration directe avec GitHub. Cela signifie que chaque push vers le repository GitHub de l'application déclenche automatiquement un nouveau déploiement sur Vercel, simplifiant ainsi le processus de mise à jour de l'application en ligne.
 
 D'autres alternatives existaient pour le déploiement du front-end, telles que Netlify ou Github Pages, mais Vercel a été retenu en raison son intégration continue avec GitHub, et de sa simplicité d'utilisation.
 
-Enfin, pour rendre l'application facilement accessible sur Internet, un nom de domaine a été acquis : describble.io. Pour associer ce nom de domaine à l'application déployée sur Vercel, une configuration \Gls{DNS} a été nécessaire. Cette configuration a été réalisée sans difficulté grâce à la documentation de Vercel.
+Enfin, pour rendre l'application facilement accessible sur Internet, un nom de domaine a été acquis : describble.io. Pour associer ce nom de domaine à l'application déployée sur Vercel, une configuration \gls{DNS} a été nécessaire. Cette configuration a été réalisée sans difficulté grâce à la documentation de Vercel.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{assets/figures/vercel-deploy.png}
-    \caption{Capture d'écran de l'interface de Vercel montrant le déploiement de l'application \Gls{Describble}}
+    \caption{Capture d'écran de l'interface de Vercel montrant le déploiement de l'application \gls{Describble}}
 \end{figure}
 
 \subsection{Déploiement du serveur de signalement avec Fly.io}
@@ -502,8 +504,6 @@ Pour le déploiement du serveur de signalement de ce projet, la plateforme Fly.i
 En encapsulant l'application dans un conteneur Docker, le déploiement sur une variété de plateformes de services devient possible. En effet, le conteneur Docker peut être déployé sur n'importe quelle plateforme de service qui supporte Docker, ce qui comprend la majorité des fournisseurs de services cloud comme Amazon Web Services (AWS), Google Cloud Platform (GCP) et Microsoft Azure.
 
 Le déploiement sur Fly.io a été effectué à l'aide de son interface de ligne de commande (CLI). Le processus a consisté à pousser le conteneur Docker vers Fly.io en utilisant la CLI. Le répertoire du serveur de signalement, y compris le fichier Dockerfile, est accessible sur le dépôt GitHub du projet ici : \url{https://github.com/maxscharwath/describble/tree/main/apps/ddnet-server}.
-
-En encapsulant le serveur de signalement dans un conteneur Docker, l'application a gagné en flexibilité de déploiement. La compatibilité entre les environnements de développement et de production est également assurée.
 
 \begin{figure}[ht]
     \centering

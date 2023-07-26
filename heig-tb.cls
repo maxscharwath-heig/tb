@@ -375,9 +375,9 @@
 \newcommand{\requirementsname}{Cahier des charges}
 \newenvironment{requirements}{
   \chapter*{\requirementsname}
+  \addcontentsline{toc}{chapter}{\requirementsname}
   \large{Version \@requirementsVersion , mis à jour le \@requirementsDate.}
   \vskip 5em%
-  \addcontentsline{toc}{chapter}{\requirementsname}
 }
 
 % Authentification

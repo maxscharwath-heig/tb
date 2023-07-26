@@ -2,19 +2,19 @@ L'évolution d'un projet comme celui-ci peut prendre de nombreuses directions. A
 
 \section{Gestion des problèmes liés à WebRTC}
 
-L'utilisation de \Gls{WebRTC} pour la communication en temps réel entre les utilisateurs est un élément clé de ce projet. Cependant, certains navigateurs ou réseaux peuvent bloquer cette technologie, rendant ainsi la fonctionnalité en temps réel non opérationnelle.
+L'utilisation de \gls{WebRTC} pour la communication en temps réel entre les utilisateurs est un élément clé de ce projet. Cependant, certains navigateurs ou réseaux peuvent bloquer cette technologie, rendant ainsi la fonctionnalité en temps réel non opérationnelle.
 
-Une perspective pour résoudre ce problème pourrait être de proposer une alternative lorsque \Gls{WebRTC} n'est pas disponible. Par exemple, il pourrait être envisagé d'intégrer \Gls{WebSocket} ou d'autres technologies de serveur long-polling comme solution de secours. Cette amélioration nécessiterait une révision du réseau actuel et pourrait présenter des défis en termes de performances et de compatibilité, mais elle garantirait que les fonctionnalités en temps réel restent accessibles, même si \Gls{WebRTC} n'est pas une option.
+Une perspective pour résoudre ce problème pourrait être de proposer une alternative lorsque \gls{WebRTC} n'est pas disponible. Par exemple, il pourrait être envisagé d'intégrer \gls{WebSocket} ou d'autres technologies de serveur long-polling comme solution de secours. Cette amélioration nécessiterait une révision du réseau actuel et pourrait présenter des défis en termes de performances et de compatibilité, mais elle garantirait que les fonctionnalités en temps réel restent accessibles, même si \gls{WebRTC} n'est pas une option.
 
 \section{Stockage de données binaires}
 
-Actuellement, le projet traite toutes les données à l'aide d'Automerge, qui utilise des \Gls{CRDT} pour gérer les conflits de manière décentralisée. Toutefois, il serait possible d'implémenter un système pour stocker des données binaires simples, comme des images ou des fichiers, qui n'ont pas besoin de la gestion de conflits offerte par les \Gls{CRDT}.
+Actuellement, le projet traite toutes les données à l'aide d'Automerge, qui utilise des \gls{CRDT} pour gérer les conflits de manière décentralisée. Toutefois, il serait possible d'implémenter un système pour stocker des données binaires simples, comme des images ou des fichiers, qui n'ont pas besoin de la gestion de conflits offerte par les \gls{CRDT}.
 
 En ajoutant cette fonctionnalité, les utilisateurs pourraient partager et manipuler une plus grande variété de contenus. Cela nécessiterait toutefois une réflexion sur la manière de gérer ce nouveau type de donnée, notamment en termes de stockage, de partage et de synchronisation.
 
 \section{Établissement d'un réseau maillé}
 
-Une amélioration significative pourrait résider dans la mise en place d'un véritable réseau maillé, également appelé maillage en réseau. Dans un réseau maillé, chaque noeud est connecté à plusieurs autres, formant ainsi une structure décentralisée. Cette topologie de réseau est résiliente, car même si un noeud tombe en panne, les autres noeuds peuvent continuer à communiquer.
+Une amélioration significative pourrait résider dans la mise en place d'un véritable réseau maillé, également appelé maillage en réseau. Dans un réseau maillé, chaque n\oe{}ud est connecté à plusieurs autres, formant ainsi une structure décentralisée. Cette topologie de réseau est résiliente, car même si un n\oe{}ud tombe en panne, les autres n\oe{}uds peuvent continuer à communiquer.
 
 \begin{wrapfigure}{l}{0.30\textwidth}
     \centering
@@ -23,11 +23,11 @@ Une amélioration significative pourrait résider dans la mise en place d'un vé
     \label{fig:network-meshed}
 \end{wrapfigure}
 
-Cependant, un réseau maillé complet peut rapidement devenir complexe et difficile à gérer à mesure que le nombre de noeuds augmente. Par conséquent, une solution plus viable pourrait être d'organiser le réseau en clusters interconnectés, chaque cluster étant un petit réseau maillé en lui-même. Cela permettrait de conserver les avantages de la décentralisation et de la résilience offerts par un réseau maillé, tout en évitant la complexité qui pourrait survenir lors de l'ajout de nombreux noeuds.
+Cependant, un réseau maillé complet peut rapidement devenir complexe et difficile à gérer à mesure que le nombre de n\oe{}uds augmente. Par conséquent, une solution plus viable pourrait être d'organiser le réseau en clusters interconnectés, chaque cluster étant un petit réseau maillé en lui-même. Cela permettrait de conserver les avantages de la décentralisation et de la résilience offerts par un réseau maillé, tout en évitant la complexité qui pourrait survenir lors de l'ajout de nombreux n\oe{}uds.
 
-Un tel réseau pourrait être construit en utilisant différentes technologies pour différents types de noeuds. Par exemple, \Gls{WebRTC} il pourrait être utilisé pour les noeuds basés sur les navigateurs, \Gls{WebSocket} pour les noeuds serveur, et \Gls{TCP} pour des connexions directes. Des ponts pourraient être utilisés pour connecter les différents types de noeuds, renforçant ainsi la robustesse du réseau.
+Un tel réseau pourrait être construit en utilisant différentes technologies pour différents types de n\oe{}uds. Par exemple, \gls{WebRTC} pourrait être utilisé pour les n\oe{}uds basés sur les navigateurs, \gls{WebSocket} pour les n\oe{}uds serveur, et \gls{TCP} pour des connexions directes. Des ponts pourraient être utilisés pour connecter les différents types de n\oe{}uds, renforçant ainsi la robustesse du réseau.
 
-Pour mettre en oeuvre cette architecture réseau, le système actuel prévoit déjà le routage des données. Ainsi, il ne serait pas nécessaire de repenser entièrement l'architecture, mais plutôt de fusionner le client avec le serveur de signalisation, permettant à tous les clients d'agir également comme des routeurs.
+Pour mettre en \oe{}uvre cette architecture réseau, le système actuel prévoit déjà le routage des données. Ainsi, il ne serait pas nécessaire de repenser entièrement l'architecture, mais plutôt de fusionner le client avec le serveur de signalisation, permettant à tous les clients d'agir également comme des routeurs.
 
 \section{Amélioration du partage de contenu}
 

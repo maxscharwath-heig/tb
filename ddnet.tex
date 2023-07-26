@@ -1,36 +1,36 @@
-Au commencement du projet, un ensemble majeur de fonctionnalités - notamment la synchronisation, la résolution de conflits à l'aide de types de données \Gls{CRDT}, la gestion des clés cryptographiques et l'implémentation réseau - devait être réalisé par une entreprise externe. Cependant, pour diverses raisons, ce partenariat n'a pas abouti. Ceci a conduit à une réorientation majeure du projet : l'ensemble de ces fonctionnalités a dû être conçu et mis en oeuvre en interne.
+Au commencement du projet, un ensemble majeur de fonctionnalités - notamment la synchronisation, la résolution de conflits à l'aide de types de données \gls{CRDT}, la gestion des clés cryptographiques et l'implémentation réseau - devait être réalisé par une entreprise externe. Cependant, pour diverses raisons, ce partenariat n'a pas abouti. Ceci a conduit à une réorientation majeure du projet : l'ensemble de ces fonctionnalités a dû être conçu et mis en \oe{}uvre en interne.
 
-C'est ainsi que le Decentralized Document Network (DDnet) a vu le jour. \Gls{DDnet} est un système de gestion de documents décentralisé axé sur le principe du Local-First. Il permet de partager et de synchroniser des documents en temps réel entre plusieurs utilisateurs, le tout de manière sécurisée et chiffrée de bout en bout.
+C'est ainsi que le Decentralized Document Network (DDnet) a vu le jour. \gls{DDnet} est un système de gestion de documents décentralisé axé sur le principe du Local-First. Il permet de partager et de synchroniser des documents en temps réel entre plusieurs utilisateurs, le tout de manière sécurisée et chiffrée de bout en bout.
 
 \section{Authentification et Gestion des Clés}
 
 Le système conçu lors de ce projet identifie chaque utilisateur par sa clé publique. Les clés sont générées grâce à un système mnémonique inspiré de BIP39\footnote{\url{https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki}}, une norme facilitant la génération d'une clé privée à partir d'une phrase secrète, ce qui favorise la sauvegarde et la restauration des clés.
 
-La réimplémentation du module npm \textit{bip39} a été nécessaire en raison de son incompatibilité avec les navigateurs, étant initialement conçu pour Node.js. Les fonctions et objets spécifiques à Node.js ont été substitués par leurs équivalents navigateur pour assurer la compatibilité. La taille du package a été significativement réduite, de 331 Ko à 57 Ko, grâce à cette réimplémentation, la rendant ainsi plus appropriée pour une utilisation navigateur. Le module réimplémenté est disponible sur npm sous le nom \textit{@describble/srp} (Secret Recovery Phrase)\footnote{\url{https://www.npmjs.com/package/@describble/srp}}.
+La réimplémentation du module \gls{npm} \textit{bip39} a été nécessaire en raison de son incompatibilité avec les navigateurs, étant initialement conçu pour \gls{Node.js}. Les fonctions et objets spécifiques à \gls{Node.js} ont été substitués par leurs équivalents navigateur pour assurer la compatibilité. La taille du paquet a été significativement réduite, de 331 Ko à 57 Ko, grâce à cette réimplémentation, la rendant ainsi plus appropriée pour une utilisation navigateur. Le module réimplémenté est disponible sur \gls{npm} sous le nom \textit{@describble/srp} (Secret Recovery Phrase)\footnote{\url{https://www.npmjs.com/package/@describble/srp}}.
 
-Conformément au paradigme Local-First, les clés privées sont stockées localement dans le navigateur de l'utilisateur. Cependant, le stockage en clair de ces clés serait problématique pour des raisons de sécurité. Par conséquent, les clés privées sont chiffrées à l'aide d'un mot de passe utilisateur. Ce mot de passe est d'abord dérivé via la fonction de dérivation \Gls{PBKDF2}\footnote{\url{https://en.wikipedia.org/wiki/PBKDF2}} avant d'être utilisé pour le chiffrement. Un sel aléatoire et un nombre d'itérations fixé à 10000 sont utilisés pour renforcer la sécurité de la dérivation. La clé dérivée est ensuite utilisée avec l'algorithme AES-GCM pour chiffrer la clé privée. Il convient de noter que le mot de passe n'est jamais stocké en clair ni transmis sur le réseau, il est seulement utilisé pour la dérivation de la clé de chiffrement.
+Conformément au paradigme Local-First, les clés privées sont stockées localement dans le navigateur de l'utilisateur. Cependant, le stockage en clair de ces clés serait problématique pour des raisons de sécurité. Par conséquent, les clés privées sont chiffrées à l'aide d'un mot de passe utilisateur. Ce mot de passe est d'abord dérivé via la fonction de dérivation \gls{PBKDF2}\footnote{\url{https://en.wikipedia.org/wiki/PBKDF2}} avant d'être utilisé pour le chiffrement. Un sel aléatoire et un nombre d'itérations fixé à 10000 sont utilisés pour renforcer la sécurité de la dérivation. La clé dérivée est ensuite utilisée avec l'algorithme AES-GCM pour chiffrer la clé privée. Il convient de noter que le mot de passe n'est jamais stocké en clair ni transmis sur le réseau, il est seulement utilisé pour la dérivation de la clé de chiffrement.
 
-J'ai également anticipé que plusieurs utilisateurs pourraient partager le même navigateur. Ainsi, pour préserver la confidentialité des données de chaque utilisateur, il est nécessaire de chiffrer les données spécifiques à chaque utilisateur. Cette mesure garantit que chaque utilisateur peut utiliser le même navigateur sans avoir accès aux données des autres.
+Une anticipation a été faite sur le fait que plusieurs utilisateurs pourraient partager le même navigateur. Ainsi, afin de préserver la confidentialité des données de chaque utilisateur, il s'avère nécessaire de chiffrer les données propres à chaque utilisateur. Cette mesure assure que chaque utilisateur puisse utiliser le même navigateur sans pouvoir accéder aux données d'autrui.
 
-La gestion des sessions est une partie délicate et complexe du système. Pour pouvoir signer ou chiffrer les données, le système doit avoir accès à la clé privée. Cependant, stocker cette clé en clair dans le navigateur serait inacceptable pour des raisons de sécurité. C'est pourquoi la clé privée en clair est uniquement stockée en mémoire. Cependant, la mémoire est effacée lors du rafraîchissement de la page. Pour pallier ce problème, j'ai décidé d'utiliser un Service Worker\footnote{\url{https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API}}, dont le cycle de vie est indépendant de la page. Ainsi, la clé privée peut être stockée dans le worker et utilisée par la page. Toutefois, cette solution présente certaines limites, le cycle de vie d'un Service Worker étant indéterminé : il peut être détruit à tout moment par le navigateur, sans moyen de le prévoir.
+La gestion des sessions se révèle être une partie délicate et complexe du système. Afin de pouvoir signer ou chiffrer les données, le système doit avoir accès à la clé privée. Or, stocker cette clé en clair dans le navigateur est inacceptable pour des raisons de sécurité. Voilà pourquoi la clé privée en clair est uniquement stockée en mémoire. Néanmoins, la mémoire est effacée lors du rafraîchissement de la page. Pour surmonter ce problème, la décision d'utiliser un Service Worker\footnote{\url{https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API}}, dont le cycle de vie est indépendant de la page, a été prise. Ainsi, la clé privée peut être stockée dans le worker et utilisée par la page. Cependant, cette solution n'est pas sans limites, le cycle de vie d'un Service Worker étant indéterminé : il peut être détruit à tout moment par le navigateur, sans possibilité de le prévoir.
 
 \section{Connectivité et Serveur de Signalisation}
 
-La capacité de synchroniser et partager des documents en temps réel constitue une fonctionnalité essentielle du système élaboré dans le cadre de ce projet. Cependant, pour respecter l'impératif de décentralisation, il est impossible de s'appuyer sur un serveur centralisé. \Gls{WebRTC}, un standard du \Gls{W3C} facilitant la communication en temps réel entre navigateurs, a donc été sélectionné pour établir une connexion pair à pair.
+La capacité de synchroniser et partager des documents en temps réel constitue une fonctionnalité essentielle du système élaboré dans le cadre de ce projet. Cependant, pour respecter l'impératif de décentralisation, il est impossible de s'appuyer sur un serveur centralisé. \gls{WebRTC}, un standard du \gls{W3C} facilitant la communication en temps réel entre navigateurs, a donc été sélectionné pour établir une connexion pair à pair.
 
 \subsection{Signalisation et Établissement de Connexion}
 
-Néanmoins, pour que deux navigateurs puissent communiquer via \Gls{WebRTC}, ils doivent pouvoir se localiser sur le réseau. Cela nécessite l'intervention d'un serveur de signalisation, dont le rôle est de permettre aux navigateurs d'échanger les informations nécessaires pour établir une connexion directe. Une fois cette connexion établie, le serveur de signalisation n'intervient plus. Bien que des bibliothèques comme PeerJS\footnote{\url{https://peerjs.com/}} proposent un serveur de signalisation, elles ne sont pas compatibles avec le système d'authentification développé pour ce système. De ce fait, un serveur de signalisation personnalisé a été implémenté.
+Néanmoins, pour que deux navigateurs puissent communiquer via \gls{WebRTC}, ils doivent pouvoir se localiser sur le réseau. Cela nécessite l'intervention d'un serveur de signalisation, dont le rôle est de permettre aux navigateurs d'échanger les informations nécessaires pour établir une connexion directe. Une fois cette connexion établie, le serveur de signalisation n'intervient plus. Bien que des bibliothèques comme PeerJS\footnote{\url{https://peerjs.com/}} proposent un serveur de signalisation, elles ne sont pas compatibles avec le système d'authentification développé pour ce système. De ce fait, un serveur de signalisation personnalisé a été implémenté.
 
-Le serveur de signalisation est un serveur Web qui recourt au protocole \Gls{WebSocket}, un protocole de communication bidirectionnel, pour instaurer une connexion persistante entre le client et le serveur. Pour l'implémentation du serveur de signalisation, Node.js a été choisi, en utilisant la bibliothèque ws\footnote{\url{https://www.npmjs.com/package/ws}} pour le protocole \Gls{WebSocket}. Bien que centralisé, le serveur de signalisation n'est pas un point de faiblesse du système. En effet, il ne traite pas de donnée sensible et se contente de faciliter l'établissement d'une connexion directe entre deux clients. De plus, le serveur de signalisation est open source et peut être autohébergé par les utilisateurs.
+Le serveur de signalisation est un serveur Web qui recourt au protocole \gls{WebSocket}, un protocole de communication bidirectionnel, pour instaurer une connexion persistante entre le client et le serveur. Pour l'implémentation du serveur de signalisation, \gls{Node.js} a été choisi, en utilisant la bibliothèque ws\footnote{\url{https://www.npmjs.com/package/ws}} pour le protocole \gls{WebSocket}. Bien que centralisé, le serveur de signalisation n'est pas un point de faiblesse du système. En effet, il ne traite pas de donnée sensible et se contente de faciliter l'établissement d'une connexion directe entre deux clients. De plus, le serveur de signalisation est open source et peut être autohébergé par les utilisateurs.
 
-\subsection{Authentification par Serveur}
+\subsection{Authentification via Serveur}
 
-Le serveur de signalisation possède un module d'authentification, composé de trois classes distinctes : la classe Authenticator de base, la classe ServerAuthenticator, et la classe ClientAuthenticator. Ces classes sont conçues pour vérifier l'authenticité des connexions grâce à un mécanisme de poignée de main basé sur un défi-réponse cryptographique.
+Le serveur de signalisation comprend un module d'authentification. Celui-ci a été mis en place pour vérifier l'authenticité des connexions grâce à un mécanisme de poignée de main basé sur un défi-réponse cryptographique.
 
 \subsubsection{Mécanisme de Défi-Réponse}
 
-Le mécanisme de défi-réponse est une méthode pour prouver une identité en démontrant la connaissance d'un secret sans le révéler. Ici, un défi aléatoire est généré par le serveur et envoyé au client. Le client génère ensuite une réponse au défi en utilisant sa clé privée, qui peut être vérifiée avec la clé publique du client connue du serveur. Cela garantit l'identité du client, car seul le détenteur valide de la clé privée peut générer une réponse correcte.
+Le mécanisme de défi-réponse représente une méthode pour attester d'une identité en prouvant la connaissance d'un secret sans pour autant le divulguer. Dans ce cas, un défi aléatoire est généré par le serveur et transmis au client. Ce dernier crée ensuite une réponse au défi en employant sa clé privée, qui peut être vérifiée à l'aide de la clé publique du client déjà connue du serveur. Ce procédé assure l'identité du client, car uniquement le propriétaire légitime de la clé privée est en mesure de générer une réponse adéquate.
 
 Le processus d'authentification suit les étapes suivantes :
 
@@ -103,9 +103,9 @@ type Message<TData> = {
 Les messages dans ce système peuvent être transmis de trois manières différentes en fonction du destinataire cible :
 
 \begin{itemize}
-    \item \textbf{Broadcast} : Un message est diffusé à tous les utilisateurs du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est omis.
-    \item \textbf{Multicast} : Un message est envoyé à un utilisateur spécifique du réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié, mais que le champ `clientId` est omis.
-    \item \textbf{Unicast} : Un message est envoyé à une session spécifique d'un utilisateur dans le réseau. C'est la méthode de transmission par défaut lorsque le champ `to` est spécifié et que le champ `clientId` est spécifié.
+    \item \textbf{Broadcast} : Un message est diffusé à tous les utilisateurs du réseau. C'est la méthode de transmission par défaut lorsque le champ \guillemotleft to\guillemotright est omis.
+    \item \textbf{Multicast} : Un message est envoyé à un utilisateur spécifique du réseau. C'est la méthode de transmission par défaut lorsque le champ \guillemotleft to\guillemotright est spécifié, mais que le champ \guillemotleft clientId\guillemotright est omis.
+    \item \textbf{Unicast} : Un message est envoyé à une session spécifique d'un utilisateur dans le réseau. C'est la méthode de transmission par défaut lorsque le champ \guillemotleft to\guillemotright est spécifié et que le champ \guillemotleft clientId\guillemotright uillemotright est spécifié.
 \end{itemize}
 
 La sécurité est une préoccupation majeure dans la transmission des messages dans ce système. Chaque message est signé numériquement par l'expéditeur, ce qui permet au serveur de vérifier son intégrité à la réception. Si le serveur détecte que le message a été altéré pendant la transmission, il le supprime immédiatement et arrête sa propagation.
@@ -127,9 +127,9 @@ Voici un diagramme représentant la logique de routage :
 Le système chiffre automatiquement les messages si la clé publique du destinataire est spécifiée. Il implémente un protocole de transmission sécurisé, qui utilise la cryptographie pour maintenir la confidentialité et l'intégrité des messages. Les opérations cryptographiques spécifiques utilisées incluent :
 
 \begin{itemize}
-    \item \textbf{Diffie-Hellman sur courbes elliptiques (\Gls{ECDH})} : Un protocole d'échange de clés qui permet à deux parties d'établir un secret partagé sur un canal non sécurisé. Ce secret partagé est généré en utilisant la clé privée de l'expéditeur et la clé publique du destinataire.
-    \item \textbf{Fonction de dérivation de clés basée sur un mot de passe 2 (\Gls{PBKDF2})} : Une fonction de dérivation de clés utilisée pour dériver une clé AES à partir du secret partagé obtenu lors de l'échange \Gls{ECDH}. Elle ajoute un sel pour la randomisation, offrant une résistance contre les attaques par dictionnaire.
-    \item \textbf{Advanced Encryption Standard - Galois/Counter Mode (AES-GCM)} : Cet algorithme de chiffrement symétrique utilise la clé \Gls{AES} dérivée pour chiffrer le message, garantissant ainsi que seul le destinataire prévu peut le déchiffrer et le lire. L'AES-GCM assure à la fois la confidentialité et l'intégrité des données.
+    \item \textbf{Diffie-Hellman sur courbes elliptiques (\gls{ECDH})} : Un protocole d'échange de clés qui permet à deux parties d'établir un secret partagé sur un canal non sécurisé. Ce secret partagé est généré en utilisant la clé privée de l'expéditeur et la clé publique du destinataire.
+    \item \textbf{Fonction de dérivation de clés basée sur un mot de passe (\gls{PBKDF2})} : Une fonction de dérivation de clés utilisée pour dériver une clé AES à partir du secret partagé obtenu lors de l'échange \gls{ECDH}. Elle ajoute un sel pour la randomisation, offrant une résistance contre les attaques par dictionnaire.
+    \item \textbf{Advanced Encryption Standard - Galois/Counter Mode (AES-GCM)} : Cet algorithme de chiffrement symétrique utilise la clé \gls{AES} dérivée pour chiffrer le message, garantissant ainsi que seul le destinataire prévu peut le déchiffrer et le lire. L'AES-GCM assure à la fois la confidentialité et l'intégrité des données.
     \item \textbf{Algorithme de signature numérique sur courbes elliptiques (Gls{ECDSA}) avec la courbe secp256k1} : Après que le message a été chiffré, il est signé en utilisant la clé privée de l'expéditeur. La signature permet de vérifier l'authenticité de l'expéditeur et confirme que le message n'a pas été altéré pendant la transmission.
 \end{itemize}
 
@@ -157,7 +157,7 @@ Ces métadonnées incluent des éléments tels que l'identifiant unique (ID) du 
             \hline
             owner              & \texttt{Uint8Array}   & Clé publique du propriétaire du document.                                                            \\
             \hline
-            allowedClients     & \texttt{Uint8Array[]} & Liste des identifiants de clients autorisés à accéder au document.                                   \\
+            allowedClients     & \texttt{Uint8Array[]} & Liste des clés publiques des clients autorisés à accéder au document.                                \\
             \hline
             metadata           & \texttt{any}          & Métadonnées supplémentaires.                                                                         \\
             \hline
@@ -171,29 +171,29 @@ Ces métadonnées incluent des éléments tels que l'identifiant unique (ID) du 
 
 
 
-Le numéro de version joue un rôle essentiel dans la gestion du document. Chaque fois que l'en-tête du document est mis à jour, le numéro de version s'incrémente. Ce mécanisme assure un état de données cohérent et à jour à travers tout le réseau \Gls{DDnet}.
+Le numéro de version joue un rôle essentiel dans la gestion du document. Chaque fois que l'en-tête du document est mis à jour, le numéro de version s'incrémente. Ce mécanisme assure un état de données cohérent et à jour à travers tout le réseau \gls{DDnet}.
 
 L'en-tête du document est conçu de manière immuable. Chaque fois qu'une mise à jour est apportée, une nouvelle instance de l'en-tête est créée. Cela garantit que l'en-tête du document ne peut pas être modifié une fois qu'il a été créé, ajoutant ainsi une couche de sécurité supplémentaire.
 
 \subsection{Données du Document}
 
-Les données du Document sont gérées à l'aide des types de données répliquées sans conflit. Les \Gls{CRDT} sont des structures de données qui permettent à plusieurs répliques d'être mises à jour indépendamment et simultanément sans coordination entre elles. Les répliques peuvent ensuite être fusionnées sans conflits.
-Comme mentionné précédemment, la gestion des données du document est effectuée par le package Automerge.
+Les données du Document sont gérées à l'aide des types de données répliquées sans conflit. Les \gls{CRDT} sont des structures de données qui permettent à plusieurs répliques d'être mises à jour indépendamment et simultanément sans coordination entre elles. Les répliques peuvent ensuite être fusionnées sans conflits.
+Comme mentionné précédemment, la gestion des données du document est effectuée par le paquet Automerge.
 
 \subsection{Choix de la librairie de gestion de données répliquées sans conflit}
 
-L'une des principales fonctionnalités du système \Gls{DDnet} est la synchronisation automatique et transparente des documents. Ce souci de simplicité d'utilisation ne doit pas compromettre la robustesse et la fiabilité du système. Dans cette optique, le choix de la librairie de gestion de données répliquées sans conflit est crucial.
+L'une des principales fonctionnalités du système \gls{DDnet} est la synchronisation automatique et transparente des documents. Ce souci de simplicité d'utilisation ne doit pas compromettre la robustesse et la fiabilité du système. Dans cette optique, le choix de la librairie \gls{CRDT} est crucial.
 
-Diverses librairies \Gls{CRDT} ont été examinées pour satisfaire à ces exigences. Yjs, par exemple, est une librairie \Gls{CRDT} bien connue. Cependant, Yjs a été écarté en raison de sa conception spécifique. En effet, Yjs crée ses propres structures de données et classes, ce qui pourrait rendre le projet \Gls{DDnet} excessivement dépendant de cette librairie et réduire sa modularité.
+Diverses librairies \gls{CRDT} ont été examinées pour satisfaire à ces exigences. Yjs, par exemple, est une librairie \gls{CRDT} bien connue. Cependant, Yjs a été écarté en raison de sa conception spécifique. En effet, Yjs crée ses propres structures de données et classes, ce qui pourrait rendre le projet \gls{DDnet} excessivement dépendant de cette librairie et réduire sa modularité.
 
-C'est finalement Automerge qui a été choisi. Cette librairie \Gls{CRDT} offre un degré élevé de modularité. Contrairement à Yjs, Automerge utilise des structures de données plus standard, telles que les tableaux et les objets JavaScript, ce qui facilite leur manipulation et leur intégration au projet.
+C'est finalement Automerge qui a été choisi. Cette librairie \gls{CRDT} offre un degré élevé de modularité. Contrairement à Yjs, Automerge utilise des structures de données plus standard, telles que les tableaux et les objets JavaScript, ce qui facilite leur manipulation et leur intégration au projet.
 
 Automerge se distingue techniquement par sa gestion des modifications. En effet, bien qu'Automerge reste complètement immuable, il utilise un système de proxy pour détecter les modifications. Cela est illustré dans l'exemple de code suivant :
 
 \begin{listing}[H]
     \begin{minted}[breaklines,frame=none]{typescript}
 type DocData = {
-pets: Array<{name: string, type: string}>
+    pets: Array<{name: string, type: string}>
 }
 
 // Création d'un document Automerge vide
@@ -201,17 +201,17 @@ let doc = automerge.init<DocData>()
 
 // Modification du document
 doc = automerge.change(doc, state => {
-state.pets = [];
-state.pets.push({name: "Lassie", type: "dog"});
-state.pets.push({name: "Garfield", type: "cat"});
+    state.pets = [];
+    state.pets.push({name: "Lassie", type: "dog"});
+    state.pets.push({name: "Garfield", type: "cat"});
 })
 
 // Récupération des données du document
 const pets = doc.pets
 /*
 pets = [
-{name: "Lassie", type: "dog"},
-{name: "Garfield", type: "cat"}
+    {name: "Lassie", type: "dog"},
+    {name: "Garfield", type: "cat"}
 ]
 */
 \end{minted}
@@ -254,13 +254,9 @@ Pour obtenir cette adresse unique, la fonction de hachage SHA-256 est appliquée
 
 La concaténation de $id$ et $owner$ est notée par \guillemotleft $|$\guillemotright. L'objectif de cette opération est double. D'abord, elle garantit l'unicité de l'adresse du document. De plus, elle permet de lier de manière intrinsèque l'adresse du document à la clé publique du propriétaire. Si une adresse ne correspond pas à la clé publique du propriétaire lors de la vérification, cela signifie que l'adresse a été altérée.
 
-\subsection{Contrôle d'accès au document}
-
-La gestion des documents au sein de \Gls{DDnet} repose sur deux piliers : le registre des documents, qui fait office de cache, et la persistance des documents.
-
 \section{Cache et Persistance des Documents}
 
-La gestion des documents au sein de \Gls{DDnet} repose sur deux piliers : le registre des documents, qui fait office de cache, et la persistance des documents.
+La gestion des documents au sein de \gls{DDnet} repose sur deux piliers : le registre des documents, qui fait office de cache, et la persistance des documents.
 
 \subsection{Registre des Documents}
 
@@ -272,39 +268,39 @@ La persistance des documents assure leur sauvegarde à long terme. Grâce à sa 
 
 \subsubsection{IndexDB}
 
-Pour le stockage côté navigateur, \Gls{DDnet} utilise principalement IndexDB. Contrairement à l'API LocalStorage qui est limitée en termes de type et de taille de données, IndexDB peut stocker des objets plus complexes, comme les ArrayBuffer. Cette capacité facilite la manipulation des structures de données complexes présentes dans \Gls{DDnet}. De plus, IndexDB n'est pas contraint par un quota de taille, ce qui le rend idéal pour des applications nécessitant un stockage de grande ampleur.
+Pour le stockage côté navigateur, \gls{DDnet} utilise principalement IndexDB. Contrairement à l'API LocalStorage qui est limitée en termes de type et de taille de données, IndexDB peut stocker des objets plus complexes, comme les ArrayBuffer. Cette capacité facilite la manipulation des structures de données complexes présentes dans \gls{DDnet}. De plus, IndexDB n'est pas contraint par un quota de taille, ce qui le rend idéal pour des applications nécessitant un stockage de grande ampleur.
 
 \subsubsection{Node FileSystem}
 
-\Gls{DDnet} peut aussi utiliser le système de fichiers Node (Node FileSystem) pour le stockage local dans un environnement Node. Cette solution assure une persistance robuste, capable de répondre aux besoins du système.
+\gls{DDnet} peut aussi utiliser le système de fichiers \gls{Node.js} (Node FileSystem) pour le stockage local dans un environnement \gls{Node.js}. Cette solution assure une persistance robuste, capable de répondre aux besoins du système.
 
 \subsubsection{SecureProvider}
 
-Afin de garantir la sécurité des données, \Gls{DDnet} propose le wrapper SecureProvider. Il peut être appliqué à n'importe quel fournisseur de stockage pour chiffrer les données avant leur sauvegarde. L'usage de ce wrapper nécessite une organisation spécifique du système de persistance. C'est pourquoi \Gls{DDnet} adopte une approche basée sur des namespaces. Ces derniers, pouvant correspondre à une clé publique par exemple, permettent au SecureProvider de déterminer le namespace à utiliser lors du chiffrement ou déchiffrement des données.
+Afin de garantir la sécurité des données, \gls{DDnet} propose le wrapper SecureProvider. Il peut être appliqué à n'importe quel fournisseur de stockage pour chiffrer les données avant leur sauvegarde. L'usage de ce wrapper nécessite une organisation spécifique du système de persistance. C'est pourquoi \gls{DDnet} adopte une approche basée sur des namespaces. Ces derniers, pouvant correspondre à une clé publique par exemple, permettent au SecureProvider de déterminer le namespace à utiliser lors du chiffrement ou déchiffrement des données.
 
 \subsection{Structure du Système de Persistance}
 
-La persistance des données dans \Gls{DDnet} distingue les headers des documents de leurs données. Les headers sont stockés dans un namespace distinct, tandis que les données des documents sont stockées dans un autre namespace. Cette séparation optimise la gestion des documents, en fournissant un accès rapide aux headers tout en minimisant l'utilisation de la mémoire pour les données des documents.
+La persistance des données dans \gls{DDnet} distingue les headers des documents de leurs données. Les headers sont stockés dans un namespace distinct, tandis que les données des documents sont stockées dans un autre namespace. Cette séparation optimise la gestion des documents, en fournissant un accès rapide aux headers tout en minimisant l'utilisation de la mémoire pour les données des documents.
 
-\Gls{DDnet} gère intelligemment l'opération de sauvegarde. Lorsqu'un document est modifié, le système décide s'il est nécessaire d'effectuer une sauvegarde complète ou incrémentale en fonction du nombre de modifications depuis la dernière sauvegarde. Un mécanisme de limitation est également mis en place pour éviter des sauvegardes trop fréquentes pouvant ralentir l'application : les sauvegardes ne sont pas réalisées plus d'une fois toutes les 500 millisecondes.
+\gls{DDnet} gère intelligemment l'opération de sauvegarde. Lorsqu'un document est modifié, le système décide s'il est nécessaire d'effectuer une sauvegarde complète ou incrémentale en fonction du nombre de modifications depuis la dernière sauvegarde. Un mécanisme de limitation est également mis en place pour éviter des sauvegardes trop fréquentes pouvant ralentir l'application : les sauvegardes ne sont pas réalisées plus d'une fois toutes les 500 millisecondes.
 
 \subsection{Chargement des Documents}
 
-La procédure de chargement des documents dans \Gls{DDnet} est méticuleusement conçue pour être robuste et capable de s'adapter aux éventuels problèmes rencontrés pendant le processus de sauvegarde. Pour y parvenir, la procédure adopte une approche incrémentielle, qui se révèle particulièrement utile lorsque des segments de données, également appelés \guillemotleft chunks\guillemotright, sont corrompus ou inutilisables. Le processus de chargement suit plusieurs étapes distinctes:
+La procédure de chargement des documents dans \gls{DDnet} est méticuleusement conçue pour être robuste et capable de s'adapter aux éventuels problèmes rencontrés pendant le processus de sauvegarde. Pour y parvenir, la procédure adopte une approche incrémentielle, qui se révèle particulièrement utile lorsque des segments de données, également appelés \guillemotleft chunks\guillemotright, sont corrompus ou inutilisables. Le processus de chargement suit plusieurs étapes distinctes:
 
 \begin{enumerate}
-    \item \textbf{Chargement Initial:} Dans un premier temps, \Gls{DDnet} tente de charger l'intégralité du document. Pour ce faire, le système récupère à la fois les données binaires et les chunks correspondants de l'identifiant du document à partir du système de stockage.
+    \item \textbf{Chargement Initial:} Dans un premier temps, \gls{DDnet} tente de charger l'intégralité du document. Pour ce faire, le système récupère à la fois les données binaires et les chunks correspondants de l'identifiant du document à partir du système de stockage.
     \item \textbf{Échec du Chargement Initial:} Si le chargement complet du document échoue pour une raison quelconque, par exemple à cause d'un chunk corrompu, le système déclenche automatiquement une procédure de récupération.
     \item \textbf{Procédure de Récupération:} Cette procédure consiste à tenter de charger le document en éliminant progressivement un chunk à la fois à partir de la fin du document. Après chaque suppression de chunk, le système tente à nouveau de charger le document.
-    \item \textbf{Sauvegarde Révisée:} Si le chargement du document réussit après avoir omis certains chunks, \Gls{DDnet} enregistre alors une nouvelle version du document sans les chunks omis, garantissant ainsi l'intégrité du document pour les futurs chargements.
-    \item \textbf{Échec Total du Chargement:} Si, après avoir omis tous les chunks, le document ne peut toujours pas être chargé, alors \Gls{DDnet} génère une erreur. Cela peut indiquer un problème plus profond avec le document ou le système de stockage.
+    \item \textbf{Sauvegarde Révisée:} Si le chargement du document réussit après avoir omis certains chunks, \gls{DDnet} enregistre alors une nouvelle version du document sans les chunks omis, garantissant ainsi l'intégrité du document pour les futurs chargements.
+    \item \textbf{Échec Total du Chargement:} Si, après avoir omis tous les chunks, le document ne peut toujours pas être chargé, alors \gls{DDnet} génère une erreur. Cela peut indiquer un problème plus profond avec le document ou le système de stockage.
 \end{enumerate}
 
-Cette approche assure la robustesse du système en garantissant l'intégrité des documents, même en cas de problèmes survenant pendant le processus de sauvegarde. Elle veille à ce que chaque document reste fonctionnel et accessible, même en présence de segments de données défectueux ou inutilisables. Cette stratégie contribue à la résilience globale de \Gls{DDnet}, en permettant une récupération efficace des documents et en évitant la perte de données. Ainsi, les utilisateurs peuvent travailler en toute confiance, en sachant que la validité et l'accessibilité de leurs documents sont garanties, quelle que soit la situation.
+Cette approche assure la robustesse du système en garantissant l'intégrité des documents, même en cas de problèmes survenant pendant le processus de sauvegarde. Elle veille à ce que chaque document reste fonctionnel et accessible, même en présence de segments de données défectueux ou inutilisables. Cette stratégie contribue à la résilience globale de \gls{DDnet}, en permettant une récupération efficace des documents et en évitant la perte de données. Ainsi, les utilisateurs peuvent travailler en toute confiance, en sachant que la validité et l'accessibilité de leurs documents sont garanties, quelle que soit la situation.
 
 \section{Accès aux documents}
 
-Les documents dans le système \Gls{DDnet} sont gérés grâce à une série de processus qui facilitent leur création, récupération, mise à jour et suppression.
+Les documents dans le système \gls{DDnet} sont gérés grâce à une série de processus qui facilitent leur création, récupération, mise à jour et suppression.
 
 \subsection{Création de documents}
 
@@ -326,13 +322,13 @@ Pour supprimer un document, le système effectue d'abord une vérification dans 
 
 Le partage de documents implique la réception d'une demande de document via le serveur de signalisation. Le système vérifie ensuite la disponibilité du document et les droits d'accès du client demandeur. Si ces conditions sont remplies, le document est envoyé au client. Ce processus sécurisé utilise des clés privées et publiques pour assurer l'intégrité et la confidentialité des données.
 
-En somme, le système d'accès aux documents de \Gls{DDnet} est un ensemble complexe de mécanismes qui garantissent non seulement une gestion efficace des documents, mais aussi la sécurité et la confidentialité des informations qu'ils contiennent.
+En somme, le système d'accès aux documents de \gls{DDnet} est un ensemble complexe de mécanismes qui garantissent non seulement une gestion efficace des documents, mais aussi la sécurité et la confidentialité des informations qu'ils contiennent.
 
 \section{Le module de présence}
-Le module de présence est un composant essentiel du système de partage de documents \Gls{DDnet}. Son rôle est de gérer les informations de présence, c'est-à-dire les données arbitraires échangées en temps réel entre les clients connectés à un document spécifique.
+Le module de présence est un composant essentiel du système de partage de documents \gls{DDnet}. Son rôle est de gérer les informations de présence, c'est-à-dire les données arbitraires échangées en temps réel entre les clients connectés à un document spécifique.
 
 \subsection{Fonctionnement du module de présence}
-Le module de présence s'appuie sur la connexion \Gls{WebRTC} existante pour communiquer les informations de présence. Grâce à cette infrastructure, les clients peuvent partager, recevoir et répondre aux informations de présence de tous les autres clients liés à un document.
+Le module de présence s'appuie sur la connexion \gls{WebRTC} existante pour communiquer les informations de présence. Grâce à cette infrastructure, les clients peuvent partager et recevoir aux informations de présence de tous les autres clients liés à un document.
 
 Il est important de noter que les informations de présence sont éphémères : elles sont stockées uniquement en mémoire pendant la durée de la session. Lorsqu'un client se déconnecte, toutes ses informations de présence sont immédiatement supprimées. De plus, seuls les dernières données de présence envoyées par chaque client sont conservées, assurant ainsi la disponibilité des informations les plus récentes et pertinentes.
 
@@ -341,21 +337,19 @@ La flexibilité du module de présence lui permet d'implémenter une gamme de fo
 
 \section{Tests et Benchmarking}
 
-Le développement du système a nécessité un processus de test intégré pour garantir sa fiabilité et ses performances. Ce processus a compris des tests unitaires, des tests d'intégration et des benchmarks.
+L'élaboration du système a requis l'intégration d'une procédure de test afin d'assurer sa fiabilité et ses performances. Cette procédure comprend des tests unitaires, des tests d'intégration ainsi que des évaluations de performance.
 
 \subsection{Tests unitaires}
 
 Pour assurer la fiabilité des différentes fonctionnalités du système, des tests unitaires ont été mis en place. Chaque composant a été testé individuellement pour détecter les éventuelles erreurs.
 
-Vitest, un outil de test qui utilise la même syntaxe que Jest mais est compatible avec Vite, a été utilisé pour ces tests unitaires. Il permet d'exécuter les tests dans un environnement Chromium, assurant un contexte de test réaliste. Les tests ont été effectués à la fois dans l'environnement Node.js et dans le navigateur pour assurer une large compatibilité.
+Vitest, un outil de test qui utilise la même syntaxe que Jest mais est compatible avec Vite, a été utilisé pour ces tests unitaires. Il permet d'exécuter les tests dans un environnement Chromium, assurant un contexte de test réaliste. Les tests ont été effectués à la fois dans l'environnement \gls{Node.js} et dans le navigateur pour assurer une large compatibilité.
 
 Il est important de mentionner que certaines parties du code ne sont pas encore couvertes par ces tests unitaires.
 
 \subsection{Tests d'intégration}
 
 Un scénario a été mis en place pour tester l'interaction entre les différentes composantes du système. Ce scénario visait à refléter le plus fidèlement possible l'utilisation réelle de la librairie. Il a servi à tester l'ensemble du système dans des conditions d'utilisation réalistes, et a permis de définir une utilisation de haut niveau de la librairie.
-
-Ces tests ont été réalisés aussi bien dans l'environnement Node.js que dans le navigateur, afin de garantir la compatibilité du système avec ces deux environnements.
 
 \subsection{Benchmarking}
 

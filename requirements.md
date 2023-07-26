@@ -87,7 +87,7 @@ La planification du projet est divisée en plusieurs étapes principales. Ces é
 - Rédaction de la documentation pour l'utilisation de la librairie Condensation.
 - Préparation et présentation du rapport final, du résumé publiable et du poster.
 - Date limite pour décider d'un plan B, si la livraison de la librairie Condensation est retardée ou compromise.
-- Si nécessaire, mise en oeuvre d'un plan B, basé sur les alternatives identifiées lors de la recherche sur l'état de l'art.
+- Si nécessaire, mise en \oe{}uvre d'un plan B, basé sur les alternatives identifiées lors de la recherche sur l'état de l'art.
 
 ## Planification de livraison de la librairie de Condensation
 La livraison de la librairie de Condensation étant en attente, le projet sera implémenté en plusieurs étapes en fonction des livraisons successives de la librairie.
@@ -99,4 +99,4 @@ La livraison de la librairie de Condensation étant en attente, le projet sera i
 - **Étape 4 (10 juillet 2023)** : Rendre l'expérience collaborative en live avec la résolution de conflits. Cette étape permettra la collaboration en temps réel entre plusieurs acteurs et la résolution de conflits éventuels.
 
 ## Date limite pour un plan B
-Tenant compte des différentes étapes de la planification et de la nécessité de prévoir suffisamment de temps pour la mise en oeuvre d'un plan B, une date limite pour décider d'un plan B est fixée au **19 juin 2023**. Cette date offre un délai approprié pour évaluer la situation et mettre en place une alternative si nécessaire, tout en maintenant un calendrier raisonnable pour achever le projet dans les temps impartis.
+Tenant compte des différentes étapes de la planification et de la nécessité de prévoir suffisamment de temps pour la mise en \oe{}uvre d'un plan B, une date limite pour décider d'un plan B est fixée au **19 juin 2023**. Cette date offre un délai approprié pour évaluer la situation et mettre en place une alternative si nécessaire, tout en maintenant un calendrier raisonnable pour achever le projet dans les temps impartis.
